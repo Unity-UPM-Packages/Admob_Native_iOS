@@ -11,6 +11,10 @@ import GoogleMobileAds
     private weak var viewControllerRef: UIViewController?
     private weak var nativeAdView: GADNativeAdView?  // Keep reference for cleanup
     
+    deinit {
+        print("🗑️ BaseShowBehavior: deallocated from memory")
+    }
+    
     // MARK: - IShowBehavior Implementation
     
     public func show(viewController: UIViewController,
@@ -85,9 +89,17 @@ import GoogleMobileAds
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
             
+            print("🗑️ BaseShowBehavior: Starting destroy...")
+            
+            // 0. Hide view immediately để user không thấy
+            self.rootView?.isHidden = true
+            self.rootView?.alpha = 0
+            print("  ✓ RootView hidden")
+            
             // 1. Clear PassthroughView reference
             if let passthroughView = self.rootView as? PassthroughView {
                 passthroughView.adView = nil
+                print("  ✓ PassthroughView.adView cleared")
             }
             
             // 2. Cleanup GADNativeAdView trước
@@ -106,21 +118,52 @@ import GoogleMobileAds
                 adView.storeView = nil
                 adView.priceView = nil
                 
-                print("✅ BaseShowBehavior: GADNativeAdView cleared")
+                print("  ✓ GADNativeAdView cleared")
             }
             
-            // 3. Remove all subviews từ rootView
-            self.rootView?.subviews.forEach { $0.removeFromSuperview() }
+            // 3. Deactivate all constraints on rootView
+            if let rootView = self.rootView {
+                NSLayoutConstraint.deactivate(rootView.constraints)
+                if let superview = rootView.superview {
+                    let rootViewConstraints = superview.constraints.filter { constraint in
+                        constraint.firstItem as? UIView == rootView || 
+                        constraint.secondItem as? UIView == rootView
+                    }
+                    NSLayoutConstraint.deactivate(rootViewConstraints)
+                }
+                print("  ✓ Constraints deactivated")
+            }
             
-            // 4. Remove rootView từ parent
+            // 4. Remove all subviews từ rootView (recursive)
+            self.rootView?.subviews.forEach { subview in
+                self.removeViewRecursively(subview)
+            }
+            print("  ✓ Subviews removed")
+            
+            // 5. Remove rootView từ parent
             self.rootView?.removeFromSuperview()
+            print("  ✓ RootView removed from superview")
             
-            // 5. Clear references
+            // 6. Clear references
             self.rootView = nil
             self.nativeAdView = nil
             
             print("✅ BaseShowBehavior: Ad view destroyed completely")
         }
+    }
+    
+    /// Helper để remove view recursively
+    private func removeViewRecursively(_ view: UIView) {
+        // Remove tất cả subviews trước
+        view.subviews.forEach { subview in
+            removeViewRecursively(subview)
+        }
+        
+        // Deactivate constraints của view này
+        NSLayoutConstraint.deactivate(view.constraints)
+        
+        // Remove view
+        view.removeFromSuperview()
     }
     
     // MARK: - Public Accessors
