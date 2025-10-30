@@ -82,7 +82,6 @@ import GoogleMobileAds
         }
         
         NSLayoutConstraint.deactivate(positionConstraints)
-        print("  → Deactivated \(positionConstraints.count) position constraints")
         
         // Add position constraints mới
         view.translatesAutoresizingMaskIntoConstraints = false
