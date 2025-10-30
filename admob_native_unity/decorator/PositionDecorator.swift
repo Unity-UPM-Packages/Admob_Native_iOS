@@ -10,6 +10,10 @@ import GoogleMobileAds
     private let positionX: Int
     private let positionY: Int
     
+    deinit {
+        print("🗑️ PositionDecorator: deallocated from memory")
+    }
+    
     // MARK: - Initialization
     
     public init(wrappedBehavior: BaseShowBehavior,

@@ -141,13 +141,25 @@ import GoogleMobileAds
             print("  ✓ Subviews removed")
             
             // 5. Remove rootView từ parent
-            self.rootView?.removeFromSuperview()
-            print("  ✓ RootView removed from superview")
+            if let rootView = self.rootView {
+                let viewType = String(describing: type(of: rootView))
+                let hasSuperview = rootView.superview != nil
+                print("  → Removing rootView (type: \(viewType), hasSuperview: \(hasSuperview))")
+                
+                rootView.removeFromSuperview()
+                
+                let stillHasSuperview = rootView.superview != nil
+                print("  ✓ RootView removed from superview (stillHasSuperview: \(stillHasSuperview))")
+            }
             
             // 6. Clear references
+            let rootViewType = self.rootView != nil ? String(describing: type(of: self.rootView!)) : "nil"
+            print("  → Clearing references (rootView type before clear: \(rootViewType))")
+            
             self.rootView = nil
             self.nativeAdView = nil
             
+            print("  ✓ References cleared (rootView is now: \(self.rootView == nil ? "nil" : "NOT NIL!"))")
             print("✅ BaseShowBehavior: Ad view destroyed completely")
         }
     }

@@ -11,6 +11,10 @@ import GoogleMobileAds
     private let countdownDurationSeconds: TimeInterval
     private let closeButtonDelaySeconds: TimeInterval
     
+    deinit {
+        print("🗑️ CountdownDecorator: deallocated from memory")
+    }
+    
     // Timers
     private var initialDelayTimer: Timer?
     private var countdownTimer: Timer?

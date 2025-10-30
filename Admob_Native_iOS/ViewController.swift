@@ -232,13 +232,23 @@ class ViewController: UIViewController {
         print("🙈 Hide Ad button clicked. Destroying ad...")
         updateStatus("Hiding ad...")
         
+        // Destroy ad trong controller
         controller.destroyAd()
         
-        // Disable hide button after hiding
+        // CRITICAL: Clear controller reference để trigger full deallocation chain
+        print("  → Clearing admobNativeController reference in ViewController")
+        admobNativeController = nil
+        callbacks = nil  // Clear callbacks too
+        
+        // Disable hide button, enable load button lại
         hideAdButton.isEnabled = false
         hideAdButton.alpha = 0.5
         
-        updateStatus("Ad hidden ✅")
+        showAdButton.isEnabled = false
+        showAdButton.alpha = 0.5
+        
+        updateStatus("Ad hidden ✅ (Load again to show new ad)")
+        print("✅ ViewController: All references cleared. Ready to load new ad.")
     }
     
     // MARK: - Helpers
