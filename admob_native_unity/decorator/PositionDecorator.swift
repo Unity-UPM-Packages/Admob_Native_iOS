@@ -59,16 +59,40 @@ import GoogleMobileAds
             return
         }
         
-        // Remove existing constraints
-        view.removeConstraints(view.constraints)
+        // Force layout để có frame chính xác
+        superview.layoutIfNeeded()
         
-        // Tạo constraints mới với position cụ thể
+        // Find và remove CHỈ position-related constraints (centerX, centerY, leading, trailing, top, bottom)
+        // GIỮ LẠI width và height constraints!
+        let positionConstraints = superview.constraints.filter { constraint in
+            guard let firstItem = constraint.firstItem as? UIView,
+                  let secondItem = constraint.secondItem as? UIView else {
+                return false
+            }
+            
+            // Chỉ remove constraints liên quan đến position
+            if firstItem == view || secondItem == view {
+                let attr = constraint.firstAttribute
+                return attr == .leading || attr == .trailing || 
+                       attr == .left || attr == .right ||
+                       attr == .top || attr == .bottom ||
+                       attr == .centerX || attr == .centerY
+            }
+            return false
+        }
+        
+        NSLayoutConstraint.deactivate(positionConstraints)
+        print("  → Deactivated \(positionConstraints.count) position constraints")
+        
+        // Add position constraints mới
         view.translatesAutoresizingMaskIntoConstraints = false
         
-        NSLayoutConstraint.activate([
+        let newConstraints = [
             view.leftAnchor.constraint(equalTo: superview.leftAnchor, constant: CGFloat(positionX)),
             view.topAnchor.constraint(equalTo: superview.topAnchor, constant: CGFloat(positionY))
-        ])
+        ]
+        
+        NSLayoutConstraint.activate(newConstraints)
         
         print("✅ PositionDecorator: Applied position (\(positionX), \(positionY))")
     }
