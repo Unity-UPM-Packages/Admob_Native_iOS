@@ -232,7 +232,7 @@ class ViewController: UIViewController {
         print("🙈 Hide Ad button clicked. Destroying ad...")
         updateStatus("Hiding ad...")
         
-        controller.destroy()
+        controller.destroyAd()
         
         // Disable hide button after hiding
         hideAdButton.isEnabled = false
