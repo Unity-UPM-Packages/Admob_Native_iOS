@@ -9,6 +9,7 @@ import GoogleMobileAds
     
     private(set) var rootView: UIView?
     private weak var viewControllerRef: UIViewController?
+    private weak var nativeAdView: GADNativeAdView?  // Keep reference for cleanup
     
     // MARK: - IShowBehavior Implementation
     
@@ -54,6 +55,9 @@ import GoogleMobileAds
                 return
             }
             
+            // Store reference for cleanup
+            self.nativeAdView = nativeAdView
+            
             // 3.5. Set ad view reference cho pass-through hit testing
             adContainer.adView = nativeAdView
             
@@ -79,9 +83,43 @@ import GoogleMobileAds
     
     public func destroy() {
         DispatchQueue.main.async { [weak self] in
-            self?.rootView?.removeFromSuperview()
-            self?.rootView = nil
-            print("✅ BaseShowBehavior: Ad view destroyed")
+            guard let self = self else { return }
+            
+            // 1. Clear PassthroughView reference
+            if let passthroughView = self.rootView as? PassthroughView {
+                passthroughView.adView = nil
+            }
+            
+            // 2. Cleanup GADNativeAdView trước
+            if let adView = self.nativeAdView {
+                // Clear native ad reference để stop tracking
+                adView.nativeAd = nil
+                
+                // Clear all asset views
+                adView.mediaView = nil
+                adView.headlineView = nil
+                adView.bodyView = nil
+                adView.callToActionView = nil
+                adView.iconView = nil
+                adView.starRatingView = nil
+                adView.advertiserView = nil
+                adView.storeView = nil
+                adView.priceView = nil
+                
+                print("✅ BaseShowBehavior: GADNativeAdView cleared")
+            }
+            
+            // 3. Remove all subviews từ rootView
+            self.rootView?.subviews.forEach { $0.removeFromSuperview() }
+            
+            // 4. Remove rootView từ parent
+            self.rootView?.removeFromSuperview()
+            
+            // 5. Clear references
+            self.rootView = nil
+            self.nativeAdView = nil
+            
+            print("✅ BaseShowBehavior: Ad view destroyed completely")
         }
     }
     
