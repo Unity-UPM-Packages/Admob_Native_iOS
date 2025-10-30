@@ -153,7 +153,7 @@ import GoogleMobileAds
         
         // 1. Media View (required)
         if let mediaView = adView.viewWithTag(TAG_MEDIA_VIEW) as? GADMediaView {
-            mediaView.isUserInteractionEnabled = false  // CRITICAL: Disable interaction
+            mediaView.isUserInteractionEnabled = true  // MUST be enabled for media interaction
             adView.mediaView = mediaView
         }
         
