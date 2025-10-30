@@ -6,7 +6,7 @@ import GoogleMobileAds
 /// Tương đương với CountdownDecorator.kt
 @objc public class CountdownDecorator: BaseShowBehavior {
     
-    private let wrappedBehavior: BaseShowBehavior
+    private var wrappedBehavior: BaseShowBehavior?  // Changed to var and optional
     private let initialDelaySeconds: TimeInterval
     private let countdownDurationSeconds: TimeInterval
     private let closeButtonDelaySeconds: TimeInterval
@@ -58,6 +58,11 @@ import GoogleMobileAds
                        callbacks: NativeAdCallbacks) {
         self.callbacks = callbacks
         
+        guard let wrappedBehavior = wrappedBehavior else {
+            print("⚠️ CountdownDecorator: wrappedBehavior is nil")
+            return
+        }
+        
         // Gọi wrapped behavior để hiển thị ad
         wrappedBehavior.show(viewController: viewController,
                             nativeAd: nativeAd,
@@ -67,12 +72,14 @@ import GoogleMobileAds
         // Đợi một chút để view được add vào hierarchy
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [weak self] in
             guard let self = self,
-                  let rootView = self.wrappedBehavior.getRootView() else { return }
+                  let rootView = self.wrappedBehavior?.getRootView() else { return }
             self.startCloseLogic(rootView: rootView, callbacks: callbacks)
         }
     }
     
     public override func destroy() {
+        print("🗑️ CountdownDecorator: Starting destroy...")
+        
         // Cancel tất cả timers
         cancelAllTimers()
 
@@ -80,7 +87,12 @@ import GoogleMobileAds
         backgroundLayer.removeFromSuperlayer()
         
         // Destroy wrapped behavior
-        wrappedBehavior.destroy()
+        wrappedBehavior?.destroy()
+        
+        // CRITICAL: Clear reference để break retain cycle
+        print("  → Clearing wrappedBehavior reference")
+        wrappedBehavior = nil
+        print("✅ CountdownDecorator: Destroy complete")
     }
     
     // MARK: - Close Logic (3 Phases)
@@ -255,4 +267,10 @@ import GoogleMobileAds
     // Cần implement thủ công nếu cần:
     // - Lưu remaining time khi pause
     // - Tạo timer mới với remaining time khi resume
+    
+    // MARK: - Public Accessors
+    
+    public override func getRootView() -> UIView? {
+        return wrappedBehavior?.getRootView()
+    }
 }

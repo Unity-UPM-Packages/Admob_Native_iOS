@@ -6,7 +6,7 @@ import GoogleMobileAds
 /// Tương đương với PositionDecorator.kt
 @objc public class PositionDecorator: BaseShowBehavior {
     
-    private let wrappedBehavior: BaseShowBehavior
+    private var wrappedBehavior: BaseShowBehavior?  // Changed to var and optional
     private let positionX: Int
     private let positionY: Int
     
@@ -31,6 +31,11 @@ import GoogleMobileAds
                        nativeAd: GADNativeAd,
                        layoutName: String,
                        callbacks: NativeAdCallbacks) {
+        guard let wrappedBehavior = wrappedBehavior else {
+            print("⚠️ PositionDecorator: wrappedBehavior is nil")
+            return
+        }
+        
         // Gọi wrapped behavior để hiển thị ad
         wrappedBehavior.show(viewController: viewController,
                             nativeAd: nativeAd,
@@ -40,13 +45,19 @@ import GoogleMobileAds
         // Đợi một chút để view được add vào hierarchy
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [weak self] in
             guard let self = self,
-                  let rootView = self.wrappedBehavior.getRootView() else { return }
+                  let rootView = self.wrappedBehavior?.getRootView() else { return }
             self.applyPosition(to: rootView)
         }
     }
     
     public override func destroy() {
-        wrappedBehavior.destroy()
+        print("🗑️ PositionDecorator: Starting destroy...")
+        wrappedBehavior?.destroy()
+        
+        // CRITICAL: Clear reference để break retain cycle
+        print("  → Clearing wrappedBehavior reference")
+        wrappedBehavior = nil
+        print("✅ PositionDecorator: Destroy complete")
     }
     
     // MARK: - Position Logic
@@ -74,6 +85,6 @@ import GoogleMobileAds
     // MARK: - Public Accessors
     
     public override func getRootView() -> UIView? {
-        return wrappedBehavior.getRootView()
+        return wrappedBehavior?.getRootView()
     }
 }
