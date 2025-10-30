@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24128" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24063"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="a3g-z3-gKx" userLabel="Native Ad View" customClass="GADNativeAdView">
+                    <rect key="frame" x="0.0" y="0.0" width="300" height="250"/>
+                    <subviews>
+                        <button opaque="NO" tag="105" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oBw-zI-YfF" userLabel="CTA Button">
+                            <rect key="frame" x="8" y="207" width="284" height="35"/>
+                            <color key="backgroundColor" systemColor="systemGreenColor"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="35" id="c2h-8A-f5o"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
+                            <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                            <state key="normal" title="CONTINUE">
+                                <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </state>
+                        </button>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uVd-gH-d3W" userLabel="Info Bar">
+                            <rect key="frame" x="8" y="148" width="284" height="51"/>
+                            <subviews>
+                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="7" translatesAutoresizingMaskIntoConstraints="NO" id="TjV-3p-55g">
+                                    <rect key="frame" x="0.0" y="4" width="284" height="43"/>
+                                    <subviews>
+                                        <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="6" translatesAutoresizingMaskIntoConstraints="NO" id="K0f-7f-f3f" userLabel="Top Row">
+                                            <rect key="frame" x="0.0" y="0.0" width="284" height="18"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="Ad" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="z8g-Ua-t2N" userLabel="Ad">
+                                                    <rect key="frame" x="0.0" y="2.3333333333333437" width="14" height="13.333333333333336"/>
+                                                    <color key="backgroundColor" systemColor="systemYellowColor"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="101" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Google Ads" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="U0d-e2-8sK" userLabel="Headline">
+                                                    <rect key="frame" x="20" y="0.0" width="264" height="18"/>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </stackView>
+                                        <label opaque="NO" userInteractionEnabled="NO" tag="102" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Make your business more visible!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="c0P-0t-H3g" userLabel="Body">
+                                            <rect key="frame" x="0.0" y="25" width="284" height="18"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                            <color key="textColor" systemColor="secondaryLabelColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </stackView>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstAttribute="bottom" secondItem="TjV-3p-55g" secondAttribute="bottom" constant="4" id="1b6-aR-3f0"/>
+                                <constraint firstAttribute="trailing" secondItem="TjV-3p-55g" secondAttribute="trailing" id="45U-hG-K7L"/>
+                                <constraint firstItem="TjV-3p-55g" firstAttribute="top" secondItem="uVd-gH-d3W" secondAttribute="top" constant="4" id="J38-Qh-xPz"/>
+                                <constraint firstItem="TjV-3p-55g" firstAttribute="leading" secondItem="uVd-gH-d3W" secondAttribute="leading" id="Q4q-a5-x0P"/>
+                            </constraints>
+                        </view>
+                        <view tag="103" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="e3b-A3-8gR" userLabel="Media View" customClass="GADMediaView">
+                            <rect key="frame" x="0.0" y="0.0" width="300" height="144"/>
+                            <color key="backgroundColor" systemColor="systemGray5Color"/>
+                        </view>
+                    </subviews>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    <constraints>
+                        <constraint firstItem="e3b-A3-8gR" firstAttribute="top" secondItem="a3g-z3-gKx" secondAttribute="top" id="23n-xP-RjU"/>
+                        <constraint firstAttribute="trailing" secondItem="oBw-zI-YfF" secondAttribute="trailing" constant="8" id="5F2-5b-Pz0"/>
+                        <constraint firstAttribute="trailing" secondItem="e3b-A3-8gR" secondAttribute="trailing" id="Z1d-wN-b6k"/>
+                        <constraint firstItem="uVd-gH-d3W" firstAttribute="leading" secondItem="a3g-z3-gKx" secondAttribute="leading" constant="8" id="b6S-h5-e9p"/>
+                        <constraint firstItem="oBw-zI-YfF" firstAttribute="leading" secondItem="a3g-z3-gKx" secondAttribute="leading" constant="8" id="hJb-9b-g5d"/>
+                        <constraint firstItem="oBw-zI-YfF" firstAttribute="top" secondItem="uVd-gH-d3W" secondAttribute="bottom" constant="8" id="m5T-lF-G9C"/>
+                        <constraint firstItem="e3b-A3-8gR" firstAttribute="leading" secondItem="a3g-z3-gKx" secondAttribute="leading" id="p3T-0N-B9w"/>
+                        <constraint firstAttribute="bottom" secondItem="oBw-zI-YfF" secondAttribute="bottom" constant="8" id="q4k-cR-29F"/>
+                        <constraint firstAttribute="trailing" secondItem="uVd-gH-d3W" secondAttribute="trailing" constant="8" id="r1U-yJ-g6P"/>
+                        <constraint firstItem="uVd-gH-d3W" firstAttribute="top" secondItem="e3b-A3-8gR" secondAttribute="bottom" constant="4" id="y2N-65-a8i"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="a3g-z3-gKx" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="A1B-2c-3d4"/>
+                <constraint firstItem="a3g-z3-gKx" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="B5E-6f-7g8"/>
+                <constraint firstItem="a3g-z3-gKx" firstAttribute="width" constant="300" id="C9J-1k-2l3"/>
+                <constraint firstItem="a3g-z3-gKx" firstAttribute="height" constant="250" id="D7K-3m-4n5"/>
+            </constraints>
+            <point key="canvasLocation" x="131" y="-12"/>
+        </view>
+    </objects>
+    <resources>
+        <systemColor name="secondaryLabelColor">
+            <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemGray5Color">
+            <color red="0.89803921568627454" green="0.89803921568627454" blue="0.91764705882352937" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemGreenColor">
+            <color red="0.20392156862745098" green="0.7803921568627451" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemYellowColor">
+            <color red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>
