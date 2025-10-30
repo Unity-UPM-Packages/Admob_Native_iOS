@@ -56,6 +56,19 @@ class ViewController: UIViewController {
         return button
     }()
     
+    private let hideAdButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("Hide Ad", for: .normal)
+        button.backgroundColor = .systemRed
+        button.setTitleColor(.white, for: .normal)
+        button.titleLabel?.font = .systemFont(ofSize: 16, weight: .semibold)
+        button.layer.cornerRadius = 8
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.isEnabled = false
+        button.alpha = 0.5
+        return button
+    }()
+    
     private let statusLabel: UILabel = {
         let label = UILabel()
         label.text = "Ready to test"
@@ -88,6 +101,7 @@ class ViewController: UIViewController {
         view.addSubview(initSdkButton)
         view.addSubview(loadAdButton)
         view.addSubview(showAdButton)
+        view.addSubview(hideAdButton)
         view.addSubview(statusLabel)
         
         // Layout constraints
@@ -114,6 +128,12 @@ class ViewController: UIViewController {
             showAdButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             showAdButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             showAdButton.heightAnchor.constraint(equalToConstant: 50),
+            
+            // Hide Ad Button
+            hideAdButton.topAnchor.constraint(equalTo: showAdButton.bottomAnchor, constant: 20),
+            hideAdButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            hideAdButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            hideAdButton.heightAnchor.constraint(equalToConstant: 50),
         ])
     }
     
@@ -123,6 +143,7 @@ class ViewController: UIViewController {
         initSdkButton.addTarget(self, action: #selector(initSdkButtonTapped), for: .touchUpInside)
         loadAdButton.addTarget(self, action: #selector(loadAdButtonTapped), for: .touchUpInside)
         showAdButton.addTarget(self, action: #selector(showAdButtonTapped), for: .touchUpInside)
+        hideAdButton.addTarget(self, action: #selector(hideAdButtonTapped), for: .touchUpInside)
     }
     
     // MARK: - Button Actions
@@ -192,10 +213,32 @@ class ViewController: UIViewController {
 //                .withCountdown(initial: 5, duration: 5, closeDelay: 2)
                 .withPosition(x: 20, y: 20)
                 .showAd(layoutName: NATIVE_LAYOUT_NAME)
+            
+            // Enable hide button when ad is shown
+            hideAdButton.isEnabled = true
+            hideAdButton.alpha = 1.0
         } else {
             showAlert(title: "Warning", message: "Ad not available yet. Please load first.")
             print("⚠️ Show Ad button clicked, but ad is not available")
         }
+    }
+    
+    @objc private func hideAdButtonTapped() {
+        guard let controller = admobNativeController else {
+            showAlert(title: "Error", message: "Controller not initialized")
+            return
+        }
+        
+        print("🙈 Hide Ad button clicked. Destroying ad...")
+        updateStatus("Hiding ad...")
+        
+        controller.destroy()
+        
+        // Disable hide button after hiding
+        hideAdButton.isEnabled = false
+        hideAdButton.alpha = 0.5
+        
+        updateStatus("Ad hidden ✅")
     }
     
     // MARK: - Helpers
