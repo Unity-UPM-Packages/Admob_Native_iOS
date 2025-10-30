@@ -21,8 +21,8 @@ import GoogleMobileAds
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
             
-            // 1. Tạo container view
-            let adContainer = UIView()
+            // 1. Tạo container view với pass-through hit testing
+            let adContainer = PassthroughView()
             adContainer.translatesAutoresizingMaskIntoConstraints = false
             self.rootView = adContainer
             
@@ -53,6 +53,9 @@ import GoogleMobileAds
                 self.rootView = nil
                 return
             }
+            
+            // 3.5. Set ad view reference cho pass-through hit testing
+            adContainer.adView = nativeAdView
             
             // 4. Populate ad view với data
             self.populateNativeAdView(nativeAd, into: nativeAdView)
