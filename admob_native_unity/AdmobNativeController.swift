@@ -19,10 +19,6 @@ import GoogleMobileAds
     private var countdownConfig: (initial: Float, duration: Float, closeDelay: Float)?
     private var positionConfig: (x: Int, y: Int)?
     
-    deinit {
-        print("🗑️ AdmobNativeController: deallocated from memory")
-    }
-    
     // MARK: - Initialization
     
     @objc public init(viewController: UIViewController, callbacks: NativeAdCallbacks) {
@@ -120,22 +116,12 @@ import GoogleMobileAds
         
         resetAllConfigs()
         
-        if let behavior = currentShowBehavior {
-            let behaviorType = String(describing: type(of: behavior))
-            print("  → Destroying behavior (type: \(behaviorType))")
-            behavior.destroy()
-        }
-        
-        print("  → Clearing currentShowBehavior reference")
+        currentShowBehavior?.destroy()
         currentShowBehavior = nil
         
-        print("  → Clearing loadedNativeAd reference")
         loadedNativeAd = nil
         
-        print("  → Calling onAdClosed callback")
         callbacks?.onAdClosed()
-        
-        print("✅ AdmobNativeController: Destroy complete")
     }
     
     // MARK: - Ad Availability

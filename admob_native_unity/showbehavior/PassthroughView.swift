@@ -11,10 +11,6 @@ class PassthroughView: UIView {
     /// Reference to the GADNativeAdView that should receive touches
     weak var adView: GADNativeAdView?
     
-    deinit {
-        print("🗑️ PassthroughView: deallocated from memory")
-    }
-    
     /// Override hit testing to pass through touches outside ad view
     override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
         // 1. Check if we have an ad view

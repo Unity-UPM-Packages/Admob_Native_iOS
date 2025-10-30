@@ -6,13 +6,9 @@ import GoogleMobileAds
 /// Tương đương với PositionDecorator.kt
 @objc public class PositionDecorator: BaseShowBehavior {
     
-    private var wrappedBehavior: BaseShowBehavior?  // Changed to var and optional
+    private var wrappedBehavior: BaseShowBehavior?
     private let positionX: Int
     private let positionY: Int
-    
-    deinit {
-        print("🗑️ PositionDecorator: deallocated from memory")
-    }
     
     // MARK: - Initialization
     
@@ -51,13 +47,8 @@ import GoogleMobileAds
     }
     
     public override func destroy() {
-        print("🗑️ PositionDecorator: Starting destroy...")
         wrappedBehavior?.destroy()
-        
-        // CRITICAL: Clear reference để break retain cycle
-        print("  → Clearing wrappedBehavior reference")
         wrappedBehavior = nil
-        print("✅ PositionDecorator: Destroy complete")
     }
     
     // MARK: - Position Logic

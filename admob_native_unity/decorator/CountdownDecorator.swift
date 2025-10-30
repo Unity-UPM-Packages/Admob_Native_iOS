@@ -6,14 +6,10 @@ import GoogleMobileAds
 /// Tương đương với CountdownDecorator.kt
 @objc public class CountdownDecorator: BaseShowBehavior {
     
-    private var wrappedBehavior: BaseShowBehavior?  // Changed to var and optional
+    private var wrappedBehavior: BaseShowBehavior?
     private let initialDelaySeconds: TimeInterval
     private let countdownDurationSeconds: TimeInterval
     private let closeButtonDelaySeconds: TimeInterval
-    
-    deinit {
-        print("🗑️ CountdownDecorator: deallocated from memory")
-    }
     
     // Timers
     private var initialDelayTimer: Timer?
@@ -78,8 +74,6 @@ import GoogleMobileAds
     }
     
     public override func destroy() {
-        print("🗑️ CountdownDecorator: Starting destroy...")
-        
         // Cancel tất cả timers
         cancelAllTimers()
 
@@ -88,11 +82,7 @@ import GoogleMobileAds
         
         // Destroy wrapped behavior
         wrappedBehavior?.destroy()
-        
-        // CRITICAL: Clear reference để break retain cycle
-        print("  → Clearing wrappedBehavior reference")
         wrappedBehavior = nil
-        print("✅ CountdownDecorator: Destroy complete")
     }
     
     // MARK: - Close Logic (3 Phases)

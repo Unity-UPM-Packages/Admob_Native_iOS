@@ -9,11 +9,7 @@ import GoogleMobileAds
     
     private(set) var rootView: UIView?
     private weak var viewControllerRef: UIViewController?
-    private weak var nativeAdView: GADNativeAdView?  // Keep reference for cleanup
-    
-    deinit {
-        print("🗑️ BaseShowBehavior: deallocated from memory")
-    }
+    private weak var nativeAdView: GADNativeAdView?
     
     // MARK: - IShowBehavior Implementation
     
@@ -86,34 +82,24 @@ import GoogleMobileAds
 
     
     public func destroy() {
-        print("🗑️ BaseShowBehavior: destroy() called on thread: \(Thread.isMainThread ? "MAIN" : "BACKGROUND")")
-        
-        // Capture rootView reference trước khi clear
+        // Capture rootView reference before clearing
         let viewToRemove = self.rootView
         
-        // Clear references IMMEDIATELY (không đợi async)
+        // Clear references immediately (synchronous)
         self.rootView = nil
         self.nativeAdView = nil
-        print("  ✓ Internal references cleared")
         
-        // Then perform UI cleanup on main thread
+        // Perform UI cleanup on main thread
         DispatchQueue.main.async {
-            guard let viewToRemove = viewToRemove else {
-                print("  ⚠️ viewToRemove is nil")
-                return
-            }
+            guard let viewToRemove = viewToRemove else { return }
             
-            print("  → Starting UI cleanup for view type: \(String(describing: type(of: viewToRemove)))")
-            
-            // 1. Hide immediately
+            // 1. Hide immediately for better UX
             viewToRemove.isHidden = true
             viewToRemove.alpha = 0
-            print("  ✓ View hidden")
             
             // 2. Clear PassthroughView reference
             if let passthroughView = viewToRemove as? PassthroughView {
                 passthroughView.adView = nil
-                print("  ✓ PassthroughView.adView cleared")
             }
             
             // 3. Find and clear GADNativeAdView
@@ -128,7 +114,6 @@ import GoogleMobileAds
                 adView.advertiserView = nil
                 adView.storeView = nil
                 adView.priceView = nil
-                print("  ✓ GADNativeAdView cleared")
             }
             
             // 4. Deactivate all constraints
@@ -140,21 +125,14 @@ import GoogleMobileAds
                 }
                 NSLayoutConstraint.deactivate(relatedConstraints)
             }
-            print("  ✓ Constraints deactivated")
             
             // 5. Remove all subviews recursively
             self.removeAllSubviewsRecursively(from: viewToRemove)
-            print("  ✓ Subviews removed")
             
             // 6. Remove from superview
-            let hasSuperview = viewToRemove.superview != nil
-            print("  → Removing from superview (hasSuperview: \(hasSuperview))")
             viewToRemove.removeFromSuperview()
             
-            let stillHasSuperview = viewToRemove.superview != nil
-            print("  ✓ Removed from superview (stillHasSuperview: \(stillHasSuperview))")
-            
-            print("✅ BaseShowBehavior: Ad view destroyed completely")
+            print("✅ BaseShowBehavior: Ad view destroyed")
         }
     }
     
