@@ -231,14 +231,12 @@ import GoogleMobileAds
         
         // 1. Media View (required)
         if let mediaView = adView.viewWithTag(TAG_MEDIA_VIEW) as? GADMediaView {
-            mediaView.isUserInteractionEnabled = true  // MUST be enabled for media interaction
             adView.mediaView = mediaView
         }
         
         // 2. Headline
         if let headlineLabel = adView.viewWithTag(TAG_HEADLINE) as? UILabel {
             headlineLabel.text = nativeAd.headline
-            headlineLabel.isUserInteractionEnabled = false  // CRITICAL: Disable interaction
             adView.headlineView = headlineLabel
         }
         
@@ -246,7 +244,6 @@ import GoogleMobileAds
         if let bodyLabel = adView.viewWithTag(TAG_BODY) as? UILabel {
             bodyLabel.text = nativeAd.body
             bodyLabel.isHidden = nativeAd.body == nil
-            bodyLabel.isUserInteractionEnabled = false  // CRITICAL: Disable interaction
             adView.bodyView = bodyLabel
         }
         
@@ -254,7 +251,7 @@ import GoogleMobileAds
         if let ctaButton = adView.viewWithTag(TAG_CTA) as? UIButton {
             ctaButton.setTitle(nativeAd.callToAction, for: .normal)
             ctaButton.isHidden = nativeAd.callToAction == nil
-            ctaButton.isUserInteractionEnabled = false  // CRITICAL: Disable interaction
+            ctaButton.isUserInteractionEnabled = false
             adView.callToActionView = ctaButton
         }
         
@@ -262,7 +259,6 @@ import GoogleMobileAds
         if let iconImageView = adView.viewWithTag(TAG_ICON) as? UIImageView {
             iconImageView.image = nativeAd.icon?.image
             iconImageView.isHidden = nativeAd.icon == nil
-            iconImageView.isUserInteractionEnabled = false  // CRITICAL: Disable interaction
             adView.iconView = iconImageView
         }
         
@@ -274,7 +270,6 @@ import GoogleMobileAds
             } else {
                 ratingView.isHidden = true
             }
-            ratingView.isUserInteractionEnabled = false  // CRITICAL: Disable interaction
             adView.starRatingView = ratingView
         }
         
@@ -282,7 +277,6 @@ import GoogleMobileAds
         if let advertiserLabel = adView.viewWithTag(TAG_ADVERTISER) as? UILabel {
             advertiserLabel.text = nativeAd.advertiser
             advertiserLabel.isHidden = nativeAd.advertiser == nil
-            advertiserLabel.isUserInteractionEnabled = false  // CRITICAL: Disable interaction
             adView.advertiserView = advertiserLabel
         }
         
@@ -290,7 +284,6 @@ import GoogleMobileAds
         if let storeLabel = adView.viewWithTag(TAG_STORE) as? UILabel {
             storeLabel.text = nativeAd.store
             storeLabel.isHidden = nativeAd.store == nil
-            storeLabel.isUserInteractionEnabled = false  // CRITICAL: Disable interaction
             adView.storeView = storeLabel
         }
         
@@ -298,7 +291,6 @@ import GoogleMobileAds
         if let priceLabel = adView.viewWithTag(TAG_PRICE) as? UILabel {
             priceLabel.text = nativeAd.price
             priceLabel.isHidden = nativeAd.price == nil
-            priceLabel.isUserInteractionEnabled = false  // CRITICAL: Disable interaction
             adView.priceView = priceLabel
         }
         
