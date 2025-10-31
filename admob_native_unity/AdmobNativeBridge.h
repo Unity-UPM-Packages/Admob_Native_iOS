@@ -1,10 +1,3 @@
-//
-//  AdmobNativeBridge.h
-//  AdmobNative iOS Bridge
-//
-//  C interface for Unity integration
-//
-
 #ifndef AdmobNativeBridge_h
 #define AdmobNativeBridge_h
 
@@ -16,22 +9,22 @@ extern "C" {
 
 // MARK: - Callback Type Definitions
 
-/// Callback không có tham số
+/// Callback with no parameters
 typedef void (*VoidCallback)(void);
 
-/// Callback với error message
+/// Callback with error message
 typedef void (*ErrorCallback)(const char* errorMessage);
 
-/// Callback cho paid event
+/// Callback for paid event
 typedef void (*PaidEventCallback)(int precisionType, long long valueMicros, const char* currencyCode);
 
-/// Callback cho video mute
+/// Callback for video mute state
 typedef void (*VideoMuteCallback)(bool isMuted);
 
 // MARK: - Controller Management
 
-/// Tạo một controller instance mới
-/// @return Handle để sử dụng trong các function calls khác
+/// Create a new controller instance
+/// @return Handle for use in subsequent function calls
 void* AdmobNative_Create(void);
 
 /// Destroy controller instance
@@ -40,22 +33,7 @@ void AdmobNative_Destroy(void* handle);
 
 // MARK: - Callback Registration
 
-/// Đăng ký tất cả callback functions
-/// @param handle Controller handle
-/// @param onAdLoaded Callback khi ad load thành công
-/// @param onAdFailedToLoad Callback khi ad load thất bại
-/// @param onAdShow Callback khi ad được hiển thị
-/// @param onAdClosed Callback khi ad bị đóng
-/// @param onPaidEvent Callback cho paid event
-/// @param onAdDidRecordImpression Callback khi impression được ghi nhận
-/// @param onAdClicked Callback khi ad được click
-/// @param onVideoStart Callback khi video bắt đầu
-/// @param onVideoEnd Callback khi video kết thúc
-/// @param onVideoMute Callback khi video mute/unmute
-/// @param onVideoPlay Callback khi video play
-/// @param onVideoPause Callback khi video pause
-/// @param onAdShowedFullScreenContent Callback khi show full screen
-/// @param onAdDismissedFullScreenContent Callback khi dismiss full screen
+/// Register all callback functions
 void AdmobNative_RegisterCallbacks(
     void* handle,
     VoidCallback onAdLoaded,
@@ -76,62 +54,44 @@ void AdmobNative_RegisterCallbacks(
 
 // MARK: - Ad Operations
 
-/// Load quảng cáo
-/// @param handle Controller handle
-/// @param adUnitId Ad unit ID
+/// Load ad
 void AdmobNative_LoadAd(void* handle, const char* adUnitId);
 
-/// Hiển thị quảng cáo
-/// @param handle Controller handle
-/// @param layoutName Tên layout (.xib file name)
+/// Show ad
 void AdmobNative_ShowAd(void* handle, const char* layoutName);
 
-/// Hủy quảng cáo hiện tại
-/// @param handle Controller handle
+/// Destroy current ad
 void AdmobNative_DestroyAd(void* handle);
 
-/// Kiểm tra ad có available không
-/// @param handle Controller handle
-/// @return true nếu ad available
+/// Check if ad is available
 bool AdmobNative_IsAdAvailable(void* handle);
 
 // MARK: - Configuration (Builder Pattern)
 
-/// Cấu hình countdown timer
-/// @param handle Controller handle
-/// @param initial Initial delay trước khi countdown (seconds)
-/// @param duration Thời gian countdown (seconds)
-/// @param closeDelay Delay trước khi close button clickable (seconds)
+/// Configure countdown timer
 void AdmobNative_WithCountdown(void* handle, float initial, float duration, float closeDelay);
 
-/// Cấu hình vị trí hiển thị
-/// @param handle Controller handle
-/// @param x X position (pixels)
-/// @param y Y position (pixels)
+/// Configure display position
 void AdmobNative_WithPosition(void* handle, int x, int y);
 
 // MARK: - Dimensions
 
-/// Lấy width của ad view
-/// @param handle Controller handle
-/// @return Width in pixels, -1 nếu không available
+/// Get ad view width
+/// @return Width in pixels, -1 if not available
 float AdmobNative_GetWidthInPixels(void* handle);
 
-/// Lấy height của ad view
-/// @param handle Controller handle
-/// @return Height in pixels, -1 nếu không available
+/// Get ad view height
+/// @return Height in pixels, -1 if not available
 float AdmobNative_GetHeightInPixels(void* handle);
 
 // MARK: - Response Info
 
-/// Lấy Response ID từ ad response
-/// @param handle Controller handle
-/// @return Response ID string, hoặc NULL nếu không available
+/// Get Response ID from ad response
+/// @return Response ID string, or NULL if not available
 const char* AdmobNative_GetResponseId(void* handle);
 
-/// Lấy Mediation Adapter Class Name
-/// @param handle Controller handle
-/// @return Adapter class name, hoặc NULL nếu không available
+/// Get Mediation Adapter Class Name
+/// @return Adapter class name, or NULL if not available
 const char* AdmobNative_GetMediationAdapterClassName(void* handle);
 
 #ifdef __cplusplus

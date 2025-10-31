@@ -2,15 +2,11 @@ import Foundation
 import UIKit
 import GoogleMobileAds
 
-/// Decorator thêm chức năng positioning vào BaseShowBehavior.
-/// Tương đương với PositionDecorator.kt
 @objc public class PositionDecorator: BaseShowBehavior {
     
     private var wrappedBehavior: BaseShowBehavior?
     private let positionX: Int
     private let positionY: Int
-    
-    // MARK: - Initialization
     
     public init(wrappedBehavior: BaseShowBehavior,
          x: Int,
@@ -21,8 +17,6 @@ import GoogleMobileAds
         super.init()
     }
     
-    // MARK: - IShowBehavior Override
-    
     public override func show(viewController: UIViewController,
                        nativeAd: GADNativeAd,
                        layoutName: String,
@@ -32,14 +26,11 @@ import GoogleMobileAds
             return
         }
         
-        // Gọi wrapped behavior để hiển thị ad
         wrappedBehavior.show(viewController: viewController,
                             nativeAd: nativeAd,
                             layoutName: layoutName,
                             callbacks: callbacks)
         
-        // Apply position NGAY LẬP TỨC trong cùng main queue cycle
-        // Không dùng asyncAfter để tránh animation delay
         DispatchQueue.main.async { [weak self] in
             guard let self = self,
                   let rootView = self.wrappedBehavior?.getRootView() else { return }
@@ -52,25 +43,19 @@ import GoogleMobileAds
         wrappedBehavior = nil
     }
     
-    // MARK: - Position Logic
-    
     private func applyPosition(to view: UIView) {
         guard let superview = view.superview else {
             print("⚠️ PositionDecorator: Cannot apply position - no superview")
             return
         }
         
-        // Disable animation để position apply ngay lập tức
         UIView.performWithoutAnimation {
-            // Find và remove CHỈ position-related constraints (centerX, centerY, leading, trailing, top, bottom)
-            // GIỮ LẠI width và height constraints!
             let positionConstraints = superview.constraints.filter { constraint in
                 guard let firstItem = constraint.firstItem as? UIView,
                       let secondItem = constraint.secondItem as? UIView else {
                     return false
                 }
                 
-                // Chỉ remove constraints liên quan đến position
                 if firstItem == view || secondItem == view {
                     let attr = constraint.firstAttribute
                     return attr == .leading || attr == .trailing ||
@@ -83,7 +68,6 @@ import GoogleMobileAds
             
             NSLayoutConstraint.deactivate(positionConstraints)
             
-            // Add position constraints mới
             view.translatesAutoresizingMaskIntoConstraints = false
             
             let newConstraints = [
@@ -93,14 +77,12 @@ import GoogleMobileAds
             
             NSLayoutConstraint.activate(newConstraints)
             
-            // Force layout ngay lập tức
             superview.layoutIfNeeded()
             
             print("✅ PositionDecorator: Applied position (\(positionX), \(positionY))")
         }
     }
     
-    // MARK: - Public Accessors
     
     public override func getRootView() -> UIView? {
         return wrappedBehavior?.getRootView()
