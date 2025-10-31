@@ -38,8 +38,9 @@ import GoogleMobileAds
                             layoutName: layoutName,
                             callbacks: callbacks)
         
-        // Đợi một chút để view được add vào hierarchy
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [weak self] in
+        // Apply position NGAY LẬP TỨC trong cùng main queue cycle
+        // Không dùng asyncAfter để tránh animation delay
+        DispatchQueue.main.async { [weak self] in
             guard let self = self,
                   let rootView = self.wrappedBehavior?.getRootView() else { return }
             self.applyPosition(to: rootView)
@@ -59,41 +60,44 @@ import GoogleMobileAds
             return
         }
         
-        // Force layout để có frame chính xác
-        superview.layoutIfNeeded()
-        
-        // Find và remove CHỈ position-related constraints (centerX, centerY, leading, trailing, top, bottom)
-        // GIỮ LẠI width và height constraints!
-        let positionConstraints = superview.constraints.filter { constraint in
-            guard let firstItem = constraint.firstItem as? UIView,
-                  let secondItem = constraint.secondItem as? UIView else {
+        // Disable animation để position apply ngay lập tức
+        UIView.performWithoutAnimation {
+            // Find và remove CHỈ position-related constraints (centerX, centerY, leading, trailing, top, bottom)
+            // GIỮ LẠI width và height constraints!
+            let positionConstraints = superview.constraints.filter { constraint in
+                guard let firstItem = constraint.firstItem as? UIView,
+                      let secondItem = constraint.secondItem as? UIView else {
+                    return false
+                }
+                
+                // Chỉ remove constraints liên quan đến position
+                if firstItem == view || secondItem == view {
+                    let attr = constraint.firstAttribute
+                    return attr == .leading || attr == .trailing ||
+                           attr == .left || attr == .right ||
+                           attr == .top || attr == .bottom ||
+                           attr == .centerX || attr == .centerY
+                }
                 return false
             }
             
-            // Chỉ remove constraints liên quan đến position
-            if firstItem == view || secondItem == view {
-                let attr = constraint.firstAttribute
-                return attr == .leading || attr == .trailing || 
-                       attr == .left || attr == .right ||
-                       attr == .top || attr == .bottom ||
-                       attr == .centerX || attr == .centerY
-            }
-            return false
+            NSLayoutConstraint.deactivate(positionConstraints)
+            
+            // Add position constraints mới
+            view.translatesAutoresizingMaskIntoConstraints = false
+            
+            let newConstraints = [
+                view.leftAnchor.constraint(equalTo: superview.leftAnchor, constant: CGFloat(positionX)),
+                view.topAnchor.constraint(equalTo: superview.topAnchor, constant: CGFloat(positionY))
+            ]
+            
+            NSLayoutConstraint.activate(newConstraints)
+            
+            // Force layout ngay lập tức
+            superview.layoutIfNeeded()
+            
+            print("✅ PositionDecorator: Applied position (\(positionX), \(positionY))")
         }
-        
-        NSLayoutConstraint.deactivate(positionConstraints)
-        
-        // Add position constraints mới
-        view.translatesAutoresizingMaskIntoConstraints = false
-        
-        let newConstraints = [
-            view.leftAnchor.constraint(equalTo: superview.leftAnchor, constant: CGFloat(positionX)),
-            view.topAnchor.constraint(equalTo: superview.topAnchor, constant: CGFloat(positionY))
-        ]
-        
-        NSLayoutConstraint.activate(newConstraints)
-        
-        print("✅ PositionDecorator: Applied position (\(positionX), \(positionY))")
     }
     
     // MARK: - Public Accessors
