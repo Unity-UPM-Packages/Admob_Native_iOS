@@ -5,21 +5,23 @@ import GoogleMobileAds
 // MARK: - Callback Function Pointer Types
 
 /// Callback không có tham số
-public typealias VoidCallback = @convention(c) () -> Void
+public typealias VoidCallback = @convention(c) (UnsafeMutableRawPointer?) -> Void
 
 /// Callback với error message
-public typealias ErrorCallback = @convention(c) (UnsafePointer<CChar>?) -> Void
+public typealias ErrorCallback = @convention(c) (UnsafeMutableRawPointer?, UnsafePointer<CChar>?) -> Void
 
 /// Callback cho paid event
-public typealias PaidEventCallback = @convention(c) (Int32, Int64, UnsafePointer<CChar>?) -> Void
+public typealias PaidEventCallback = @convention(c) (UnsafeMutableRawPointer?, Int32, Int64, UnsafePointer<CChar>?) -> Void
 
 /// Callback cho video mute
-public typealias VideoMuteCallback = @convention(c) (Bool) -> Void
+public typealias VideoMuteCallback = @convention(c) (UnsafeMutableRawPointer?, Bool) -> Void
 
 // MARK: - Callback Wrapper Class
 
 /// Wrapper class implement NativeAdCallbacks protocol và chuyển đổi sang C function pointers
 class BridgeCallbacks: NSObject, NativeAdCallbacks {
+    
+    private var handle: UnsafeMutableRawPointer?
     
     // Stored callback function pointers
     var onAdLoadedCallback: VoidCallback?
@@ -36,68 +38,72 @@ class BridgeCallbacks: NSObject, NativeAdCallbacks {
     var onVideoPauseCallback: VoidCallback?
     var onAdShowedFullScreenContentCallback: VoidCallback?
     var onAdDismissedFullScreenContentCallback: VoidCallback?
+
+    init(handle: UnsafeMutableRawPointer?) {
+        self.handle = handle
+    }
     
     // MARK: - NativeAdCallbacks Implementation
     
     func onAdLoaded() {
-        onAdLoadedCallback?()
+        onAdLoadedCallback?(handle)
     }
     
     func onAdFailedToLoad(error: Error) {
         let message = error.localizedDescription
         message.withCString { cString in
-            onAdFailedToLoadCallback?(cString)
+            onAdFailedToLoadCallback?(handle, cString)
         }
     }
     
     func onAdShow() {
-        onAdShowCallback?()
+        onAdShowCallback?(handle)
     }
     
     func onAdClosed() {
-        onAdClosedCallback?()
+        onAdClosedCallback?(handle)
     }
     
     func onPaidEvent(precisionType: Int, valueMicros: Int64, currencyCode: String) {
         currencyCode.withCString { cString in
-            onPaidEventCallback?(Int32(precisionType), valueMicros, cString)
+            onPaidEventCallback?(handle, Int32(precisionType), valueMicros, cString)
         }
     }
     
     func onAdDidRecordImpression() {
-        onAdDidRecordImpressionCallback?()
+        onAdDidRecordImpressionCallback?(handle)
     }
     
     func onAdClicked() {
-        onAdClickedCallback?()
+        onAdClickedCallback?(handle)
     }
     
     func onVideoStart() {
-        onVideoStartCallback?()
+        onVideoStartCallback?(handle)
     }
     
     func onVideoEnd() {
-        onVideoEndCallback?()
+        onVideoEndCallback?(handle)
     }
     
     func onVideoMute(isMuted: Bool) {
-        onVideoMuteCallback?(isMuted)
+        onVideoMuteCallback?(handle, isMuted)
     }
     
     func onVideoPlay() {
-        onVideoPlayCallback?()
+        onVideoPlayCallback?(handle)
     }
     
     func onVideoPause() {
-        onVideoPauseCallback?()
+        onVideoPauseCallback?(handle)
     }
     
     func onAdShowedFullScreenContent() {
-        onAdShowedFullScreenContentCallback?()
+        onAdShowedFullScreenContentCallback?(handle)
     }
     
     func onAdDismissedFullScreenContent() {
-        onAdDismissedFullScreenContentCallback?()
+        onAdDismissedFullScreenContentCallback?(handle)
     }
 }
 
@@ -119,6 +125,7 @@ private var responseInfoCache: [String: (responseId: String, adapterClassName: S
 @_cdecl("AdmobNative_Create")
 public func AdmobNative_Create() -> UnsafeMutableRawPointer? {
     let handleId = UUID().uuidString
+    let handle = UnsafeMutableRawPointer(mutating: (handleId as NSString).utf8String)
     
     // Lấy root view controller
     guard let viewController = UIApplication.shared.windows.first?.rootViewController else {
@@ -126,23 +133,16 @@ public func AdmobNative_Create() -> UnsafeMutableRawPointer? {
         return nil
     }
     
-    // Tạo callback wrapper
-    let bridgeCallbacks = BridgeCallbacks()
+    // Tạo callback wrapper và controller, sau đó lưu chúng
+    let bridgeCallbacks = BridgeCallbacks(handle: handle)
+    let controller = AdmobNativeController(viewController: viewController, callbacks: bridgeCallbacks)
     
-    // Tạo controller
-    let controller = AdmobNativeController(
-        viewController: viewController,
-        callbacks: bridgeCallbacks
-    )
-    
-    // Lưu vào dictionaries
     controllers[handleId] = controller
     callbacks[handleId] = bridgeCallbacks
     
     print("✅ AdmobNative_Create: Created controller with handle: \(handleId)")
     
-    // Convert string to C pointer
-    return UnsafeMutableRawPointer(mutating: (handleId as NSString).utf8String)
+    return handle
 }
 
 /// Đăng ký các callback function pointers
