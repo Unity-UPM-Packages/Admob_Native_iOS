@@ -2,7 +2,7 @@
 //  NativeInterLayoutView.swift
 //  Admob Native iOS
 //
-//  Layout Interstitial toàn màn hình - Ánh xạ 1:1 chuẩn xác với Android native_inter_media.xml.
+//  Layout Interstitial toàn màn hình (Edge-to-Edge) - Khớp 1:1 chuẩn xác với Android native_inter_media.xml.
 //
 
 import UIKit
@@ -13,15 +13,15 @@ public final class NativeInterLayoutView: BaseNativeAdLayoutView {
     private let isNoMediaVariant: Bool
     private let isSplitVariant: Bool
     
-    // Subviews đặc thù cho Native Interstitial
+    // Top & Bottom Card
     private let topCardView = UIView()
     private let topDividerView = UIView()
     private let bottomCardView = UIView()
     private let bottomDividerView = UIView()
     
-    // Cụm Text ở footer (dùng riêng cho màn ngang)
-    private let landscapeTextStack = UIStackView()
-    private let landscapeTitleRow = UIStackView()
+    // Cụm Header Text (Ad Badge + Headline nằm ngang hàng, Advertiser ở dưới)
+    private let textStack = UIStackView()
+    private let titleRow = UIStackView()
     
     public init(layoutName: String) {
         self.isNoMediaVariant = layoutName.contains("no_media")
@@ -39,68 +39,95 @@ public final class NativeInterLayoutView: BaseNativeAdLayoutView {
     public override func setupLayout() {
         backgroundColor = .gntBgDark
         
-        // 1. Progress Bar (Thanh đếm ngược màu vàng sát mép trên cùng)
-        progressBar.translatesAutoresizingMaskIntoConstraints = false
-        progressBar.progressTintColor = .gntAdBadgeYellow
-        progressBar.trackTintColor = .clear
-        addSubview(progressBar)
-        
-        // 2. Top Card (Màn dọc: chứa Ad badge, Headline, Advertiser và Close button)
-        topCardView.translatesAutoresizingMaskIntoConstraints = false
-        topCardView.backgroundColor = .gntBgDark
-        addSubview(topCardView)
-        
-        topCardView.addSubview(adBadgeLbl)
-        topCardView.addSubview(headlineLbl)
-        topCardView.addSubview(advertiserLbl)
-        
-        // Close Button (Nút X vẽ chuẩn vector ic_cancel)
-        addSubview(closeButton)
-        
-        // Top Divider (#505763)
-        topDividerView.translatesAutoresizingMaskIntoConstraints = false
-        topDividerView.backgroundColor = .gntBorderDark
-        addSubview(topDividerView)
-        
-        // 3. Media View / Image View (Chiếm trọn không gian giữa)
+        // 1. Media View / Image View (Chiếm trọn không gian giữa)
         let mediaOrImage = isNoMediaVariant ? mainImgView : adMediaView
         mediaOrImage.translatesAutoresizingMaskIntoConstraints = false
         mediaOrImage.contentMode = .scaleAspectFit
         mediaOrImage.backgroundColor = .clear
         addSubview(mediaOrImage)
         
-        // Bottom Divider (#505763)
+        // 2. Dividers (#505763)
+        topDividerView.translatesAutoresizingMaskIntoConstraints = false
+        topDividerView.backgroundColor = .gntBorderDark
+        addSubview(topDividerView)
+        
         bottomDividerView.translatesAutoresizingMaskIntoConstraints = false
         bottomDividerView.backgroundColor = .gntBorderDark
         addSubview(bottomDividerView)
         
-        // 4. Bottom Card
+        // 3. Top Card (Tràn kín đỉnh màn hình bao gồm cả Dynamic Island / Tai thỏ)
+        topCardView.translatesAutoresizingMaskIntoConstraints = false
+        topCardView.backgroundColor = .gntBgDark
+        addSubview(topCardView)
+        
+        // 4. Bottom Card (Tràn kín đáy màn hình bao gồm cả Home Indicator)
         bottomCardView.translatesAutoresizingMaskIntoConstraints = false
         bottomCardView.backgroundColor = .gntBgDark
         addSubview(bottomCardView)
         
-        // Subviews trong Bottom Card (Dành cho cả Portrait CTA tràn viền và Landscape Icon + Text + CTA)
-        bottomCardView.addSubview(iconImgView)
-        bottomCardView.addSubview(callToActionBtn)
+        // 5. Cụm Text: titleRow (Ad Badge ngang hàng Headline) + advertiserLbl ở dưới
+        titleRow.translatesAutoresizingMaskIntoConstraints = false
+        titleRow.axis = .horizontal
+        titleRow.alignment = .center
+        titleRow.spacing = 6
         
-        // Cấu hình style nút CTA màu xanh #1A73E8
-        callToActionBtn.backgroundColor = .gntCtaBlue
-        callToActionBtn.setTitleColor(.white, for: .normal)
-        callToActionBtn.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
-        callToActionBtn.layer.cornerRadius = 6
-        callToActionBtn.layer.borderWidth = 0
-        callToActionBtn.clipsToBounds = true
-        
-        // Style Ad Badge màu vàng chữ nâu
+        // Style Ad Badge vàng chữ nâu
+        adBadgeLbl.translatesAutoresizingMaskIntoConstraints = false
         adBadgeLbl.backgroundColor = .gntAdBadgeYellow
         adBadgeLbl.textColor = .gntAdBadgeTextBrown
         adBadgeLbl.font = UIFont.boldSystemFont(ofSize: 10)
         adBadgeLbl.layer.cornerRadius = 3
         adBadgeLbl.clipsToBounds = true
+        adBadgeLbl.textAlignment = .center
         
-        // Style Advertiser màu #B6BCC3
+        // Style Headline trắng bold
+        headlineLbl.translatesAutoresizingMaskIntoConstraints = false
+        headlineLbl.textColor = .white
+        headlineLbl.font = UIFont.boldSystemFont(ofSize: 15)
+        headlineLbl.numberOfLines = 1
+        headlineLbl.lineBreakMode = .byTruncatingTail
+        headlineLbl.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+        
+        // Style Advertiser
+        advertiserLbl.translatesAutoresizingMaskIntoConstraints = false
         advertiserLbl.textColor = .gntSecondaryText
         advertiserLbl.font = UIFont.systemFont(ofSize: 12)
+        advertiserLbl.numberOfLines = 1
+        advertiserLbl.lineBreakMode = .byTruncatingTail
+        
+        titleRow.addArrangedSubview(adBadgeLbl)
+        titleRow.addArrangedSubview(headlineLbl)
+        
+        textStack.translatesAutoresizingMaskIntoConstraints = false
+        textStack.axis = .vertical
+        textStack.alignment = .leading
+        textStack.spacing = 3
+        textStack.addArrangedSubview(titleRow)
+        textStack.addArrangedSubview(advertiserLbl)
+        
+        // 6. Subviews khác
+        iconImgView.translatesAutoresizingMaskIntoConstraints = false
+        iconImgView.layer.cornerRadius = 6
+        iconImgView.clipsToBounds = true
+        
+        callToActionBtn.translatesAutoresizingMaskIntoConstraints = false
+        callToActionBtn.backgroundColor = .gntCtaBlue
+        callToActionBtn.setTitleColor(.white, for: .normal)
+        callToActionBtn.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
+        callToActionBtn.layer.cornerRadius = 6
+        callToActionBtn.clipsToBounds = true
+        
+        // Nút Close và Progress Bar nổi lên trên cùng (Z-Index cao nhất)
+        closeButton.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(closeButton)
+        
+        progressBar.translatesAutoresizingMaskIntoConstraints = false
+        progressBar.progressTintColor = .gntAdBadgeYellow
+        progressBar.trackTintColor = .clear
+        addSubview(progressBar)
+        
+        bringSubviewToFront(closeButton)
+        bringSubviewToFront(progressBar)
         
         // Base Constraints cố định
         NSLayoutConstraint.activate([
@@ -117,8 +144,8 @@ public final class NativeInterLayoutView: BaseNativeAdLayoutView {
             bottomDividerView.trailingAnchor.constraint(equalTo: trailingAnchor),
             bottomDividerView.heightAnchor.constraint(equalToConstant: 1),
             
-            closeButton.widthAnchor.constraint(equalToConstant: LayoutDimensions.closeBtnSize),
-            closeButton.heightAnchor.constraint(equalToConstant: LayoutDimensions.closeBtnSize),
+            closeButton.widthAnchor.constraint(equalToConstant: 28),
+            closeButton.heightAnchor.constraint(equalToConstant: 28),
             
             adBadgeLbl.widthAnchor.constraint(equalToConstant: 24),
             adBadgeLbl.heightAnchor.constraint(equalToConstant: 16),
@@ -128,32 +155,23 @@ public final class NativeInterLayoutView: BaseNativeAdLayoutView {
         ])
         
         // -------------------------------------------------------------
-        // PORTRAIT CONSTRAINTS (Màn Dọc - Khớp 100% Ảnh 1)
+        // PORTRAIT CONSTRAINTS (Màn Dọc - Toàn Màn Hình Edge-to-Edge)
         // -------------------------------------------------------------
         portraitConstraints = [
-            // Top Card
-            topCardView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
+            // Top Card tràn từ đỉnh màn hình xuống
+            topCardView.topAnchor.constraint(equalTo: topAnchor),
             topCardView.leadingAnchor.constraint(equalTo: leadingAnchor),
             topCardView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            topCardView.heightAnchor.constraint(equalToConstant: 60),
+            topCardView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 60),
             
-            // Ad Badge ở góc trên bên trái top_card
-            adBadgeLbl.leadingAnchor.constraint(equalTo: topCardView.leadingAnchor, constant: 14),
-            adBadgeLbl.topAnchor.constraint(equalTo: topCardView.topAnchor, constant: 12),
+            // Cụm Text ở Top Card căn chỉnh né Notch/Dynamic Island
+            textStack.leadingAnchor.constraint(equalTo: topCardView.leadingAnchor, constant: 16),
+            textStack.bottomAnchor.constraint(equalTo: topCardView.bottomAnchor, constant: -12),
+            textStack.trailingAnchor.constraint(lessThanOrEqualTo: closeButton.leadingAnchor, constant: -10),
             
-            // Headline bên cạnh Ad Badge
-            headlineLbl.leadingAnchor.constraint(equalTo: adBadgeLbl.trailingAnchor, constant: 8),
-            headlineLbl.centerYAnchor.constraint(equalTo: adBadgeLbl.centerYAnchor),
-            headlineLbl.trailingAnchor.constraint(equalTo: closeButton.leadingAnchor, constant: -8),
-            
-            // Advertiser bên dưới Ad Badge & Headline
-            advertiserLbl.leadingAnchor.constraint(equalTo: topCardView.leadingAnchor, constant: 14),
-            advertiserLbl.topAnchor.constraint(equalTo: adBadgeLbl.bottomAnchor, constant: 4),
-            advertiserLbl.trailingAnchor.constraint(equalTo: closeButton.leadingAnchor, constant: -8),
-            
-            // Close Button căn giữa top_card ở góc phải
-            closeButton.trailingAnchor.constraint(equalTo: topCardView.trailingAnchor, constant: -14),
-            closeButton.centerYAnchor.constraint(equalTo: topCardView.centerYAnchor),
+            // Nút Close căn giữa theo chiều dọc của cụm text
+            closeButton.trailingAnchor.constraint(equalTo: topCardView.trailingAnchor, constant: -16),
+            closeButton.centerYAnchor.constraint(equalTo: textStack.centerYAnchor),
             
             // Top Divider ngay dưới top_card
             topDividerView.topAnchor.constraint(equalTo: topCardView.bottomAnchor),
@@ -167,7 +185,7 @@ public final class NativeInterLayoutView: BaseNativeAdLayoutView {
             // Bottom Divider ngay trên bottom_card
             bottomDividerView.bottomAnchor.constraint(equalTo: bottomCardView.topAnchor),
             
-            // Bottom Card dính sát đáy màn hình
+            // Bottom Card tràn xuống tận đáy màn hình
             bottomCardView.leadingAnchor.constraint(equalTo: leadingAnchor),
             bottomCardView.trailingAnchor.constraint(equalTo: trailingAnchor),
             bottomCardView.bottomAnchor.constraint(equalTo: bottomAnchor),
@@ -181,10 +199,10 @@ public final class NativeInterLayoutView: BaseNativeAdLayoutView {
         ]
         
         // -------------------------------------------------------------
-        // LANDSCAPE CONSTRAINTS (Màn Ngang - Khớp 100% Ảnh 2)
+        // LANDSCAPE CONSTRAINTS (Màn Ngang - Toàn Màn Hình Edge-to-Edge)
         // -------------------------------------------------------------
         landscapeConstraints = [
-            // Top Card ẩn ở màn ngang
+            // Top Card ẩn
             topCardView.topAnchor.constraint(equalTo: topAnchor),
             topCardView.heightAnchor.constraint(equalToConstant: 0),
             topCardView.leadingAnchor.constraint(equalTo: leadingAnchor),
@@ -193,9 +211,9 @@ public final class NativeInterLayoutView: BaseNativeAdLayoutView {
             topDividerView.topAnchor.constraint(equalTo: topAnchor),
             topDividerView.heightAnchor.constraint(equalToConstant: 0),
             
-            // Close Button ở góc trên bên phải màn hình
-            closeButton.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 12),
-            closeButton.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -12),
+            // Nút Close ở góc trên bên phải màn hình (nổi trên MediaView)
+            closeButton.topAnchor.constraint(equalTo: topAnchor, constant: 16),
+            closeButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
             
             // Media View chiếm toàn bộ không gian phía trên
             mediaOrImage.topAnchor.constraint(equalTo: topAnchor),
@@ -206,32 +224,23 @@ public final class NativeInterLayoutView: BaseNativeAdLayoutView {
             // Bottom Divider
             bottomDividerView.bottomAnchor.constraint(equalTo: bottomCardView.topAnchor),
             
-            // Bottom Card
+            // Bottom Card tràn sát mép đáy
             bottomCardView.leadingAnchor.constraint(equalTo: leadingAnchor),
             bottomCardView.trailingAnchor.constraint(equalTo: trailingAnchor),
             bottomCardView.bottomAnchor.constraint(equalTo: bottomAnchor),
             bottomCardView.heightAnchor.constraint(equalToConstant: 64),
             
             // Icon ở bên trái bottom_card
-            iconImgView.leadingAnchor.constraint(equalTo: bottomCardView.leadingAnchor, constant: 16),
+            iconImgView.leadingAnchor.constraint(equalTo: bottomCardView.leadingAnchor, constant: 20),
             iconImgView.centerYAnchor.constraint(equalTo: bottomCardView.centerYAnchor),
             
-            // Ad Badge cạnh Icon
-            adBadgeLbl.leadingAnchor.constraint(equalTo: iconImgView.trailingAnchor, constant: 12),
-            adBadgeLbl.topAnchor.constraint(equalTo: iconImgView.topAnchor, constant: 2),
-            
-            // Headline bên cạnh Ad Badge
-            headlineLbl.leadingAnchor.constraint(equalTo: adBadgeLbl.trailingAnchor, constant: 6),
-            headlineLbl.centerYAnchor.constraint(equalTo: adBadgeLbl.centerYAnchor),
-            headlineLbl.trailingAnchor.constraint(equalTo: callToActionBtn.leadingAnchor, constant: -12),
-            
-            // Advertiser bên dưới
-            advertiserLbl.leadingAnchor.constraint(equalTo: iconImgView.trailingAnchor, constant: 12),
-            advertiserLbl.topAnchor.constraint(equalTo: adBadgeLbl.bottomAnchor, constant: 4),
-            advertiserLbl.trailingAnchor.constraint(equalTo: callToActionBtn.leadingAnchor, constant: -12),
+            // Cụm Text ở giữa (ngang giữa so với Icon và CTA)
+            textStack.leadingAnchor.constraint(equalTo: iconImgView.trailingAnchor, constant: 12),
+            textStack.trailingAnchor.constraint(equalTo: callToActionBtn.leadingAnchor, constant: -12),
+            textStack.centerYAnchor.constraint(equalTo: bottomCardView.centerYAnchor),
             
             // CTA Button ở bên phải bottom_card
-            callToActionBtn.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -16),
+            callToActionBtn.trailingAnchor.constraint(equalTo: bottomCardView.trailingAnchor, constant: -20),
             callToActionBtn.centerYAnchor.constraint(equalTo: bottomCardView.centerYAnchor),
             callToActionBtn.widthAnchor.constraint(equalToConstant: 120),
             callToActionBtn.heightAnchor.constraint(equalToConstant: 40)
@@ -244,18 +253,20 @@ public final class NativeInterLayoutView: BaseNativeAdLayoutView {
         super.updateOrientationConstraints()
         let isLandscape = bounds.width > bounds.height
         
-        // Ở Portrait: Ẩn Icon (vì màn dọc Android không có Icon ở Interstitial)
-        // Ở Landscape: Hiện Icon ở góc dưới bên trái
+        // Ẩn/Hiện Icon tùy theo Portrait / Landscape
         iconImgView.isHidden = !isLandscape
         
+        // Chuyển cụm textStack và các view vào đúng View cha
         if isLandscape {
-            bottomCardView.addSubview(adBadgeLbl)
-            bottomCardView.addSubview(headlineLbl)
-            bottomCardView.addSubview(advertiserLbl)
+            if iconImgView.superview != bottomCardView { bottomCardView.addSubview(iconImgView) }
+            if callToActionBtn.superview != bottomCardView { bottomCardView.addSubview(callToActionBtn) }
+            if textStack.superview != bottomCardView { bottomCardView.addSubview(textStack) }
         } else {
-            topCardView.addSubview(adBadgeLbl)
-            topCardView.addSubview(headlineLbl)
-            topCardView.addSubview(advertiserLbl)
+            if textStack.superview != topCardView { topCardView.addSubview(textStack) }
+            if callToActionBtn.superview != bottomCardView { bottomCardView.addSubview(callToActionBtn) }
         }
+        
+        bringSubviewToFront(closeButton)
+        bringSubviewToFront(progressBar)
     }
 }
