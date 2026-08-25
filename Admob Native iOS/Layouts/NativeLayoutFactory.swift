@@ -38,11 +38,14 @@ public final class NativeLayoutFactory {
         case "native_reward_media":
             return NativeRewardMediaLayoutView()
             
+        case "native_reward_media_2":
+            return NativeRewardMedia2LayoutView()
+            
         case "native_reward_no_media":
             return NativeRewardNoMediaLayoutView()
             
-        case "native_reward_media_2", "native_reward_no_media_2":
-            return name.contains("no_media") ? NativeRewardNoMediaLayoutView() : NativeRewardMediaLayoutView()
+        case "native_reward_no_media_2":
+            return NativeRewardNoMedia2LayoutView()
             
         // MARK: - 4. Native Half-Screen
         case "native_halfscreen_media", "native_halfscreen_no_media":

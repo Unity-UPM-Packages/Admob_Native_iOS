@@ -103,6 +103,28 @@ public struct LayoutPreviews_Previews: PreviewProvider {
                 .ignoresSafeArea()
                 .previewDisplayName("12. Reward No-Media - Landscape")
             
+            // 12a. Native Reward 2 (Media - Màn Dọc)
+            PreviewContainer(layoutName: "native_reward_media_2")
+                .ignoresSafeArea()
+                .previewDisplayName("12a. Reward 2 Media - Portrait")
+            
+            // 12b. Native Reward 2 (Media - Màn Ngang)
+            PreviewContainer(layoutName: "native_reward_media_2")
+                .previewInterfaceOrientation(.landscapeLeft)
+                .ignoresSafeArea()
+                .previewDisplayName("12b. Reward 2 Media - Landscape")
+            
+            // 12c. Native Reward 2 (No-Media - Màn Dọc)
+            PreviewContainer(layoutName: "native_reward_no_media_2")
+                .ignoresSafeArea()
+                .previewDisplayName("12c. Reward 2 No-Media - Portrait")
+            
+            // 12d. Native Reward 2 (No-Media - Màn Ngang)
+            PreviewContainer(layoutName: "native_reward_no_media_2")
+                .previewInterfaceOrientation(.landscapeLeft)
+                .ignoresSafeArea()
+                .previewDisplayName("12d. Reward 2 No-Media - Landscape")
+            
             // 13. Native Half-Screen (Màn Dọc)
             PreviewContainer(layoutName: "native_halfscreen_media")
                 .ignoresSafeArea()
@@ -171,6 +193,9 @@ private struct PreviewContainer: UIViewRepresentable {
         }
         if let rewardNoMedia = view as? NativeRewardNoMediaLayoutView {
             rewardNoMedia.largeIconImgView.backgroundColor = .systemBlue
+        }
+        if let reward2NoMedia = view as? NativeRewardNoMedia2LayoutView {
+            reward2NoMedia.largeIconImgView.backgroundColor = .systemBlue
         }
         
         return container
