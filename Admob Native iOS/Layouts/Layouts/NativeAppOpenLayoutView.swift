@@ -175,29 +175,3 @@ public final class NativeAppOpenLayoutView: BaseNativeAdLayoutView {
     }
 }
 
-// MARK: - Live Canvas Preview
-#if DEBUG && canImport(SwiftUI)
-import SwiftUI
-
-@available(iOS 15.0, *)
-public struct NativeAppOpenLayoutView_Previews: PreviewProvider {
-    public static var previews: some View {
-        AppOpenPreviewContainer()
-            .previewDisplayName("AppOpen Preview")
-    }
-    
-    private struct AppOpenPreviewContainer: UIViewRepresentable {
-        func makeUIView(context: Context) -> NativeAppOpenLayoutView {
-            let view = NativeAppOpenLayoutView(layoutName: "native_appopen_media")
-            view.headlineLbl.text = "Clash of Clans"
-            view.advertiserLbl.text = "Supercell"
-            view.callToActionBtn.setTitle("OPEN APP", for: .normal)
-            view.iconImgView.backgroundColor = .systemBlue
-            view.adMediaView.backgroundColor = UIColor(hex: "#D9D9D9")
-            view.countdownLbl.text = "5s remaining..."
-            return view
-        }
-        func updateUIView(_ uiView: NativeAppOpenLayoutView, context: Context) {}
-    }
-}
-#endif

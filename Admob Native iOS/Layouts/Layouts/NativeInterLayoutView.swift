@@ -165,36 +165,3 @@ public final class NativeInterLayoutView: BaseNativeAdLayoutView {
     }
 }
 
-// MARK: - Live Canvas Preview
-#if DEBUG && canImport(SwiftUI)
-import SwiftUI
-
-@available(iOS 15.0, *)
-public struct NativeInterLayoutView_Previews: PreviewProvider {
-    public static var previews: some View {
-        Group {
-            InterPreviewContainer()
-                .previewDisplayName("Portrait")
-            
-            InterPreviewContainer()
-                .previewInterfaceOrientation(.landscapeLeft)
-                .previewDisplayName("Landscape")
-        }
-    }
-    
-    private struct InterPreviewContainer: UIViewRepresentable {
-        func makeUIView(context: Context) -> NativeInterLayoutView {
-            let view = NativeInterLayoutView(layoutName: "native_inter_media")
-            view.headlineLbl.text = "Clash of Clans"
-            view.advertiserLbl.text = "Supercell"
-            view.callToActionBtn.setTitle("INSTALL NOW", for: .normal)
-            view.iconImgView.backgroundColor = .systemBlue
-            view.adMediaView.backgroundColor = UIColor(hex: "#D9D9D9")
-            view.countdownLbl.text = "5s remaining..."
-            view.progressBar.progress = 0.5
-            return view
-        }
-        func updateUIView(_ uiView: NativeInterLayoutView, context: Context) {}
-    }
-}
-#endif

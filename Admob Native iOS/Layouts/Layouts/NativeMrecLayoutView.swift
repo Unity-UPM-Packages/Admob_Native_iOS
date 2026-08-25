@@ -89,29 +89,3 @@ public final class NativeMrecLayoutView: BaseNativeAdLayoutView {
     }
 }
 
-// MARK: - Live Canvas Preview
-#if DEBUG && canImport(SwiftUI)
-import SwiftUI
-
-@available(iOS 15.0, *)
-public struct NativeMrecLayoutView_Previews: PreviewProvider {
-    public static var previews: some View {
-        MrecPreviewContainer()
-            .frame(width: 320, height: 260)
-            .previewDisplayName("MREC Preview")
-    }
-    
-    private struct MrecPreviewContainer: UIViewRepresentable {
-        func makeUIView(context: Context) -> NativeMrecLayoutView {
-            let view = NativeMrecLayoutView()
-            view.headlineLbl.text = "Epic Strategy"
-            view.bodyLbl.text = "Join over 1M players worldwide!"
-            view.callToActionBtn.setTitle("PLAY", for: .normal)
-            view.iconImgView.backgroundColor = .systemBlue
-            view.adMediaView.backgroundColor = UIColor(hex: "#D9D9D9")
-            return view
-        }
-        func updateUIView(_ uiView: NativeMrecLayoutView, context: Context) {}
-    }
-}
-#endif

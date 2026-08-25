@@ -128,36 +128,3 @@ public final class NativeVideoLayoutView: BaseNativeAdLayoutView {
     }
 }
 
-// MARK: - Live Canvas Preview
-#if DEBUG && canImport(SwiftUI)
-import SwiftUI
-
-@available(iOS 15.0, *)
-public struct NativeVideoLayoutView_Previews: PreviewProvider {
-    public static var previews: some View {
-        Group {
-            VideoPreviewContainer()
-                .previewDisplayName("Video Portrait")
-            
-            VideoPreviewContainer()
-                .previewInterfaceOrientation(.landscapeLeft)
-                .previewDisplayName("Video Landscape")
-        }
-    }
-    
-    private struct VideoPreviewContainer: UIViewRepresentable {
-        func makeUIView(context: Context) -> NativeVideoLayoutView {
-            let view = NativeVideoLayoutView()
-            view.headlineLbl.text = "Trailer Gameplay"
-            view.advertiserLbl.text = "Official Trailer"
-            view.callToActionBtn.setTitle("WATCH NOW", for: .normal)
-            view.iconImgView.backgroundColor = .systemBlue
-            view.adMediaView.backgroundColor = .darkGray
-            view.countdownLbl.text = "5s"
-            view.progressBar.progress = 0.5
-            return view
-        }
-        func updateUIView(_ uiView: NativeVideoLayoutView, context: Context) {}
-    }
-}
-#endif

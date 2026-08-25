@@ -168,30 +168,3 @@ public final class NativeRewardLayoutView: BaseNativeAdLayoutView {
     }
 }
 
-// MARK: - Live Canvas Preview
-#if DEBUG && canImport(SwiftUI)
-import SwiftUI
-
-@available(iOS 15.0, *)
-public struct NativeRewardLayoutView_Previews: PreviewProvider {
-    public static var previews: some View {
-        RewardPreviewContainer()
-            .previewDisplayName("Reward Preview")
-    }
-    
-    private struct RewardPreviewContainer: UIViewRepresentable {
-        func makeUIView(context: Context) -> NativeRewardLayoutView {
-            let view = NativeRewardLayoutView(layoutName: "native_reward_media_2")
-            view.headlineLbl.text = "Get Free Coins!"
-            view.advertiserLbl.text = "Sponsored Reward"
-            view.callToActionBtn.setTitle("CLAIM REWARD", for: .normal)
-            view.iconImgView.backgroundColor = .systemYellow
-            view.adMediaView.backgroundColor = UIColor(hex: "#23262B")
-            view.countdownLbl.text = "Reward in 5s"
-            view.progressBar.progress = 0.6
-            return view
-        }
-        func updateUIView(_ uiView: NativeRewardLayoutView, context: Context) {}
-    }
-}
-#endif

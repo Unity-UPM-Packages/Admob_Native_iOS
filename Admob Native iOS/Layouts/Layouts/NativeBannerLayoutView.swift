@@ -75,28 +75,3 @@ public final class NativeBannerLayoutView: BaseNativeAdLayoutView {
     }
 }
 
-// MARK: - Live Canvas Preview
-#if DEBUG && canImport(SwiftUI)
-import SwiftUI
-
-@available(iOS 15.0, *)
-public struct NativeBannerLayoutView_Previews: PreviewProvider {
-    public static var previews: some View {
-        BannerPreviewContainer()
-            .frame(height: 70)
-            .previewDisplayName("Banner Preview")
-    }
-    
-    private struct BannerPreviewContainer: UIViewRepresentable {
-        func makeUIView(context: Context) -> NativeBannerLayoutView {
-            let view = NativeBannerLayoutView()
-            view.headlineLbl.text = "Clash of Clans"
-            view.bodyLbl.text = "Build your village & battle!"
-            view.callToActionBtn.setTitle("INSTALL", for: .normal)
-            view.iconImgView.backgroundColor = .systemBlue
-            return view
-        }
-        func updateUIView(_ uiView: NativeBannerLayoutView, context: Context) {}
-    }
-}
-#endif

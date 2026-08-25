@@ -110,34 +110,3 @@ public final class NativeHalfScreenLayoutView: BaseNativeAdLayoutView {
     }
 }
 
-// MARK: - Live Canvas Preview
-#if DEBUG && canImport(SwiftUI)
-import SwiftUI
-
-@available(iOS 15.0, *)
-public struct NativeHalfScreenLayoutView_Previews: PreviewProvider {
-    public static var previews: some View {
-        Group {
-            HalfScreenPreviewContainer()
-                .previewDisplayName("Half-Screen Portrait")
-            
-            HalfScreenPreviewContainer()
-                .previewInterfaceOrientation(.landscapeLeft)
-                .previewDisplayName("Half-Screen Landscape")
-        }
-    }
-    
-    private struct HalfScreenPreviewContainer: UIViewRepresentable {
-        func makeUIView(context: Context) -> NativeHalfScreenLayoutView {
-            let view = NativeHalfScreenLayoutView(layoutName: "native_halfscreen_media")
-            view.headlineLbl.text = "Half-Screen Promo"
-            view.advertiserLbl.text = "Sponsored App"
-            view.callToActionBtn.setTitle("GET NOW", for: .normal)
-            view.iconImgView.backgroundColor = .systemGreen
-            view.adMediaView.backgroundColor = UIColor(hex: "#D9D9D9")
-            return view
-        }
-        func updateUIView(_ uiView: NativeHalfScreenLayoutView, context: Context) {}
-    }
-}
-#endif
