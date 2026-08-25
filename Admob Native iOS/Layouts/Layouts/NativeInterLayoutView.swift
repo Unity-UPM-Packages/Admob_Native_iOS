@@ -2,7 +2,7 @@
 //  NativeInterLayoutView.swift
 //  Admob Native iOS
 //
-//  Layout Interstitial toàn màn hình hỗ trợ đầy đủ cả Portrait và Landscape.
+//  Layout Interstitial toàn màn hình - Ánh xạ 1:1 chuẩn xác với Android native_inter_media.xml.
 //
 
 import UIKit
@@ -13,9 +13,11 @@ public final class NativeInterLayoutView: BaseNativeAdLayoutView {
     private let isNoMediaVariant: Bool
     private let isSplitVariant: Bool
     
-    private let footerContainerView = UIView()
-    private let footerStack = UIStackView()
-    private let contentAreaView = UIView()
+    // Subviews đặc thù cho Native Interstitial
+    private let topCardView = UIView()
+    private let topDividerView = UIView()
+    private let bottomCardView = UIView()
+    private let bottomDividerView = UIView()
     
     public init(layoutName: String) {
         self.isNoMediaVariant = layoutName.contains("no_media")
@@ -33,135 +35,202 @@ public final class NativeInterLayoutView: BaseNativeAdLayoutView {
     public override func setupLayout() {
         backgroundColor = .gntBgDark
         
-        addSubview(cardContainerView)
+        // 1. Progress Bar (Thanh đếm ngược màu vàng sát mép trên màn hình)
+        progressBar.translatesAutoresizingMaskIntoConstraints = false
+        progressBar.progressTintColor = .gntAdBadgeYellow
+        progressBar.trackTintColor = .clear
+        addSubview(progressBar)
+        
+        // 2. Top Card (Chứa nhãn Ad, Headline, Advertiser và Close Button ở màn dọc)
+        topCardView.translatesAutoresizingMaskIntoConstraints = false
+        topCardView.backgroundColor = .gntBgDark
+        addSubview(topCardView)
+        
+        topCardView.addSubview(adBadgeLbl)
+        topCardView.addSubview(headlineLbl)
+        topCardView.addSubview(advertiserLbl)
+        
+        // Close Button
         addSubview(closeButton)
-        addSubview(countdownContainerView)
-        countdownContainerView.addSubview(countdownLbl)
-        countdownContainerView.addSubview(progressBar)
         
+        // Top Divider (#505763)
+        topDividerView.translatesAutoresizingMaskIntoConstraints = false
+        topDividerView.backgroundColor = .gntBorderDark
+        addSubview(topDividerView)
+        
+        // 3. Media View / Image View (Chiếm trọn không gian giữa)
         let mediaOrImage = isNoMediaVariant ? mainImgView : adMediaView
-        cardContainerView.addSubview(mediaOrImage)
-        cardContainerView.addSubview(dividerView)
-        cardContainerView.addSubview(footerContainerView)
+        mediaOrImage.translatesAutoresizingMaskIntoConstraints = false
+        mediaOrImage.contentMode = .scaleAspectFit
+        addSubview(mediaOrImage)
         
-        footerContainerView.translatesAutoresizingMaskIntoConstraints = false
-        footerContainerView.backgroundColor = .gntBgDark
+        // Bottom Divider (#505763)
+        bottomDividerView.translatesAutoresizingMaskIntoConstraints = false
+        bottomDividerView.backgroundColor = .gntBorderDark
+        addSubview(bottomDividerView)
         
-        footerStack.translatesAutoresizingMaskIntoConstraints = false
-        footerStack.axis = .horizontal
-        footerStack.alignment = .center
-        footerStack.spacing = 12
-        footerContainerView.addSubview(footerStack)
+        // 4. Bottom Card (Chứa nút CTA tràn viền ở màn dọc, hoặc Icon + Text + CTA ở màn ngang)
+        bottomCardView.translatesAutoresizingMaskIntoConstraints = false
+        bottomCardView.backgroundColor = .gntBgDark
+        addSubview(bottomCardView)
         
-        footerStack.addArrangedSubview(iconImgView)
+        // Subviews trong Bottom Card
+        bottomCardView.addSubview(iconImgView)
+        bottomCardView.addSubview(callToActionBtn)
         
-        let textStack = UIStackView()
-        textStack.axis = .vertical
-        textStack.spacing = 3
+        // Cấu hình style nút CTA màu xanh #1A73E8
+        callToActionBtn.backgroundColor = .gntCtaBlue
+        callToActionBtn.setTitleColor(.white, for: .normal)
+        callToActionBtn.titleLabel?.font = UIFont.boldSystemFont(ofSize: LayoutDimensions.headlineTextSize)
+        callToActionBtn.layer.cornerRadius = 6
+        callToActionBtn.layer.borderWidth = 0
         
-        let titleRow = UIStackView()
-        titleRow.axis = .horizontal
-        titleRow.alignment = .center
-        titleRow.spacing = 6
-        titleRow.addArrangedSubview(adBadgeLbl)
-        titleRow.addArrangedSubview(headlineLbl)
+        // Style Ad Badge màu vàng chữ nâu
+        adBadgeLbl.backgroundColor = .gntAdBadgeYellow
+        adBadgeLbl.textColor = .gntAdBadgeTextBrown
+        adBadgeLbl.font = UIFont.boldSystemFont(ofSize: 10)
+        adBadgeLbl.layer.cornerRadius = 3
+        adBadgeLbl.clipsToBounds = true
         
-        textStack.addArrangedSubview(titleRow)
-        textStack.addArrangedSubview(advertiserLbl)
+        // Style Advertiser màu #B6BCC3
+        advertiserLbl.textColor = .gntSecondaryText
+        advertiserLbl.font = UIFont.systemFont(ofSize: 12)
         
-        footerStack.addArrangedSubview(textStack)
-        footerStack.addArrangedSubview(callToActionBtn)
-        
-        // Setup Base Subview Constraints
+        // Base Constraints
         NSLayoutConstraint.activate([
-            iconImgView.widthAnchor.constraint(equalToConstant: LayoutDimensions.footerIconSize),
-            iconImgView.heightAnchor.constraint(equalToConstant: LayoutDimensions.footerIconSize),
+            progressBar.leadingAnchor.constraint(equalTo: leadingAnchor),
+            progressBar.trailingAnchor.constraint(equalTo: trailingAnchor),
+            progressBar.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
+            progressBar.heightAnchor.constraint(equalToConstant: 4),
             
-            adBadgeLbl.widthAnchor.constraint(equalToConstant: 24),
-            adBadgeLbl.heightAnchor.constraint(equalToConstant: 16),
+            topDividerView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            topDividerView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            topDividerView.heightAnchor.constraint(equalToConstant: 1),
             
-            callToActionBtn.widthAnchor.constraint(equalToConstant: LayoutDimensions.ctaWidth),
-            callToActionBtn.heightAnchor.constraint(equalToConstant: LayoutDimensions.ctaHeight),
-            
-            footerStack.leadingAnchor.constraint(equalTo: footerContainerView.leadingAnchor, constant: 16),
-            footerStack.trailingAnchor.constraint(equalTo: footerContainerView.trailingAnchor, constant: -16),
-            footerStack.centerYAnchor.constraint(equalTo: footerContainerView.centerYAnchor),
+            bottomDividerView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            bottomDividerView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            bottomDividerView.heightAnchor.constraint(equalToConstant: 1),
             
             closeButton.widthAnchor.constraint(equalToConstant: LayoutDimensions.closeBtnSize),
             closeButton.heightAnchor.constraint(equalToConstant: LayoutDimensions.closeBtnSize),
             
-            countdownContainerView.heightAnchor.constraint(equalToConstant: LayoutDimensions.closeBtnSize),
-            countdownContainerView.widthAnchor.constraint(greaterThanOrEqualToConstant: 50),
+            adBadgeLbl.widthAnchor.constraint(equalToConstant: 24),
+            adBadgeLbl.heightAnchor.constraint(equalToConstant: 16),
             
-            countdownLbl.centerYAnchor.constraint(equalTo: countdownContainerView.centerYAnchor),
-            countdownLbl.leadingAnchor.constraint(equalTo: countdownContainerView.leadingAnchor, constant: 8),
-            countdownLbl.trailingAnchor.constraint(equalTo: countdownContainerView.trailingAnchor, constant: -8),
-            
-            progressBar.leadingAnchor.constraint(equalTo: countdownContainerView.leadingAnchor, constant: 4),
-            progressBar.trailingAnchor.constraint(equalTo: countdownContainerView.trailingAnchor, constant: -4),
-            progressBar.bottomAnchor.constraint(equalTo: countdownContainerView.bottomAnchor, constant: -2),
-            progressBar.heightAnchor.constraint(equalToConstant: 3)
+            iconImgView.widthAnchor.constraint(equalToConstant: 44),
+            iconImgView.heightAnchor.constraint(equalToConstant: 44)
         ])
         
-        // PORTRAIT
+        // -------------------------------------------------------------
+        // PORTRAIT CONSTRAINTS (Màn Dọc - Khớp Ảnh 1)
+        // -------------------------------------------------------------
         portraitConstraints = [
-            cardContainerView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 50),
-            cardContainerView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -16),
-            cardContainerView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
-            cardContainerView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
+            // Top Card
+            topCardView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
+            topCardView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            topCardView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            topCardView.heightAnchor.constraint(equalToConstant: 60),
             
-            mediaOrImage.topAnchor.constraint(equalTo: cardContainerView.topAnchor),
-            mediaOrImage.leadingAnchor.constraint(equalTo: cardContainerView.leadingAnchor),
-            mediaOrImage.trailingAnchor.constraint(equalTo: cardContainerView.trailingAnchor),
-            mediaOrImage.bottomAnchor.constraint(equalTo: dividerView.topAnchor),
+            // Ad Badge ở góc trên bên trái top_card
+            adBadgeLbl.leadingAnchor.constraint(equalTo: topCardView.leadingAnchor, constant: 14),
+            adBadgeLbl.topAnchor.constraint(equalTo: topCardView.topAnchor, constant: 14),
             
-            dividerView.leadingAnchor.constraint(equalTo: cardContainerView.leadingAnchor),
-            dividerView.trailingAnchor.constraint(equalTo: cardContainerView.trailingAnchor),
-            dividerView.bottomAnchor.constraint(equalTo: footerContainerView.topAnchor),
-            dividerView.heightAnchor.constraint(equalToConstant: 1),
+            // Headline bên cạnh Ad Badge
+            headlineLbl.leadingAnchor.constraint(equalTo: adBadgeLbl.trailingAnchor, constant: 8),
+            headlineLbl.centerYAnchor.constraint(equalTo: adBadgeLbl.centerYAnchor),
+            headlineLbl.trailingAnchor.constraint(equalTo: closeButton.leadingAnchor, constant: -8),
             
-            footerContainerView.leadingAnchor.constraint(equalTo: cardContainerView.leadingAnchor),
-            footerContainerView.trailingAnchor.constraint(equalTo: cardContainerView.trailingAnchor),
-            footerContainerView.bottomAnchor.constraint(equalTo: cardContainerView.bottomAnchor),
-            footerContainerView.heightAnchor.constraint(equalToConstant: LayoutDimensions.footerHeight),
+            // Advertiser bên dưới Ad Badge & Headline
+            advertiserLbl.leadingAnchor.constraint(equalTo: topCardView.leadingAnchor, constant: 14),
+            advertiserLbl.topAnchor.constraint(equalTo: adBadgeLbl.bottomAnchor, constant: 4),
+            advertiserLbl.trailingAnchor.constraint(equalTo: closeButton.leadingAnchor, constant: -8),
             
-            closeButton.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 15),
-            closeButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -15),
+            // Close Button căn giữa theo chiều dọc của top_card ở góc phải
+            closeButton.trailingAnchor.constraint(equalTo: topCardView.trailingAnchor, constant: -14),
+            closeButton.centerYAnchor.constraint(equalTo: topCardView.centerYAnchor),
             
-            countdownContainerView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 15),
-            countdownContainerView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -15)
+            // Top Divider ngay dưới top_card
+            topDividerView.topAnchor.constraint(equalTo: topCardView.bottomAnchor),
+            
+            // Media View ở giữa 2 divider
+            mediaOrImage.topAnchor.constraint(equalTo: topDividerView.bottomAnchor),
+            mediaOrImage.leadingAnchor.constraint(equalTo: leadingAnchor),
+            mediaOrImage.trailingAnchor.constraint(equalTo: trailingAnchor),
+            mediaOrImage.bottomAnchor.constraint(equalTo: bottomDividerView.topAnchor),
+            
+            // Bottom Divider ngay trên bottom_card
+            bottomDividerView.bottomAnchor.constraint(equalTo: bottomCardView.topAnchor),
+            
+            // Bottom Card
+            bottomCardView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            bottomCardView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            bottomCardView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
+            bottomCardView.heightAnchor.constraint(equalToConstant: 70),
+            
+            // CTA Button tràn toàn bộ chiều ngang trong bottom_card
+            callToActionBtn.leadingAnchor.constraint(equalTo: bottomCardView.leadingAnchor, constant: 16),
+            callToActionBtn.trailingAnchor.constraint(equalTo: bottomCardView.trailingAnchor, constant: -16),
+            callToActionBtn.centerYAnchor.constraint(equalTo: bottomCardView.centerYAnchor),
+            callToActionBtn.heightAnchor.constraint(equalToConstant: 44)
         ]
         
-        // LANDSCAPE
+        // -------------------------------------------------------------
+        // LANDSCAPE CONSTRAINTS (Màn Ngang - Khớp Ảnh 2)
+        // -------------------------------------------------------------
         landscapeConstraints = [
-            cardContainerView.topAnchor.constraint(equalTo: topAnchor),
-            cardContainerView.bottomAnchor.constraint(equalTo: bottomAnchor),
-            cardContainerView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            cardContainerView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            // Top Card ẩn hoặc 0 height ở màn ngang
+            topCardView.topAnchor.constraint(equalTo: topAnchor),
+            topCardView.heightAnchor.constraint(equalToConstant: 0),
+            topCardView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            topCardView.trailingAnchor.constraint(equalTo: trailingAnchor),
             
-            mediaOrImage.topAnchor.constraint(equalTo: cardContainerView.topAnchor),
-            mediaOrImage.leadingAnchor.constraint(equalTo: cardContainerView.leadingAnchor),
-            mediaOrImage.trailingAnchor.constraint(equalTo: cardContainerView.trailingAnchor),
-            mediaOrImage.bottomAnchor.constraint(equalTo: dividerView.topAnchor),
+            topDividerView.topAnchor.constraint(equalTo: topAnchor),
+            topDividerView.heightAnchor.constraint(equalToConstant: 0),
             
-            dividerView.leadingAnchor.constraint(equalTo: cardContainerView.leadingAnchor),
-            dividerView.trailingAnchor.constraint(equalTo: cardContainerView.trailingAnchor),
-            dividerView.bottomAnchor.constraint(equalTo: footerContainerView.topAnchor),
-            dividerView.heightAnchor.constraint(equalToConstant: 1),
-            
-            footerContainerView.leadingAnchor.constraint(equalTo: cardContainerView.leadingAnchor),
-            footerContainerView.trailingAnchor.constraint(equalTo: cardContainerView.trailingAnchor),
-            footerContainerView.bottomAnchor.constraint(equalTo: cardContainerView.bottomAnchor),
-            footerContainerView.heightAnchor.constraint(equalToConstant: LayoutDimensions.footerHeight),
-            
+            // Close Button ở góc trên bên phải màn hình
             closeButton.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 12),
             closeButton.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -12),
             
-            countdownContainerView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 12),
-            countdownContainerView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -12)
+            // Media View chiếm toàn bộ không gian phía trên
+            mediaOrImage.topAnchor.constraint(equalTo: topAnchor),
+            mediaOrImage.leadingAnchor.constraint(equalTo: leadingAnchor),
+            mediaOrImage.trailingAnchor.constraint(equalTo: trailingAnchor),
+            mediaOrImage.bottomAnchor.constraint(equalTo: bottomDividerView.topAnchor),
+            
+            // Bottom Divider
+            bottomDividerView.bottomAnchor.constraint(equalTo: bottomCardView.topAnchor),
+            
+            // Bottom Card
+            bottomCardView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            bottomCardView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            bottomCardView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            bottomCardView.heightAnchor.constraint(equalToConstant: 64),
+            
+            // Icon ở bên trái bottom_card
+            iconImgView.leadingAnchor.constraint(equalTo: bottomCardView.leadingAnchor, constant: 16),
+            iconImgView.centerYAnchor.constraint(equalTo: bottomCardView.centerYAnchor),
+            
+            // Ad Badge cạnh Icon
+            adBadgeLbl.leadingAnchor.constraint(equalTo: iconImgView.trailingAnchor, constant: 12),
+            adBadgeLbl.topAnchor.constraint(equalTo: iconImgView.topAnchor, constant: 2),
+            
+            // Headline bên cạnh Ad Badge
+            headlineLbl.leadingAnchor.constraint(equalTo: adBadgeLbl.trailingAnchor, constant: 6),
+            headlineLbl.centerYAnchor.constraint(equalTo: adBadgeLbl.centerYAnchor),
+            headlineLbl.trailingAnchor.constraint(equalTo: callToActionBtn.leadingAnchor, constant: -12),
+            
+            // Advertiser bên dưới
+            advertiserLbl.leadingAnchor.constraint(equalTo: iconImgView.trailingAnchor, constant: 12),
+            advertiserLbl.topAnchor.constraint(equalTo: adBadgeLbl.bottomAnchor, constant: 4),
+            advertiserLbl.trailingAnchor.constraint(equalTo: callToActionBtn.leadingAnchor, constant: -12),
+            
+            // CTA Button ở bên phải bottom_card
+            callToActionBtn.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -16),
+            callToActionBtn.centerYAnchor.constraint(equalTo: bottomCardView.centerYAnchor),
+            callToActionBtn.widthAnchor.constraint(equalToConstant: 120),
+            callToActionBtn.heightAnchor.constraint(equalToConstant: 40)
         ]
         
         updateOrientationConstraints()
     }
 }
-

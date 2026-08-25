@@ -234,18 +234,37 @@ open class BaseNativeAdLayoutView: GADNativeAdView {
     }
     
     private func createCloseIcon() -> UIImage? {
-        let size = CGSize(width: 24, height: 24)
+        let size = CGSize(width: 28, height: 28)
         UIGraphicsBeginImageContextWithOptions(size, false, 0.0)
         guard let ctx = UIGraphicsGetCurrentContext() else { return nil }
         
-        ctx.setStrokeColor(UIColor.white.cgColor)
-        ctx.setLineWidth(2.5)
-        ctx.setLineCap(.round)
+        // 1. Vòng tròn nền xám (#5A5A5A) kèm viền sáng (#8E9DAE)
+        let circleRect = CGRect(x: 1.5, y: 1.5, width: 25, height: 25)
+        ctx.setFillColor(UIColor(hex: "#5A5A5A").cgColor)
+        ctx.fillEllipse(in: circleRect)
         
-        ctx.move(to: CGPoint(x: 6, y: 6))
-        ctx.addLine(to: CGPoint(x: 18, y: 18))
-        ctx.move(to: CGPoint(x: 18, y: 6))
-        ctx.addLine(to: CGPoint(x: 6, y: 18))
+        ctx.setStrokeColor(UIColor(hex: "#8E9DAE").cgColor)
+        ctx.setLineWidth(1.0)
+        ctx.strokeEllipse(in: circleRect)
+        
+        // 2. Viền sáng chữ X (#8E9DAE)
+        ctx.setStrokeColor(UIColor(hex: "#8E9DAE").cgColor)
+        ctx.setLineWidth(4.0)
+        ctx.setLineCap(.round)
+        ctx.move(to: CGPoint(x: 9, y: 9))
+        ctx.addLine(to: CGPoint(x: 19, y: 19))
+        ctx.move(to: CGPoint(x: 19, y: 9))
+        ctx.addLine(to: CGPoint(x: 9, y: 19))
+        ctx.strokePath()
+        
+        // 3. Thân chữ X màu tối bên trong (#1C1C1C)
+        ctx.setStrokeColor(UIColor(hex: "#1C1C1C").cgColor)
+        ctx.setLineWidth(2.4)
+        ctx.setLineCap(.round)
+        ctx.move(to: CGPoint(x: 9, y: 9))
+        ctx.addLine(to: CGPoint(x: 19, y: 19))
+        ctx.move(to: CGPoint(x: 19, y: 9))
+        ctx.addLine(to: CGPoint(x: 9, y: 19))
         ctx.strokePath()
         
         let image = UIGraphicsGetImageFromCurrentImageContext()
