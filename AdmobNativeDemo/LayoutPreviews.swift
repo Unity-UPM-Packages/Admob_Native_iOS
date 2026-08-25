@@ -171,7 +171,12 @@ private struct PreviewContainer: UIViewRepresentable {
     
     func makeUIView(context: Context) -> UIView {
         let container = UIView()
-        container.backgroundColor = UIColor(hex: "#101826")
+        // Nếu là Half-Screen thì dùng màu nền sáng (#E5E9F0) để giả lập màn hình game phía sau
+        if layoutName.contains("halfscreen") {
+            container.backgroundColor = UIColor(hex: "#E5E9F0")
+        } else {
+            container.backgroundColor = UIColor(hex: "#101826")
+        }
         
         let view = NativeLayoutFactory.createLayout(layoutName: layoutName)
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -190,6 +195,7 @@ private struct PreviewContainer: UIViewRepresentable {
         view.advertiserLbl.text = "Install Flood-It App for free!"
         view.callToActionBtn.setTitle("INSTALL", for: .normal)
         view.iconImgView.backgroundColor = .systemBlue
+        view.adMediaView.layer.backgroundColor = UIColor(hex: "#9E9E9E").cgColor
         view.countdownLbl.text = "5"
         view.progressBar.progress = 0.4
         

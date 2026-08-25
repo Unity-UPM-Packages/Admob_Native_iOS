@@ -46,11 +46,12 @@ public final class NativeHalfScreenMediaLayoutView: BaseNativeAdLayoutView {
         adCardContainerView.clipsToBounds = true
         addSubview(adCardContainerView)
         
-        // 2. MediaView nằm phía trên
+        // 2. MediaView nằm phía trên (nền xám #9E9E9E)
         adMediaView.translatesAutoresizingMaskIntoConstraints = false
         adMediaView.contentMode = .scaleAspectFit
         adMediaView.backgroundColor = UIColor(hex: "#9E9E9E")
-        adMediaView.layer.cornerRadius = 4
+        adMediaView.layer.backgroundColor = UIColor(hex: "#9E9E9E").cgColor
+        adMediaView.layer.cornerRadius = 6
         adMediaView.clipsToBounds = true
         adCardContainerView.addSubview(adMediaView)
         
