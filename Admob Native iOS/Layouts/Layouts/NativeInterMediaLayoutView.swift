@@ -2,7 +2,7 @@
 //  NativeInterMediaLayoutView.swift
 //  Admob Native iOS
 //
-//  Layout Interstitial Media toàn màn hình (Edge-to-Edge).
+//  Layout Interstitial Media toàn màn hình (MediaView chiếm toàn bộ giữa màn hình).
 //  Ánh xạ 1:1 chuẩn xác với Android: res/layout/native_inter_media.xml & res/layout-land/native_inter_media.xml.
 //
 
@@ -35,7 +35,7 @@ public final class NativeInterMediaLayoutView: BaseNativeAdLayoutView {
     public override func setupLayout() {
         backgroundColor = .gntBgDark
         
-        // 1. Media View ở khu vực trung tâm
+        // 1. MediaView (ở giữa màn hình)
         adMediaView.translatesAutoresizingMaskIntoConstraints = false
         adMediaView.contentMode = .scaleAspectFit
         adMediaView.backgroundColor = .clear
@@ -62,7 +62,13 @@ public final class NativeInterMediaLayoutView: BaseNativeAdLayoutView {
         bottomCardView.clipsToBounds = true
         addSubview(bottomCardView)
         
-        // 5. Cụm Text
+        // 5. Icon ứng dụng (44x44, bo góc 6pt)
+        iconImgView.translatesAutoresizingMaskIntoConstraints = false
+        iconImgView.layer.cornerRadius = 6
+        iconImgView.clipsToBounds = true
+        topCardView.addSubview(iconImgView)
+        
+        // 6. Cụm Text
         titleRow.translatesAutoresizingMaskIntoConstraints = false
         titleRow.axis = .horizontal
         titleRow.alignment = .center
@@ -98,13 +104,7 @@ public final class NativeInterMediaLayoutView: BaseNativeAdLayoutView {
         textStack.spacing = 3
         textStack.addArrangedSubview(titleRow)
         textStack.addArrangedSubview(advertiserLbl)
-        
         topCardView.addSubview(textStack)
-        
-        iconImgView.translatesAutoresizingMaskIntoConstraints = false
-        iconImgView.layer.cornerRadius = 6
-        iconImgView.clipsToBounds = true
-        bottomCardView.addSubview(iconImgView)
         
         callToActionBtn.translatesAutoresizingMaskIntoConstraints = false
         callToActionBtn.backgroundColor = .gntCtaBlue
@@ -157,12 +157,16 @@ public final class NativeInterMediaLayoutView: BaseNativeAdLayoutView {
             topCardView.trailingAnchor.constraint(equalTo: trailingAnchor),
             topCardView.heightAnchor.constraint(equalToConstant: 80),
             
-            textStack.leadingAnchor.constraint(equalTo: topCardView.leadingAnchor, constant: 16),
-            textStack.bottomAnchor.constraint(equalTo: topCardView.bottomAnchor, constant: -12),
+            // Icon bên trái cụm text ở top card
+            iconImgView.leadingAnchor.constraint(equalTo: topCardView.leadingAnchor, constant: 16),
+            iconImgView.bottomAnchor.constraint(equalTo: topCardView.bottomAnchor, constant: -10),
+            
+            textStack.leadingAnchor.constraint(equalTo: iconImgView.trailingAnchor, constant: 10),
+            textStack.centerYAnchor.constraint(equalTo: iconImgView.centerYAnchor),
             textStack.trailingAnchor.constraint(lessThanOrEqualTo: closeButton.leadingAnchor, constant: -10),
             
             closeButton.trailingAnchor.constraint(equalTo: topCardView.trailingAnchor, constant: -16),
-            closeButton.centerYAnchor.constraint(equalTo: textStack.centerYAnchor),
+            closeButton.centerYAnchor.constraint(equalTo: iconImgView.centerYAnchor),
             
             topDividerView.topAnchor.constraint(equalTo: topCardView.bottomAnchor),
             
@@ -236,13 +240,12 @@ public final class NativeInterMediaLayoutView: BaseNativeAdLayoutView {
         NSLayoutConstraint.deactivate(landscapeConstraints)
         
         if isLandscape {
-            iconImgView.isHidden = false
             bottomCardView.addSubview(iconImgView)
             bottomCardView.addSubview(textStack)
             bottomCardView.addSubview(callToActionBtn)
             NSLayoutConstraint.activate(landscapeConstraints)
         } else {
-            iconImgView.isHidden = true
+            topCardView.addSubview(iconImgView)
             topCardView.addSubview(textStack)
             bottomCardView.addSubview(callToActionBtn)
             NSLayoutConstraint.activate(portraitConstraints)

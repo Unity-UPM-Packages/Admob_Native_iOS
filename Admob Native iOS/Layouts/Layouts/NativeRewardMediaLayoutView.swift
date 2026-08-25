@@ -72,11 +72,11 @@ public final class NativeRewardMediaLayoutView: BaseNativeAdLayoutView {
         bottomCardView.clipsToBounds = true
         addSubview(bottomCardView)
         
-        // 2. Icon ứng dụng ở nửa phải màn ngang (phía trên Headline)
+        // 2. Icon ứng dụng
         iconImgView.translatesAutoresizingMaskIntoConstraints = false
         iconImgView.contentMode = .scaleAspectFit
-        iconImgView.layer.cornerRadius = 16
         iconImgView.clipsToBounds = true
+        topCardView.addSubview(iconImgView)
         
         // 3. Cụm Text ([Ad] vàng, Headline trắng, Advertiser xám #B6BCC3)
         titleRow.translatesAutoresizingMaskIntoConstraints = false
@@ -192,10 +192,7 @@ public final class NativeRewardMediaLayoutView: BaseNativeAdLayoutView {
             landscapeCountdownPill.heightAnchor.constraint(equalToConstant: 28),
             countdownLbl.leadingAnchor.constraint(equalTo: landscapeCountdownPill.leadingAnchor, constant: 16),
             countdownLbl.trailingAnchor.constraint(equalTo: landscapeCountdownPill.trailingAnchor, constant: -20),
-            countdownLbl.centerYAnchor.constraint(equalTo: landscapeCountdownPill.centerYAnchor),
-            
-            iconImgView.widthAnchor.constraint(equalToConstant: 72),
-            iconImgView.heightAnchor.constraint(equalToConstant: 72)
+            countdownLbl.centerYAnchor.constraint(equalTo: landscapeCountdownPill.centerYAnchor)
         ])
         
         // -------------------------------------------------------------
@@ -207,13 +204,19 @@ public final class NativeRewardMediaLayoutView: BaseNativeAdLayoutView {
             topCardView.trailingAnchor.constraint(equalTo: trailingAnchor),
             topCardView.heightAnchor.constraint(equalToConstant: 80),
             
-            textStack.leadingAnchor.constraint(equalTo: topCardView.leadingAnchor, constant: 16),
-            textStack.bottomAnchor.constraint(equalTo: topCardView.bottomAnchor, constant: -12),
+            // Icon bên trái cụm text ở top card
+            iconImgView.leadingAnchor.constraint(equalTo: topCardView.leadingAnchor, constant: 16),
+            iconImgView.bottomAnchor.constraint(equalTo: topCardView.bottomAnchor, constant: -10),
+            iconImgView.widthAnchor.constraint(equalToConstant: 44),
+            iconImgView.heightAnchor.constraint(equalToConstant: 44),
+            
+            textStack.leadingAnchor.constraint(equalTo: iconImgView.trailingAnchor, constant: 10),
+            textStack.centerYAnchor.constraint(equalTo: iconImgView.centerYAnchor),
             textStack.trailingAnchor.constraint(lessThanOrEqualTo: skipButton.leadingAnchor, constant: -10),
             
             // Nút Skip chạm sát mép phải
             skipButton.trailingAnchor.constraint(equalTo: topCardView.trailingAnchor),
-            skipButton.centerYAnchor.constraint(equalTo: textStack.centerYAnchor),
+            skipButton.centerYAnchor.constraint(equalTo: iconImgView.centerYAnchor),
             
             topDividerView.topAnchor.constraint(equalTo: topCardView.bottomAnchor),
             
@@ -273,6 +276,8 @@ public final class NativeRewardMediaLayoutView: BaseNativeAdLayoutView {
             // Icon ứng dụng ở nửa phải phía trên Headline
             iconImgView.centerXAnchor.constraint(equalTo: bottomCardView.centerXAnchor),
             iconImgView.bottomAnchor.constraint(equalTo: textStack.topAnchor, constant: -14),
+            iconImgView.widthAnchor.constraint(equalToConstant: 72),
+            iconImgView.heightAnchor.constraint(equalToConstant: 72),
             
             // Cụm Text ở giữa nửa phải
             textStack.leadingAnchor.constraint(equalTo: bottomCardView.leadingAnchor, constant: 32),
@@ -302,7 +307,7 @@ public final class NativeRewardMediaLayoutView: BaseNativeAdLayoutView {
         if isLandscape {
             progressBar.isHidden = true
             landscapeCountdownPill.isHidden = false
-            iconImgView.isHidden = false
+            iconImgView.layer.cornerRadius = 16
             bottomCardView.backgroundColor = UIColor(hex: "#2F2A2E")
             bottomCardView.addSubview(iconImgView)
             bottomCardView.addSubview(textStack)
@@ -311,9 +316,9 @@ public final class NativeRewardMediaLayoutView: BaseNativeAdLayoutView {
         } else {
             progressBar.isHidden = false
             landscapeCountdownPill.isHidden = true
-            iconImgView.isHidden = true
-            iconImgView.removeFromSuperview()
+            iconImgView.layer.cornerRadius = 6
             bottomCardView.backgroundColor = UIColor(hex: "#0B1528")
+            topCardView.addSubview(iconImgView)
             topCardView.addSubview(textStack)
             bottomCardView.addSubview(callToActionBtn)
             NSLayoutConstraint.activate(portraitConstraints)

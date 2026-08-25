@@ -56,7 +56,12 @@ public final class NativeInterMedia2LayoutView: BaseNativeAdLayoutView {
         infoContainerView.clipsToBounds = true
         addSubview(infoContainerView)
         
-        // 3. Cấu hình Cụm Text
+        // 3. Icon ứng dụng
+        iconImgView.translatesAutoresizingMaskIntoConstraints = false
+        iconImgView.contentMode = .scaleAspectFit
+        iconImgView.clipsToBounds = true
+        
+        // 4. Cấu hình Cụm Text
         titleRow.translatesAutoresizingMaskIntoConstraints = false
         titleRow.axis = .horizontal
         titleRow.alignment = .center
@@ -97,7 +102,7 @@ public final class NativeInterMedia2LayoutView: BaseNativeAdLayoutView {
         textStack.addArrangedSubview(advertiserLbl)
         infoContainerView.addSubview(textStack)
         
-        // 4. Nút CTA xanh lá cây (#34A853)
+        // 5. Nút CTA xanh lá cây (#34A853)
         callToActionBtn.translatesAutoresizingMaskIntoConstraints = false
         callToActionBtn.backgroundColor = UIColor(hex: "#34A853")
         callToActionBtn.setTitleColor(.white, for: .normal)
@@ -106,7 +111,7 @@ public final class NativeInterMedia2LayoutView: BaseNativeAdLayoutView {
         callToActionBtn.clipsToBounds = true
         infoContainerView.addSubview(callToActionBtn)
         
-        // 5. Nút Close dạng Button chữ viền xám cho màn ngang (CLOSE)
+        // 6. Nút Close dạng Button chữ viền xám cho màn ngang (CLOSE)
         landscapeCloseBtn.translatesAutoresizingMaskIntoConstraints = false
         landscapeCloseBtn.backgroundColor = .white
         landscapeCloseBtn.layer.borderColor = UIColor(hex: "#7F7F7F").cgColor
@@ -124,7 +129,7 @@ public final class NativeInterMedia2LayoutView: BaseNativeAdLayoutView {
         landscapeButtonRow.addArrangedSubview(landscapeCloseBtn)
         landscapeButtonRow.addArrangedSubview(callToActionBtn)
         
-        // 6. Nút Close dạng tròn X (màn dọc) và Progress Bar Line Fill sát mép trên
+        // 7. Nút Close dạng tròn X (màn dọc) và Progress Bar Line Fill sát mép trên
         closeButton.translatesAutoresizingMaskIntoConstraints = false
         addSubview(closeButton)
         
@@ -133,7 +138,7 @@ public final class NativeInterMedia2LayoutView: BaseNativeAdLayoutView {
         progressBar.trackTintColor = .clear
         addSubview(progressBar)
         
-        // 7. Circular Countdown (màn ngang)
+        // 8. Circular Countdown (màn ngang)
         circularCountdownView.translatesAutoresizingMaskIntoConstraints = false
         circularCountdownView.backgroundColor = .white
         circularCountdownView.layer.borderColor = UIColor(hex: "#7F7F7F").cgColor
@@ -200,15 +205,21 @@ public final class NativeInterMedia2LayoutView: BaseNativeAdLayoutView {
             infoContainerView.bottomAnchor.constraint(equalTo: bottomAnchor),
             infoContainerView.heightAnchor.constraint(equalToConstant: 130),
             
-            // Cụm Text trong bottom card
-            textStack.leadingAnchor.constraint(equalTo: infoContainerView.leadingAnchor, constant: 16),
+            // Icon bên trái cụm text ở bottom card
+            iconImgView.leadingAnchor.constraint(equalTo: infoContainerView.leadingAnchor, constant: 16),
+            iconImgView.topAnchor.constraint(equalTo: infoContainerView.topAnchor, constant: 12),
+            iconImgView.widthAnchor.constraint(equalToConstant: 44),
+            iconImgView.heightAnchor.constraint(equalToConstant: 44),
+            
+            // Cụm Text bên cạnh Icon
+            textStack.leadingAnchor.constraint(equalTo: iconImgView.trailingAnchor, constant: 10),
             textStack.trailingAnchor.constraint(equalTo: infoContainerView.trailingAnchor, constant: -16),
-            textStack.topAnchor.constraint(equalTo: infoContainerView.topAnchor, constant: 14),
+            textStack.centerYAnchor.constraint(equalTo: iconImgView.centerYAnchor),
             
             // Nút CTA xanh tràn viền ngang ở đáy
             callToActionBtn.leadingAnchor.constraint(equalTo: infoContainerView.leadingAnchor, constant: 16),
             callToActionBtn.trailingAnchor.constraint(equalTo: infoContainerView.trailingAnchor, constant: -16),
-            callToActionBtn.topAnchor.constraint(equalTo: textStack.bottomAnchor, constant: 12),
+            callToActionBtn.topAnchor.constraint(equalTo: iconImgView.bottomAnchor, constant: 12),
             callToActionBtn.heightAnchor.constraint(equalToConstant: 44)
         ]
         
@@ -228,6 +239,12 @@ public final class NativeInterMedia2LayoutView: BaseNativeAdLayoutView {
             infoContainerView.trailingAnchor.constraint(equalTo: trailingAnchor),
             infoContainerView.leadingAnchor.constraint(equalTo: mediaContainerView.trailingAnchor),
             
+            // Icon ứng dụng ở nửa phải phía trên Headline
+            iconImgView.centerXAnchor.constraint(equalTo: infoContainerView.centerXAnchor),
+            iconImgView.bottomAnchor.constraint(equalTo: textStack.topAnchor, constant: -14),
+            iconImgView.widthAnchor.constraint(equalToConstant: 72),
+            iconImgView.heightAnchor.constraint(equalToConstant: 72),
+            
             // Cụm Text ở giữa nửa phải
             textStack.leadingAnchor.constraint(equalTo: infoContainerView.leadingAnchor, constant: 32),
             textStack.trailingAnchor.constraint(equalTo: infoContainerView.trailingAnchor, constant: -32),
@@ -236,7 +253,7 @@ public final class NativeInterMedia2LayoutView: BaseNativeAdLayoutView {
             // Hàng 2 nút bấm phân chia 50/50 (CLOSE + CTA)
             landscapeButtonRow.leadingAnchor.constraint(equalTo: infoContainerView.leadingAnchor, constant: 32),
             landscapeButtonRow.trailingAnchor.constraint(equalTo: infoContainerView.trailingAnchor, constant: -32),
-            landscapeButtonRow.centerYAnchor.constraint(equalTo: infoContainerView.centerYAnchor, constant: 28),
+            landscapeButtonRow.centerYAnchor.constraint(equalTo: infoContainerView.centerYAnchor, constant: 40),
             landscapeButtonRow.heightAnchor.constraint(equalToConstant: 44)
         ]
         
@@ -254,6 +271,8 @@ public final class NativeInterMedia2LayoutView: BaseNativeAdLayoutView {
             closeButton.isHidden = true
             progressBar.isHidden = true
             circularCountdownView.isHidden = false
+            iconImgView.layer.cornerRadius = 16
+            infoContainerView.addSubview(iconImgView)
             landscapeButtonRow.addArrangedSubview(landscapeCloseBtn)
             landscapeButtonRow.addArrangedSubview(callToActionBtn)
             infoContainerView.addSubview(landscapeButtonRow)
@@ -262,6 +281,8 @@ public final class NativeInterMedia2LayoutView: BaseNativeAdLayoutView {
             closeButton.isHidden = false
             progressBar.isHidden = false
             circularCountdownView.isHidden = true
+            iconImgView.layer.cornerRadius = 8
+            infoContainerView.addSubview(iconImgView)
             infoContainerView.addSubview(callToActionBtn)
             landscapeButtonRow.removeFromSuperview()
             NSLayoutConstraint.activate(portraitConstraints)
