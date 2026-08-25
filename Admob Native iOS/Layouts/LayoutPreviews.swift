@@ -3,7 +3,6 @@
 //  Admob Native iOS
 //
 //  Live SwiftUI Canvas Previews cho Xcode - Dành cho Target App AdmobNativeDemo.
-//  Hiển thị trực quan toàn bộ các layout Native Ad (Portrait & Landscape).
 //
 
 #if DEBUG
@@ -18,28 +17,34 @@ public struct LayoutPreviews_Previews: PreviewProvider {
         Group {
             // 1. Native Interstitial (Màn Dọc)
             PreviewContainer(layoutName: "native_inter_media")
+                .ignoresSafeArea()
                 .previewDisplayName("1. Interstitial - Portrait")
             
             // 2. Native Interstitial (Màn Ngang)
             PreviewContainer(layoutName: "native_inter_media")
                 .previewInterfaceOrientation(.landscapeLeft)
+                .ignoresSafeArea()
                 .previewDisplayName("2. Interstitial - Landscape")
             
             // 3. Native AppOpen (High-CTR)
             PreviewContainer(layoutName: "native_appopen_media")
+                .ignoresSafeArea()
                 .previewDisplayName("3. AppOpen - High CTR")
             
             // 4. Native Reward (Split Dark V2)
             PreviewContainer(layoutName: "native_reward_media_2")
+                .ignoresSafeArea()
                 .previewDisplayName("4. Reward - Split Dark")
             
             // 5. Native Half-Screen (Màn Dọc)
             PreviewContainer(layoutName: "native_halfscreen_media")
+                .ignoresSafeArea()
                 .previewDisplayName("5. Half-Screen - Portrait")
             
             // 6. Native Half-Screen (Màn Ngang)
             PreviewContainer(layoutName: "native_halfscreen_media")
                 .previewInterfaceOrientation(.landscapeLeft)
+                .ignoresSafeArea()
                 .previewDisplayName("6. Half-Screen - Landscape")
             
             // 7. Native Banner (Bottom Bar)
@@ -54,6 +59,7 @@ public struct LayoutPreviews_Previews: PreviewProvider {
             
             // 9. Native Video (Màn Dọc)
             PreviewContainer(layoutName: "native_video")
+                .ignoresSafeArea()
                 .previewDisplayName("9. Video - Portrait")
         }
     }
@@ -63,8 +69,20 @@ public struct LayoutPreviews_Previews: PreviewProvider {
 private struct PreviewContainer: UIViewRepresentable {
     let layoutName: String
     
-    func makeUIView(context: Context) -> BaseNativeAdLayoutView {
+    func makeUIView(context: Context) -> UIView {
+        let container = UIView()
+        container.backgroundColor = UIColor(hex: "#101826")
+        
         let view = NativeLayoutFactory.createLayout(layoutName: layoutName)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        container.addSubview(view)
+        
+        NSLayoutConstraint.activate([
+            view.topAnchor.constraint(equalTo: container.topAnchor),
+            view.bottomAnchor.constraint(equalTo: container.bottomAnchor),
+            view.leadingAnchor.constraint(equalTo: container.leadingAnchor),
+            view.trailingAnchor.constraint(equalTo: container.trailingAnchor)
+        ])
         
         // Mock dữ liệu mẫu để render giao diện trực quan trong Canvas
         view.headlineLbl.text = "Clash of Clans: Epic Battles"
@@ -76,9 +94,9 @@ private struct PreviewContainer: UIViewRepresentable {
         view.countdownLbl.text = "5s remaining..."
         view.progressBar.progress = 0.4
         
-        return view
+        return container
     }
     
-    func updateUIView(_ uiView: BaseNativeAdLayoutView, context: Context) {}
+    func updateUIView(_ uiView: UIView, context: Context) {}
 }
 #endif
