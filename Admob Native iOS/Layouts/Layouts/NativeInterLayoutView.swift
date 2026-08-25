@@ -2,7 +2,7 @@
 //  NativeInterLayoutView.swift
 //  Admob Native iOS
 //
-//  Layout Interstitial toàn màn hình (Edge-to-Edge) - Khớp 1:1 chuẩn xác với Android native_inter_media.xml.
+//  Layout Interstitial toàn màn hình (Edge-to-Edge) - Ánh xạ 1:1 chuẩn xác với Android native_inter_media.xml.
 //
 
 import UIKit
@@ -22,6 +22,8 @@ public final class NativeInterLayoutView: BaseNativeAdLayoutView {
     // Cụm Header Text (Ad Badge + Headline nằm ngang hàng, Advertiser ở dưới)
     private let textStack = UIStackView()
     private let titleRow = UIStackView()
+    
+    private var lastAppliedIsLandscape: Bool?
     
     public init(layoutName: String) {
         self.isNoMediaVariant = layoutName.contains("no_media")
@@ -55,14 +57,16 @@ public final class NativeInterLayoutView: BaseNativeAdLayoutView {
         bottomDividerView.backgroundColor = .gntBorderDark
         addSubview(bottomDividerView)
         
-        // 3. Top Card (Tràn kín đỉnh màn hình bao gồm cả Dynamic Island / Tai thỏ)
+        // 3. Top Card
         topCardView.translatesAutoresizingMaskIntoConstraints = false
         topCardView.backgroundColor = .gntBgDark
+        topCardView.clipsToBounds = true
         addSubview(topCardView)
         
-        // 4. Bottom Card (Tràn kín đáy màn hình bao gồm cả Home Indicator)
+        // 4. Bottom Card
         bottomCardView.translatesAutoresizingMaskIntoConstraints = false
         bottomCardView.backgroundColor = .gntBgDark
+        bottomCardView.clipsToBounds = true
         addSubview(bottomCardView)
         
         // 5. Cụm Text: titleRow (Ad Badge ngang hàng Headline) + advertiserLbl ở dưới
@@ -105,10 +109,13 @@ public final class NativeInterLayoutView: BaseNativeAdLayoutView {
         textStack.addArrangedSubview(titleRow)
         textStack.addArrangedSubview(advertiserLbl)
         
-        // 6. Subviews khác
+        // Add subviews vào hierarchy ban đầu
+        topCardView.addSubview(textStack)
+        
         iconImgView.translatesAutoresizingMaskIntoConstraints = false
         iconImgView.layer.cornerRadius = 6
         iconImgView.clipsToBounds = true
+        bottomCardView.addSubview(iconImgView)
         
         callToActionBtn.translatesAutoresizingMaskIntoConstraints = false
         callToActionBtn.backgroundColor = .gntCtaBlue
@@ -116,6 +123,7 @@ public final class NativeInterLayoutView: BaseNativeAdLayoutView {
         callToActionBtn.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
         callToActionBtn.layer.cornerRadius = 6
         callToActionBtn.clipsToBounds = true
+        bottomCardView.addSubview(callToActionBtn)
         
         // Nút Close và Progress Bar nổi lên trên cùng (Z-Index cao nhất)
         closeButton.translatesAutoresizingMaskIntoConstraints = false
@@ -158,18 +166,18 @@ public final class NativeInterLayoutView: BaseNativeAdLayoutView {
         // PORTRAIT CONSTRAINTS (Màn Dọc - Toàn Màn Hình Edge-to-Edge)
         // -------------------------------------------------------------
         portraitConstraints = [
-            // Top Card tràn từ đỉnh màn hình xuống
+            // Top Card
             topCardView.topAnchor.constraint(equalTo: topAnchor),
             topCardView.leadingAnchor.constraint(equalTo: leadingAnchor),
             topCardView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            topCardView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 60),
+            topCardView.heightAnchor.constraint(equalToConstant: 80),
             
-            // Cụm Text ở Top Card căn chỉnh né Notch/Dynamic Island
+            // Cụm Text ở Top Card
             textStack.leadingAnchor.constraint(equalTo: topCardView.leadingAnchor, constant: 16),
             textStack.bottomAnchor.constraint(equalTo: topCardView.bottomAnchor, constant: -12),
             textStack.trailingAnchor.constraint(lessThanOrEqualTo: closeButton.leadingAnchor, constant: -10),
             
-            // Nút Close căn giữa theo chiều dọc của cụm text
+            // Nút Close ở góc phải Top Card
             closeButton.trailingAnchor.constraint(equalTo: topCardView.trailingAnchor, constant: -16),
             closeButton.centerYAnchor.constraint(equalTo: textStack.centerYAnchor),
             
@@ -185,11 +193,11 @@ public final class NativeInterLayoutView: BaseNativeAdLayoutView {
             // Bottom Divider ngay trên bottom_card
             bottomDividerView.bottomAnchor.constraint(equalTo: bottomCardView.topAnchor),
             
-            // Bottom Card tràn xuống tận đáy màn hình
+            // Bottom Card tràn sát mép đáy
             bottomCardView.leadingAnchor.constraint(equalTo: leadingAnchor),
             bottomCardView.trailingAnchor.constraint(equalTo: trailingAnchor),
             bottomCardView.bottomAnchor.constraint(equalTo: bottomAnchor),
-            bottomCardView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -64),
+            bottomCardView.heightAnchor.constraint(equalToConstant: 80),
             
             // CTA Button TRÀN TOÀN BỘ CHIỀU NGANG trong bottom_card
             callToActionBtn.leadingAnchor.constraint(equalTo: bottomCardView.leadingAnchor, constant: 16),
@@ -212,8 +220,8 @@ public final class NativeInterLayoutView: BaseNativeAdLayoutView {
             topDividerView.heightAnchor.constraint(equalToConstant: 0),
             
             // Nút Close ở góc trên bên phải màn hình (nổi trên MediaView)
-            closeButton.topAnchor.constraint(equalTo: topAnchor, constant: 16),
-            closeButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
+            closeButton.topAnchor.constraint(equalTo: topAnchor, constant: 14),
+            closeButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
             
             // Media View chiếm toàn bộ không gian phía trên
             mediaOrImage.topAnchor.constraint(equalTo: topAnchor),
@@ -231,7 +239,7 @@ public final class NativeInterLayoutView: BaseNativeAdLayoutView {
             bottomCardView.heightAnchor.constraint(equalToConstant: 64),
             
             // Icon ở bên trái bottom_card
-            iconImgView.leadingAnchor.constraint(equalTo: bottomCardView.leadingAnchor, constant: 20),
+            iconImgView.leadingAnchor.constraint(equalTo: bottomCardView.leadingAnchor, constant: 16),
             iconImgView.centerYAnchor.constraint(equalTo: bottomCardView.centerYAnchor),
             
             // Cụm Text ở giữa (ngang giữa so với Icon và CTA)
@@ -240,7 +248,7 @@ public final class NativeInterLayoutView: BaseNativeAdLayoutView {
             textStack.centerYAnchor.constraint(equalTo: bottomCardView.centerYAnchor),
             
             // CTA Button ở bên phải bottom_card
-            callToActionBtn.trailingAnchor.constraint(equalTo: bottomCardView.trailingAnchor, constant: -20),
+            callToActionBtn.trailingAnchor.constraint(equalTo: bottomCardView.trailingAnchor, constant: -16),
             callToActionBtn.centerYAnchor.constraint(equalTo: bottomCardView.centerYAnchor),
             callToActionBtn.widthAnchor.constraint(equalToConstant: 120),
             callToActionBtn.heightAnchor.constraint(equalToConstant: 40)
@@ -250,20 +258,27 @@ public final class NativeInterLayoutView: BaseNativeAdLayoutView {
     }
     
     public override func updateOrientationConstraints() {
-        super.updateOrientationConstraints()
+        guard bounds.width > 0 && bounds.height > 0 else { return }
         let isLandscape = bounds.width > bounds.height
         
-        // Ẩn/Hiện Icon tùy theo Portrait / Landscape
-        iconImgView.isHidden = !isLandscape
+        if lastAppliedIsLandscape == isLandscape { return }
+        lastAppliedIsLandscape = isLandscape
         
-        // Chuyển cụm textStack và các view vào đúng View cha
+        // Deactivate old constraints trước khi đổi hierarchy
+        NSLayoutConstraint.deactivate(portraitConstraints)
+        NSLayoutConstraint.deactivate(landscapeConstraints)
+        
         if isLandscape {
-            if iconImgView.superview != bottomCardView { bottomCardView.addSubview(iconImgView) }
-            if callToActionBtn.superview != bottomCardView { bottomCardView.addSubview(callToActionBtn) }
-            if textStack.superview != bottomCardView { bottomCardView.addSubview(textStack) }
+            iconImgView.isHidden = false
+            bottomCardView.addSubview(iconImgView)
+            bottomCardView.addSubview(textStack)
+            bottomCardView.addSubview(callToActionBtn)
+            NSLayoutConstraint.activate(landscapeConstraints)
         } else {
-            if textStack.superview != topCardView { topCardView.addSubview(textStack) }
-            if callToActionBtn.superview != bottomCardView { bottomCardView.addSubview(callToActionBtn) }
+            iconImgView.isHidden = true
+            topCardView.addSubview(textStack)
+            bottomCardView.addSubview(callToActionBtn)
+            NSLayoutConstraint.activate(portraitConstraints)
         }
         
         bringSubviewToFront(closeButton)
