@@ -196,7 +196,7 @@ public final class AdmobNativeController: NSObject {
     }
     
     public func getMediationAdapterClassName() -> String? {
-        return loadedNativeAd?.responseInfo.adNetworkClassName
+        return loadedNativeAd?.responseInfo.loadedAdNetworkResponseInfo?.adNetworkClassName
     }
     
     public func getAdapterResponsesCount() -> Int {
