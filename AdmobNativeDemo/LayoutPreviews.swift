@@ -139,8 +139,19 @@ private struct PreviewContainer: UIViewRepresentable {
         view.bodyLbl.text = "Lead your clan to victory in legendary strategy wars!"
         view.advertiserLbl.text = "Supercell Games"
         view.callToActionBtn.setTitle("INSTALL NOW", for: .normal)
-        view.countdownLbl.text = "5s remaining..."
+        view.iconImgView.backgroundColor = .systemBlue
+        view.countdownLbl.text = "5"
         view.progressBar.progress = 0.4
+        
+        if let interNoMedia = view as? NativeInterNoMediaLayoutView {
+            interNoMedia.largeIconImgView.backgroundColor = .systemBlue
+        }
+        if let inter2NoMedia = view as? NativeInterNoMedia2LayoutView {
+            inter2NoMedia.largeIconImgView.backgroundColor = .systemBlue
+        }
+        if let appOpenNoMedia = view as? NativeAppOpenNoMediaLayoutView {
+            appOpenNoMedia.largeIconImgView.backgroundColor = .systemBlue
+        }
         
         return container
     }

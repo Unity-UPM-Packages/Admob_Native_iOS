@@ -259,6 +259,7 @@ public final class NativeInterNoMedia2LayoutView: BaseNativeAdLayoutView {
         
         if isLandscape {
             closeButton.isHidden = true
+            progressBar.isHidden = true
             circularCountdownView.isHidden = false
             landscapeButtonRow.addArrangedSubview(landscapeCloseBtn)
             landscapeButtonRow.addArrangedSubview(callToActionBtn)
@@ -266,6 +267,7 @@ public final class NativeInterNoMedia2LayoutView: BaseNativeAdLayoutView {
             NSLayoutConstraint.activate(landscapeConstraints)
         } else {
             closeButton.isHidden = false
+            progressBar.isHidden = false
             circularCountdownView.isHidden = true
             infoContainerView.addSubview(callToActionBtn)
             landscapeButtonRow.removeFromSuperview()
