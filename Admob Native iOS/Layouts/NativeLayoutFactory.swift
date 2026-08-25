@@ -15,11 +15,17 @@ public final class NativeLayoutFactory {
         
         switch name {
         // MARK: - 1. Native Interstitial (Full Screen)
-        case "native_inter_media", "native_inter_media_2":
+        case "native_inter_media":
             return NativeInterMediaLayoutView()
             
-        case "native_inter_no_media", "native_inter_no_media_2":
+        case "native_inter_media_2":
+            return NativeInterMedia2LayoutView()
+            
+        case "native_inter_no_media":
             return NativeInterNoMediaLayoutView()
+            
+        case "native_inter_no_media_2":
+            return NativeInterNoMedia2LayoutView()
             
         // MARK: - 2. Native AppOpen (High CTR)
         case "native_appopen_media":

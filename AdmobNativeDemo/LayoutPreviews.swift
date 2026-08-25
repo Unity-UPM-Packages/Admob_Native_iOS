@@ -37,6 +37,28 @@ public struct LayoutPreviews_Previews: PreviewProvider {
                 .ignoresSafeArea()
                 .previewDisplayName("4. Interstitial No-Media - Landscape")
             
+            // 4a. Native Interstitial 2 (Media - Màn Dọc)
+            PreviewContainer(layoutName: "native_inter_media_2")
+                .ignoresSafeArea()
+                .previewDisplayName("4a. Interstitial 2 Media - Portrait")
+            
+            // 4b. Native Interstitial 2 (Media - Màn Ngang 50/50)
+            PreviewContainer(layoutName: "native_inter_media_2")
+                .previewInterfaceOrientation(.landscapeLeft)
+                .ignoresSafeArea()
+                .previewDisplayName("4b. Interstitial 2 Media - Landscape")
+            
+            // 4c. Native Interstitial 2 (No-Media - Màn Dọc)
+            PreviewContainer(layoutName: "native_inter_no_media_2")
+                .ignoresSafeArea()
+                .previewDisplayName("4c. Interstitial 2 No-Media - Portrait")
+            
+            // 4d. Native Interstitial 2 (No-Media - Màn Ngang 50/50)
+            PreviewContainer(layoutName: "native_inter_no_media_2")
+                .previewInterfaceOrientation(.landscapeLeft)
+                .ignoresSafeArea()
+                .previewDisplayName("4d. Interstitial 2 No-Media - Landscape")
+            
             // 5. Native AppOpen (Media - Màn Dọc)
             PreviewContainer(layoutName: "native_appopen_media")
                 .ignoresSafeArea()
@@ -124,6 +146,9 @@ private struct PreviewContainer: UIViewRepresentable {
         
         if let interNoMedia = view as? NativeInterNoMediaLayoutView {
             interNoMedia.largeIconImgView.backgroundColor = .systemBlue
+        }
+        if let inter2NoMedia = view as? NativeInterNoMedia2LayoutView {
+            inter2NoMedia.largeIconImgView.backgroundColor = .systemBlue
         }
         if let appOpenNoMedia = view as? NativeAppOpenNoMediaLayoutView {
             appOpenNoMedia.largeIconImgView.backgroundColor = .systemBlue
