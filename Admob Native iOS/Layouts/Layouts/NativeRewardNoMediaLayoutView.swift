@@ -26,10 +26,10 @@ public final class NativeRewardNoMediaLayoutView: BaseNativeAdLayoutView {
     private let titleRow = UIStackView()
     private let textStack = UIStackView()
     
-    // Nút Skip (▶▶ Skip) dạng Pill bo góc
+    // Nút Skip (▶▶ Skip) dạng Pill bo góc trái (bg_countdown_pill_right)
     private let skipButton = UIButton(type: .system)
     
-    // Pill đếm giờ màn ngang (5s remaining...)
+    // Pill đếm giờ màn ngang (5s remaining...) bo góc phải (bg_countdown_pill_left)
     private let landscapeCountdownPill = UIView()
     
     private var lastAppliedIsLandscape: Bool?
@@ -115,7 +115,7 @@ public final class NativeRewardNoMediaLayoutView: BaseNativeAdLayoutView {
         textStack.addArrangedSubview(advertiserLbl)
         topCardView.addSubview(textStack)
         
-        // 3. Nút Skip (▶▶ Skip) dạng Pill bo góc
+        // 3. Nút Skip (▶▶ Skip) dạng Pill bo góc trái (3 cạnh thẳng, 1 cạnh cong trái)
         skipButton.translatesAutoresizingMaskIntoConstraints = false
         skipButton.backgroundColor = UIColor(hex: "#2B3648")
         skipButton.setImage(createSkipIcon().withRenderingMode(.alwaysOriginal), for: .normal)
@@ -123,15 +123,17 @@ public final class NativeRewardNoMediaLayoutView: BaseNativeAdLayoutView {
         skipButton.setTitleColor(.white, for: .normal)
         skipButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 13)
         skipButton.layer.cornerRadius = 14
+        skipButton.layer.maskedCorners = [.layerMinXMinYCorner, .layerMinXMaxYCorner] // Bo tròn cạnh trái
         skipButton.clipsToBounds = true
-        skipButton.contentEdgeInsets = UIEdgeInsets(top: 6, left: 14, bottom: 6, right: 14)
+        skipButton.contentEdgeInsets = UIEdgeInsets(top: 6, left: 16, bottom: 6, right: 16)
         skipButton.addTarget(self, action: #selector(handleSkipTapped), for: .touchUpInside)
         addSubview(skipButton)
         
-        // 4. Pill đếm giờ màn ngang (5s remaining...)
+        // 4. Pill đếm giờ màn ngang (5s remaining...) bo góc phải (3 cạnh thẳng, 1 cạnh cong phải)
         landscapeCountdownPill.translatesAutoresizingMaskIntoConstraints = false
         landscapeCountdownPill.backgroundColor = UIColor(hex: "#2B3648")
         landscapeCountdownPill.layer.cornerRadius = 14
+        landscapeCountdownPill.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMaxXMaxYCorner] // Bo tròn cạnh phải
         landscapeCountdownPill.clipsToBounds = true
         
         countdownLbl.translatesAutoresizingMaskIntoConstraints = false
@@ -190,8 +192,8 @@ public final class NativeRewardNoMediaLayoutView: BaseNativeAdLayoutView {
             skipButton.heightAnchor.constraint(equalToConstant: 28),
             
             landscapeCountdownPill.heightAnchor.constraint(equalToConstant: 28),
-            countdownLbl.leadingAnchor.constraint(equalTo: landscapeCountdownPill.leadingAnchor, constant: 14),
-            countdownLbl.trailingAnchor.constraint(equalTo: landscapeCountdownPill.trailingAnchor, constant: -14),
+            countdownLbl.leadingAnchor.constraint(equalTo: landscapeCountdownPill.leadingAnchor, constant: 16),
+            countdownLbl.trailingAnchor.constraint(equalTo: landscapeCountdownPill.trailingAnchor, constant: -20),
             countdownLbl.centerYAnchor.constraint(equalTo: landscapeCountdownPill.centerYAnchor)
         ])
         
@@ -208,7 +210,8 @@ public final class NativeRewardNoMediaLayoutView: BaseNativeAdLayoutView {
             textStack.bottomAnchor.constraint(equalTo: topCardView.bottomAnchor, constant: -12),
             textStack.trailingAnchor.constraint(lessThanOrEqualTo: skipButton.leadingAnchor, constant: -10),
             
-            skipButton.trailingAnchor.constraint(equalTo: topCardView.trailingAnchor, constant: -16),
+            // Nút Skip chạm sát mép phải
+            skipButton.trailingAnchor.constraint(equalTo: topCardView.trailingAnchor),
             skipButton.centerYAnchor.constraint(equalTo: textStack.centerYAnchor),
             
             topDividerView.topAnchor.constraint(equalTo: topCardView.bottomAnchor),
@@ -252,8 +255,8 @@ public final class NativeRewardNoMediaLayoutView: BaseNativeAdLayoutView {
             iconContainerView.leadingAnchor.constraint(equalTo: leadingAnchor),
             iconContainerView.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.5),
             
-            // Pill đếm giờ ở góc trên bên trái màn ngang
-            landscapeCountdownPill.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+            // Pill đếm giờ chạm sát mép trái (3 cạnh thẳng, 1 cạnh cong phải)
+            landscapeCountdownPill.leadingAnchor.constraint(equalTo: leadingAnchor),
             landscapeCountdownPill.topAnchor.constraint(equalTo: topAnchor, constant: 16),
             
             // Nửa phải 50%: Bottom Card (đóng vai trò right_container màu #2F2A2E)
@@ -262,8 +265,8 @@ public final class NativeRewardNoMediaLayoutView: BaseNativeAdLayoutView {
             bottomCardView.trailingAnchor.constraint(equalTo: trailingAnchor),
             bottomCardView.leadingAnchor.constraint(equalTo: iconContainerView.trailingAnchor),
             
-            // Nút Skip ở góc trên bên phải màn ngang
-            skipButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
+            // Nút Skip chạm sát mép phải (3 cạnh thẳng, 1 cạnh cong trái)
+            skipButton.trailingAnchor.constraint(equalTo: trailingAnchor),
             skipButton.topAnchor.constraint(equalTo: topAnchor, constant: 16),
             
             // Cụm Text ở giữa nửa phải

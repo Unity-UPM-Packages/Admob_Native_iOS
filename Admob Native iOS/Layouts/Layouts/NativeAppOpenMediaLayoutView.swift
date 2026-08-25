@@ -38,10 +38,11 @@ public final class NativeAppOpenMediaLayoutView: BaseNativeAdLayoutView {
         topBarView.backgroundColor = UIColor(hex: "#0B1528")
         addSubview(topBarView)
         
-        // Pill đếm giờ bên trái trong Top Bar
+        // Pill đếm giờ bên trái trong Top Bar (3 cạnh thẳng, 1 cạnh cong phải)
         countdownContainerView.translatesAutoresizingMaskIntoConstraints = false
         countdownContainerView.backgroundColor = UIColor(hex: "#2B3648")
         countdownContainerView.layer.cornerRadius = 14
+        countdownContainerView.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMaxXMaxYCorner]
         countdownContainerView.clipsToBounds = true
         topBarView.addSubview(countdownContainerView)
         
@@ -132,12 +133,12 @@ public final class NativeAppOpenMediaLayoutView: BaseNativeAdLayoutView {
         
         // Base Constraints cố định
         NSLayoutConstraint.activate([
-            // Pill đếm giờ trong Top Bar
-            countdownContainerView.leadingAnchor.constraint(equalTo: topBarView.leadingAnchor, constant: 16),
+            // Pill đếm giờ trong Top Bar chạm sát mép trái
+            countdownContainerView.leadingAnchor.constraint(equalTo: topBarView.leadingAnchor),
             countdownContainerView.heightAnchor.constraint(equalToConstant: 28),
             
-            countdownLbl.leadingAnchor.constraint(equalTo: countdownContainerView.leadingAnchor, constant: 12),
-            countdownLbl.trailingAnchor.constraint(equalTo: countdownContainerView.trailingAnchor, constant: -12),
+            countdownLbl.leadingAnchor.constraint(equalTo: countdownContainerView.leadingAnchor, constant: 16),
+            countdownLbl.trailingAnchor.constraint(equalTo: countdownContainerView.trailingAnchor, constant: -20),
             countdownLbl.centerYAnchor.constraint(equalTo: countdownContainerView.centerYAnchor),
             
             // Nút Close trong Top Bar
