@@ -72,7 +72,13 @@ public final class NativeRewardMediaLayoutView: BaseNativeAdLayoutView {
         bottomCardView.clipsToBounds = true
         addSubview(bottomCardView)
         
-        // 2. Cụm Text ([Ad] vàng, Headline trắng, Advertiser xám #B6BCC3)
+        // 2. Icon ứng dụng ở nửa phải màn ngang (phía trên Headline)
+        iconImgView.translatesAutoresizingMaskIntoConstraints = false
+        iconImgView.contentMode = .scaleAspectFit
+        iconImgView.layer.cornerRadius = 16
+        iconImgView.clipsToBounds = true
+        
+        // 3. Cụm Text ([Ad] vàng, Headline trắng, Advertiser xám #B6BCC3)
         titleRow.translatesAutoresizingMaskIntoConstraints = false
         titleRow.axis = .horizontal
         titleRow.alignment = .center
@@ -110,7 +116,7 @@ public final class NativeRewardMediaLayoutView: BaseNativeAdLayoutView {
         textStack.addArrangedSubview(advertiserLbl)
         topCardView.addSubview(textStack)
         
-        // 3. Nút Skip (▶▶ Skip) dạng Pill bo góc trái (3 cạnh thẳng, 1 cạnh cong trái)
+        // 4. Nút Skip (▶▶ Skip) dạng Pill bo góc trái (3 cạnh thẳng, 1 cạnh cong trái)
         skipButton.translatesAutoresizingMaskIntoConstraints = false
         skipButton.backgroundColor = UIColor(hex: "#2B3648")
         skipButton.setImage(createSkipIcon().withRenderingMode(.alwaysOriginal), for: .normal)
@@ -124,7 +130,7 @@ public final class NativeRewardMediaLayoutView: BaseNativeAdLayoutView {
         skipButton.addTarget(self, action: #selector(handleSkipTapped), for: .touchUpInside)
         addSubview(skipButton)
         
-        // 4. Pill đếm giờ màn ngang (5s remaining...) bo góc phải (3 cạnh thẳng, 1 cạnh cong phải)
+        // 5. Pill đếm giờ màn ngang (5s remaining...) bo góc phải (3 cạnh thẳng, 1 cạnh cong phải)
         landscapeCountdownPill.translatesAutoresizingMaskIntoConstraints = false
         landscapeCountdownPill.backgroundColor = UIColor(hex: "#2B3648")
         landscapeCountdownPill.layer.cornerRadius = 14
@@ -138,7 +144,7 @@ public final class NativeRewardMediaLayoutView: BaseNativeAdLayoutView {
         landscapeCountdownPill.addSubview(countdownLbl)
         addSubview(landscapeCountdownPill)
         
-        // 5. Nút CTA xanh dương #1A73E8, viền #505763
+        // 6. Nút CTA xanh dương #1A73E8, viền #505763
         callToActionBtn.translatesAutoresizingMaskIntoConstraints = false
         callToActionBtn.backgroundColor = UIColor(hex: "#1A73E8")
         callToActionBtn.layer.borderColor = UIColor(hex: "#505763").cgColor
@@ -149,7 +155,7 @@ public final class NativeRewardMediaLayoutView: BaseNativeAdLayoutView {
         callToActionBtn.clipsToBounds = true
         bottomCardView.addSubview(callToActionBtn)
         
-        // 6. Thanh ProgressBar màu vàng ở sát mép trên màn dọc
+        // 7. Thanh ProgressBar màu vàng ở sát mép trên màn dọc
         progressBar.translatesAutoresizingMaskIntoConstraints = false
         progressBar.progressTintColor = .gntAdBadgeYellow
         progressBar.trackTintColor = .clear
@@ -186,7 +192,10 @@ public final class NativeRewardMediaLayoutView: BaseNativeAdLayoutView {
             landscapeCountdownPill.heightAnchor.constraint(equalToConstant: 28),
             countdownLbl.leadingAnchor.constraint(equalTo: landscapeCountdownPill.leadingAnchor, constant: 16),
             countdownLbl.trailingAnchor.constraint(equalTo: landscapeCountdownPill.trailingAnchor, constant: -20),
-            countdownLbl.centerYAnchor.constraint(equalTo: landscapeCountdownPill.centerYAnchor)
+            countdownLbl.centerYAnchor.constraint(equalTo: landscapeCountdownPill.centerYAnchor),
+            
+            iconImgView.widthAnchor.constraint(equalToConstant: 72),
+            iconImgView.heightAnchor.constraint(equalToConstant: 72)
         ])
         
         // -------------------------------------------------------------
@@ -261,6 +270,10 @@ public final class NativeRewardMediaLayoutView: BaseNativeAdLayoutView {
             skipButton.trailingAnchor.constraint(equalTo: trailingAnchor),
             skipButton.topAnchor.constraint(equalTo: topAnchor, constant: 16),
             
+            // Icon ứng dụng ở nửa phải phía trên Headline
+            iconImgView.centerXAnchor.constraint(equalTo: bottomCardView.centerXAnchor),
+            iconImgView.bottomAnchor.constraint(equalTo: textStack.topAnchor, constant: -14),
+            
             // Cụm Text ở giữa nửa phải
             textStack.leadingAnchor.constraint(equalTo: bottomCardView.leadingAnchor, constant: 32),
             textStack.trailingAnchor.constraint(equalTo: bottomCardView.trailingAnchor, constant: -32),
@@ -269,7 +282,7 @@ public final class NativeRewardMediaLayoutView: BaseNativeAdLayoutView {
             // Nút CTA ở giữa nửa phải
             callToActionBtn.leadingAnchor.constraint(equalTo: bottomCardView.leadingAnchor, constant: 32),
             callToActionBtn.trailingAnchor.constraint(equalTo: bottomCardView.trailingAnchor, constant: -32),
-            callToActionBtn.centerYAnchor.constraint(equalTo: bottomCardView.centerYAnchor, constant: 28),
+            callToActionBtn.centerYAnchor.constraint(equalTo: bottomCardView.centerYAnchor, constant: 36),
             callToActionBtn.heightAnchor.constraint(equalToConstant: 44)
         ]
         
@@ -289,13 +302,17 @@ public final class NativeRewardMediaLayoutView: BaseNativeAdLayoutView {
         if isLandscape {
             progressBar.isHidden = true
             landscapeCountdownPill.isHidden = false
+            iconImgView.isHidden = false
             bottomCardView.backgroundColor = UIColor(hex: "#2F2A2E")
+            bottomCardView.addSubview(iconImgView)
             bottomCardView.addSubview(textStack)
             bottomCardView.addSubview(callToActionBtn)
             NSLayoutConstraint.activate(landscapeConstraints)
         } else {
             progressBar.isHidden = false
             landscapeCountdownPill.isHidden = true
+            iconImgView.isHidden = true
+            iconImgView.removeFromSuperview()
             bottomCardView.backgroundColor = UIColor(hex: "#0B1528")
             topCardView.addSubview(textStack)
             bottomCardView.addSubview(callToActionBtn)
