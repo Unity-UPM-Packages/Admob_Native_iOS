@@ -8,16 +8,62 @@
 
 /* Begin PBXBuildFile section */
 		D42B855D303D57C5004B6144 /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = D42B855C303D57C5004B6144 /* GoogleMobileAds */; };
+		D42B8645303D78D0004B6144 /* Admob_Native_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D42B8551303D4CBA004B6144 /* Admob_Native_iOS.framework */; };
+		D42B8646303D78D0004B6144 /* Admob_Native_iOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D42B8551303D4CBA004B6144 /* Admob_Native_iOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		D42B864B303D78DD004B6144 /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = D42B864A303D78DD004B6144 /* GoogleMobileAds */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		D42B8647303D78D0004B6144 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D42B8548303D4CBA004B6144 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D42B8550303D4CBA004B6144;
+			remoteInfo = "Admob Native iOS";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		D42B8649303D78D0004B6144 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				D42B8646303D78D0004B6144 /* Admob_Native_iOS.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		D42B8551303D4CBA004B6144 /* Admob_Native_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Admob_Native_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D42B858E303D761B004B6144 /* AdmobNativeDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AdmobNativeDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		D42B85A2303D774F004B6144 /* Exceptions for "AdmobNativeDemo" folder in "AdmobNativeDemo" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = D42B858D303D761B004B6144 /* AdmobNativeDemo */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		D42B8553303D4CBA004B6144 /* Admob Native iOS */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = "Admob Native iOS";
+			sourceTree = "<group>";
+		};
+		D42B858F303D761B004B6144 /* AdmobNativeDemo */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				D42B85A2303D774F004B6144 /* Exceptions for "AdmobNativeDemo" folder in "AdmobNativeDemo" target */,
+			);
+			path = AdmobNativeDemo;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -31,13 +77,24 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		D42B858B303D761B004B6144 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D42B864B303D78DD004B6144 /* GoogleMobileAds in Frameworks */,
+				D42B8645303D78D0004B6144 /* Admob_Native_iOS.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		D42B8547303D4CBA004B6144 = {
 			isa = PBXGroup;
 			children = (
+				D42B858F303D761B004B6144 /* AdmobNativeDemo */,
 				D42B8553303D4CBA004B6144 /* Admob Native iOS */,
+				D42B8599303D765D004B6144 /* Frameworks */,
 				D42B8552303D4CBA004B6144 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -46,8 +103,16 @@
 			isa = PBXGroup;
 			children = (
 				D42B8551303D4CBA004B6144 /* Admob_Native_iOS.framework */,
+				D42B858E303D761B004B6144 /* AdmobNativeDemo.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		D42B8599303D765D004B6144 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -87,6 +152,31 @@
 			productReference = D42B8551303D4CBA004B6144 /* Admob_Native_iOS.framework */;
 			productType = "com.apple.product-type.framework";
 		};
+		D42B858D303D761B004B6144 /* AdmobNativeDemo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D42B8596303D761D004B6144 /* Build configuration list for PBXNativeTarget "AdmobNativeDemo" */;
+			buildPhases = (
+				D42B858A303D761B004B6144 /* Sources */,
+				D42B858B303D761B004B6144 /* Frameworks */,
+				D42B858C303D761B004B6144 /* Resources */,
+				D42B8649303D78D0004B6144 /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D42B8648303D78D0004B6144 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				D42B858F303D761B004B6144 /* AdmobNativeDemo */,
+			);
+			name = AdmobNativeDemo;
+			packageProductDependencies = (
+				D42B864A303D78DD004B6144 /* GoogleMobileAds */,
+			);
+			productName = AdmobNativeDemo;
+			productReference = D42B858E303D761B004B6144 /* AdmobNativeDemo.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -98,6 +188,9 @@
 				LastUpgradeCheck = 2660;
 				TargetAttributes = {
 					D42B8550303D4CBA004B6144 = {
+						CreatedOnToolsVersion = 26.6;
+					};
+					D42B858D303D761B004B6144 = {
 						CreatedOnToolsVersion = 26.6;
 					};
 				};
@@ -119,6 +212,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
+				D42B858D303D761B004B6144 /* AdmobNativeDemo */,
 				D42B8550303D4CBA004B6144 /* Admob Native iOS */,
 			);
 		};
@@ -126,6 +220,13 @@
 
 /* Begin PBXResourcesBuildPhase section */
 		D42B854F303D4CBA004B6144 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D42B858C303D761B004B6144 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -142,7 +243,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		D42B858A303D761B004B6144 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		D42B8648303D78D0004B6144 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D42B8550303D4CBA004B6144 /* Admob Native iOS */;
+			targetProxy = D42B8647303D78D0004B6144 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		D42B8556303D4CBA004B6144 /* Debug */ = {
@@ -350,6 +466,74 @@
 			};
 			name = Release;
 		};
+		D42B8597303D761D004B6144 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 54W757YH63;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = AdmobNativeDemo/Info.plist;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.thelegends.AdmobNativeDemo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		D42B8598303D761D004B6144 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 54W757YH63;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = AdmobNativeDemo/Info.plist;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.thelegends.AdmobNativeDemo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -371,6 +555,15 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		D42B8596303D761D004B6144 /* Build configuration list for PBXNativeTarget "AdmobNativeDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D42B8597303D761D004B6144 /* Debug */,
+				D42B8598303D761D004B6144 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
@@ -386,6 +579,11 @@
 
 /* Begin XCSwiftPackageProductDependency section */
 		D42B855C303D57C5004B6144 /* GoogleMobileAds */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D42B855B303D57C5004B6144 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */;
+			productName = GoogleMobileAds;
+		};
+		D42B864A303D78DD004B6144 /* GoogleMobileAds */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = D42B855B303D57C5004B6144 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */;
 			productName = GoogleMobileAds;

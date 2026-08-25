@@ -145,16 +145,20 @@ public final class AdmobNativeController: NSObject {
     }
     
     // MARK: - Builder Methods
-    public func withCountdown(initial: Float, duration: Float, closeDelay: Float) {
+    @discardableResult
+    public func withCountdown(initial: Float, duration: Float, closeDelay: Float) -> AdmobNativeController {
         if initial < 0 || duration <= 0 || closeDelay < 0 {
             self.countdownConfig = nil
         } else {
             self.countdownConfig = CountdownConfig(initial: initial, duration: duration, closeDelay: closeDelay)
         }
+        return self
     }
     
-    public func withPosition(x: Int, y: Int) {
+    @discardableResult
+    public func withPosition(x: Int, y: Int) -> AdmobNativeController {
         self.positionConfig = PositionConfig(x: x, y: y)
+        return self
     }
     
     // MARK: - View Sizing
