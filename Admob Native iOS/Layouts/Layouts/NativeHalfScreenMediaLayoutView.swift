@@ -14,6 +14,9 @@ public final class NativeHalfScreenMediaLayoutView: BaseNativeAdLayoutView {
     // Khung card quảng cáo (chiếm 50% dưới ở màn dọc, 50% trái ở màn ngang)
     private let adCardContainerView = UIView()
     
+    // Placeholder xám cho MediaView khi xem Canvas hoặc chưa load video
+    private let mediaPlaceholderView = UIView()
+    
     // Cụm Text
     private let titleRow = UIStackView()
     private let textStack = UIStackView()
@@ -46,14 +49,20 @@ public final class NativeHalfScreenMediaLayoutView: BaseNativeAdLayoutView {
         adCardContainerView.clipsToBounds = true
         addSubview(adCardContainerView)
         
-        // 2. MediaView nằm phía trên (nền xám #9E9E9E)
+        // 2. MediaView nằm phía trên
         adMediaView.translatesAutoresizingMaskIntoConstraints = false
         adMediaView.contentMode = .scaleAspectFit
         adMediaView.backgroundColor = UIColor(hex: "#9E9E9E")
-        adMediaView.layer.backgroundColor = UIColor(hex: "#9E9E9E").cgColor
         adMediaView.layer.cornerRadius = 6
         adMediaView.clipsToBounds = true
         adCardContainerView.addSubview(adMediaView)
+        
+        // Placeholder hiển thị khối chữ nhật xám #9E9E9E bên trong MediaView
+        mediaPlaceholderView.translatesAutoresizingMaskIntoConstraints = false
+        mediaPlaceholderView.backgroundColor = UIColor(hex: "#9E9E9E")
+        mediaPlaceholderView.layer.cornerRadius = 6
+        mediaPlaceholderView.clipsToBounds = true
+        adMediaView.addSubview(mediaPlaceholderView)
         
         // 3. Circular Countdown ở góc trên bên trái của MediaView
         circularCountdownView.translatesAutoresizingMaskIntoConstraints = false
@@ -108,6 +117,8 @@ public final class NativeHalfScreenMediaLayoutView: BaseNativeAdLayoutView {
         textStack.axis = .vertical
         textStack.alignment = .leading
         textStack.spacing = 4
+        textStack.setContentHuggingPriority(.required, for: .vertical)
+        textStack.setContentCompressionResistancePriority(.required, for: .vertical)
         textStack.addArrangedSubview(titleRow)
         textStack.addArrangedSubview(advertiserLbl)
         adCardContainerView.addSubview(textStack)
@@ -119,10 +130,18 @@ public final class NativeHalfScreenMediaLayoutView: BaseNativeAdLayoutView {
         callToActionBtn.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
         callToActionBtn.layer.cornerRadius = 6
         callToActionBtn.clipsToBounds = true
+        callToActionBtn.setContentHuggingPriority(.required, for: .vertical)
+        callToActionBtn.setContentCompressionResistancePriority(.required, for: .vertical)
         adCardContainerView.addSubview(callToActionBtn)
         
         // Base Constraints cố định
         NSLayoutConstraint.activate([
+            // Khung Placeholder xám luôn full MediaView
+            mediaPlaceholderView.topAnchor.constraint(equalTo: adMediaView.topAnchor),
+            mediaPlaceholderView.bottomAnchor.constraint(equalTo: adMediaView.bottomAnchor),
+            mediaPlaceholderView.leadingAnchor.constraint(equalTo: adMediaView.leadingAnchor),
+            mediaPlaceholderView.trailingAnchor.constraint(equalTo: adMediaView.trailingAnchor),
+            
             adBadgeLbl.widthAnchor.constraint(equalToConstant: 24),
             adBadgeLbl.heightAnchor.constraint(equalToConstant: 16),
             
@@ -139,11 +158,13 @@ public final class NativeHalfScreenMediaLayoutView: BaseNativeAdLayoutView {
             countdownLbl.centerXAnchor.constraint(equalTo: circularCountdownView.centerXAnchor),
             countdownLbl.centerYAnchor.constraint(equalTo: circularCountdownView.centerYAnchor),
             
+            // MediaView chiếm toàn bộ phần trên
             adMediaView.topAnchor.constraint(equalTo: adCardContainerView.topAnchor, constant: 16),
             adMediaView.leadingAnchor.constraint(equalTo: adCardContainerView.leadingAnchor, constant: 16),
             adMediaView.trailingAnchor.constraint(equalTo: adCardContainerView.trailingAnchor, constant: -16),
             adMediaView.bottomAnchor.constraint(equalTo: textStack.topAnchor, constant: -12),
             
+            // Cụm Text và Nút CTA ghim ở dưới
             textStack.leadingAnchor.constraint(equalTo: adCardContainerView.leadingAnchor, constant: 16),
             textStack.trailingAnchor.constraint(equalTo: adCardContainerView.trailingAnchor, constant: -16),
             textStack.bottomAnchor.constraint(equalTo: callToActionBtn.topAnchor, constant: -12),
