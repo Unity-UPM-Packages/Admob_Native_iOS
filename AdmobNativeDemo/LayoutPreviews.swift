@@ -157,8 +157,7 @@ private struct PreviewContainer: UIViewRepresentable {
         view.advertiserLbl.text = "Supercell Games"
         view.callToActionBtn.setTitle("CTA", for: .normal)
         view.iconImgView.backgroundColor = .systemBlue
-        view.countdownLbl.text = "5"
-        view.countdownText = "5s remaining..."
+        view.countdownLbl.text = "5s remaining..."
         view.progressBar.progress = 0.4
         
         if let interNoMedia = view as? NativeInterNoMediaLayoutView {

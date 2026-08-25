@@ -31,7 +31,6 @@ public final class NativeRewardNoMediaLayoutView: BaseNativeAdLayoutView {
     
     // Pill đếm giờ màn ngang (5s remaining...)
     private let landscapeCountdownPill = UIView()
-    private let landscapeCountdownLbl = UILabel()
     
     private var lastAppliedIsLandscape: Bool?
     
@@ -126,7 +125,7 @@ public final class NativeRewardNoMediaLayoutView: BaseNativeAdLayoutView {
         skipButton.layer.cornerRadius = 14
         skipButton.clipsToBounds = true
         skipButton.contentEdgeInsets = UIEdgeInsets(top: 6, left: 14, bottom: 6, right: 14)
-        skipButton.addTarget(self, action: #selector(handleCloseTapped), for: .touchUpInside)
+        skipButton.addTarget(self, action: #selector(handleSkipTapped), for: .touchUpInside)
         addSubview(skipButton)
         
         // 4. Pill đếm giờ màn ngang (5s remaining...)
@@ -135,11 +134,11 @@ public final class NativeRewardNoMediaLayoutView: BaseNativeAdLayoutView {
         landscapeCountdownPill.layer.cornerRadius = 14
         landscapeCountdownPill.clipsToBounds = true
         
-        landscapeCountdownLbl.translatesAutoresizingMaskIntoConstraints = false
-        landscapeCountdownLbl.textColor = UIColor(hex: "#C5CCD6")
-        landscapeCountdownLbl.font = UIFont.systemFont(ofSize: 13, weight: .medium)
-        landscapeCountdownLbl.textAlignment = .center
-        landscapeCountdownPill.addSubview(landscapeCountdownLbl)
+        countdownLbl.translatesAutoresizingMaskIntoConstraints = false
+        countdownLbl.textColor = UIColor(hex: "#C5CCD6")
+        countdownLbl.font = UIFont.systemFont(ofSize: 13, weight: .medium)
+        countdownLbl.textAlignment = .center
+        landscapeCountdownPill.addSubview(countdownLbl)
         addSubview(landscapeCountdownPill)
         
         // 5. Nút CTA xanh dương #1A73E8, viền #505763
@@ -191,9 +190,9 @@ public final class NativeRewardNoMediaLayoutView: BaseNativeAdLayoutView {
             skipButton.heightAnchor.constraint(equalToConstant: 28),
             
             landscapeCountdownPill.heightAnchor.constraint(equalToConstant: 28),
-            landscapeCountdownLbl.leadingAnchor.constraint(equalTo: landscapeCountdownPill.leadingAnchor, constant: 14),
-            landscapeCountdownLbl.trailingAnchor.constraint(equalTo: landscapeCountdownPill.trailingAnchor, constant: -14),
-            landscapeCountdownLbl.centerYAnchor.constraint(equalTo: landscapeCountdownPill.centerYAnchor)
+            countdownLbl.leadingAnchor.constraint(equalTo: landscapeCountdownPill.leadingAnchor, constant: 14),
+            countdownLbl.trailingAnchor.constraint(equalTo: landscapeCountdownPill.trailingAnchor, constant: -14),
+            countdownLbl.centerYAnchor.constraint(equalTo: landscapeCountdownPill.centerYAnchor)
         ])
         
         // -------------------------------------------------------------
@@ -322,10 +321,8 @@ public final class NativeRewardNoMediaLayoutView: BaseNativeAdLayoutView {
         self.iconView = largeIconImgView
     }
     
-    public override var countdownText: String? {
-        didSet {
-            landscapeCountdownLbl.text = countdownText
-        }
+    @objc private func handleSkipTapped() {
+        onCloseClicked?()
     }
     
     private func createSkipIcon() -> UIImage {
