@@ -37,10 +37,27 @@ public struct LayoutPreviews_Previews: PreviewProvider {
                 .ignoresSafeArea()
                 .previewDisplayName("4. Interstitial No-Media - Landscape")
             
-            // 3. Native AppOpen (High-CTR)
+            // 5. Native AppOpen (Media - Màn Dọc)
             PreviewContainer(layoutName: "native_appopen_media")
                 .ignoresSafeArea()
-                .previewDisplayName("3. AppOpen - High CTR")
+                .previewDisplayName("5. AppOpen Media - Portrait")
+            
+            // 6. Native AppOpen (Media - Màn Ngang)
+            PreviewContainer(layoutName: "native_appopen_media")
+                .previewInterfaceOrientation(.landscapeLeft)
+                .ignoresSafeArea()
+                .previewDisplayName("6. AppOpen Media - Landscape")
+            
+            // 7. Native AppOpen (No-Media - Màn Dọc)
+            PreviewContainer(layoutName: "native_appopen_no_media")
+                .ignoresSafeArea()
+                .previewDisplayName("7. AppOpen No-Media - Portrait")
+            
+            // 8. Native AppOpen (No-Media - Màn Ngang)
+            PreviewContainer(layoutName: "native_appopen_no_media")
+                .previewInterfaceOrientation(.landscapeLeft)
+                .ignoresSafeArea()
+                .previewDisplayName("8. AppOpen No-Media - Landscape")
             
             // 4. Native Reward (Split Dark V2)
             PreviewContainer(layoutName: "native_reward_media_2")
@@ -107,6 +124,9 @@ private struct PreviewContainer: UIViewRepresentable {
         
         if let interNoMedia = view as? NativeInterNoMediaLayoutView {
             interNoMedia.largeIconImgView.backgroundColor = .systemBlue
+        }
+        if let appOpenNoMedia = view as? NativeAppOpenNoMediaLayoutView {
+            appOpenNoMedia.largeIconImgView.backgroundColor = .systemBlue
         }
         
         return container

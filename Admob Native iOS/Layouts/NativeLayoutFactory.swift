@@ -22,8 +22,11 @@ public final class NativeLayoutFactory {
             return NativeInterNoMediaLayoutView()
             
         // MARK: - 2. Native AppOpen (High CTR)
-        case "native_appopen_media", "native_appopen_no_media":
-            return NativeAppOpenLayoutView(layoutName: name)
+        case "native_appopen_media":
+            return NativeAppOpenMediaLayoutView()
+            
+        case "native_appopen_no_media":
+            return NativeAppOpenNoMediaLayoutView()
             
         // MARK: - 3. Native Reward
         case "native_reward_media", "native_reward_media_2",
