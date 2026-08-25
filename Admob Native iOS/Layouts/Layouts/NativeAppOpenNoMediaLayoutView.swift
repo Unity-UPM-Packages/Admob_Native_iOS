@@ -2,7 +2,7 @@
 //  NativeAppOpenNoMediaLayoutView.swift
 //  Admob Native iOS
 //
-//  Layout AppOpen No-Media toàn màn hình (Edge-to-Edge, Icon lớn 180pt căn giữa trên nền xám #D9D9D9).
+//  Layout AppOpen No-Media toàn màn hình (Chỉ dùng duy nhất Icon lớn 180pt căn giữa trên nền xám #D9D9D9, không dùng icon bé).
 //  Ánh xạ 1:1 chuẩn xác với Android: res/layout/native_appopen_no_media.xml & res/layout-land/native_appopen_no_media.xml.
 //
 
@@ -81,11 +81,6 @@ public final class NativeAppOpenNoMediaLayoutView: BaseNativeAdLayoutView {
         centerContainerView.addSubview(largeIconImgView)
         
         // 5. Cấu hình các widget trong Footer Card trắng
-        iconImgView.translatesAutoresizingMaskIntoConstraints = false
-        iconImgView.layer.cornerRadius = 6
-        iconImgView.clipsToBounds = true
-        footerCardView.addSubview(iconImgView)
-        
         titleRow.translatesAutoresizingMaskIntoConstraints = false
         titleRow.axis = .horizontal
         titleRow.alignment = .center
@@ -158,12 +153,8 @@ public final class NativeAppOpenNoMediaLayoutView: BaseNativeAdLayoutView {
             adBadgeLbl.widthAnchor.constraint(equalToConstant: 24),
             adBadgeLbl.heightAnchor.constraint(equalToConstant: 16),
             
-            iconImgView.widthAnchor.constraint(equalToConstant: 48),
-            iconImgView.heightAnchor.constraint(equalToConstant: 48),
-            iconImgView.leadingAnchor.constraint(equalTo: footerCardView.leadingAnchor, constant: 16),
-            iconImgView.centerYAnchor.constraint(equalTo: footerCardView.centerYAnchor),
-            
-            textStack.leadingAnchor.constraint(equalTo: iconImgView.trailingAnchor, constant: 12),
+            // Text bắt đầu từ lề trái footer
+            textStack.leadingAnchor.constraint(equalTo: footerCardView.leadingAnchor, constant: 16),
             textStack.trailingAnchor.constraint(equalTo: callToActionBtn.leadingAnchor, constant: -12),
             textStack.centerYAnchor.constraint(equalTo: footerCardView.centerYAnchor),
             
@@ -250,5 +241,6 @@ public final class NativeAppOpenNoMediaLayoutView: BaseNativeAdLayoutView {
             largeIconImgView.image = icon.image
             largeIconImgView.isHidden = false
         }
+        self.iconView = largeIconImgView
     }
 }

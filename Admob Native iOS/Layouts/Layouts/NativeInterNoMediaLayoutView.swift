@@ -2,7 +2,7 @@
 //  NativeInterNoMediaLayoutView.swift
 //  Admob Native iOS
 //
-//  Layout Interstitial No-Media toàn màn hình (Icon lớn 180pt căn giữa thay cho MediaView).
+//  Layout Interstitial No-Media toàn màn hình (Chỉ dùng Icon lớn 180pt căn giữa thay cho MediaView, không dùng icon bé).
 //  Ánh xạ 1:1 chuẩn xác với Android: res/layout/native_inter_no_media.xml & res/layout-land/native_inter_no_media.xml.
 //
 
@@ -106,11 +106,6 @@ public final class NativeInterNoMediaLayoutView: BaseNativeAdLayoutView {
         
         topCardView.addSubview(textStack)
         
-        iconImgView.translatesAutoresizingMaskIntoConstraints = false
-        iconImgView.layer.cornerRadius = 6
-        iconImgView.clipsToBounds = true
-        bottomCardView.addSubview(iconImgView)
-        
         callToActionBtn.translatesAutoresizingMaskIntoConstraints = false
         callToActionBtn.backgroundColor = .gntCtaBlue
         callToActionBtn.setTitleColor(.white, for: .normal)
@@ -149,10 +144,7 @@ public final class NativeInterNoMediaLayoutView: BaseNativeAdLayoutView {
             closeButton.heightAnchor.constraint(equalToConstant: 28),
             
             adBadgeLbl.widthAnchor.constraint(equalToConstant: 24),
-            adBadgeLbl.heightAnchor.constraint(equalToConstant: 16),
-            
-            iconImgView.widthAnchor.constraint(equalToConstant: 44),
-            iconImgView.heightAnchor.constraint(equalToConstant: 44)
+            adBadgeLbl.heightAnchor.constraint(equalToConstant: 16)
         ])
         
         let iconSize = LayoutDimensions.largeIconSize
@@ -220,10 +212,8 @@ public final class NativeInterNoMediaLayoutView: BaseNativeAdLayoutView {
             bottomCardView.bottomAnchor.constraint(equalTo: bottomAnchor),
             bottomCardView.heightAnchor.constraint(equalToConstant: 64),
             
-            iconImgView.leadingAnchor.constraint(equalTo: bottomCardView.leadingAnchor, constant: 16),
-            iconImgView.centerYAnchor.constraint(equalTo: bottomCardView.centerYAnchor),
-            
-            textStack.leadingAnchor.constraint(equalTo: iconImgView.trailingAnchor, constant: 12),
+            // Text tràn sang bên trái (vì không dùng icon nhỏ)
+            textStack.leadingAnchor.constraint(equalTo: bottomCardView.leadingAnchor, constant: 16),
             textStack.trailingAnchor.constraint(equalTo: callToActionBtn.leadingAnchor, constant: -12),
             textStack.centerYAnchor.constraint(equalTo: bottomCardView.centerYAnchor),
             
@@ -247,13 +237,10 @@ public final class NativeInterNoMediaLayoutView: BaseNativeAdLayoutView {
         NSLayoutConstraint.deactivate(landscapeConstraints)
         
         if isLandscape {
-            iconImgView.isHidden = false
-            bottomCardView.addSubview(iconImgView)
             bottomCardView.addSubview(textStack)
             bottomCardView.addSubview(callToActionBtn)
             NSLayoutConstraint.activate(landscapeConstraints)
         } else {
-            iconImgView.isHidden = true
             topCardView.addSubview(textStack)
             bottomCardView.addSubview(callToActionBtn)
             NSLayoutConstraint.activate(portraitConstraints)
@@ -269,5 +256,6 @@ public final class NativeInterNoMediaLayoutView: BaseNativeAdLayoutView {
             largeIconImgView.image = icon.image
             largeIconImgView.isHidden = false
         }
+        self.iconView = largeIconImgView
     }
 }
