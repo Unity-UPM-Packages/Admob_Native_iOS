@@ -15,16 +15,27 @@ import Admob_Native_iOS
 public struct LayoutPreviews_Previews: PreviewProvider {
     public static var previews: some View {
         Group {
-            // 1. Native Interstitial (Màn Dọc)
+            // 1. Native Interstitial (Media - Màn Dọc)
             PreviewContainer(layoutName: "native_inter_media")
                 .ignoresSafeArea()
-                .previewDisplayName("1. Interstitial - Portrait")
+                .previewDisplayName("1. Interstitial Media - Portrait")
             
-            // 2. Native Interstitial (Màn Ngang)
+            // 2. Native Interstitial (Media - Màn Ngang)
             PreviewContainer(layoutName: "native_inter_media")
                 .previewInterfaceOrientation(.landscapeLeft)
                 .ignoresSafeArea()
-                .previewDisplayName("2. Interstitial - Landscape")
+                .previewDisplayName("2. Interstitial Media - Landscape")
+            
+            // 3. Native Interstitial (No-Media - Màn Dọc)
+            PreviewContainer(layoutName: "native_inter_no_media")
+                .ignoresSafeArea()
+                .previewDisplayName("3. Interstitial No-Media - Portrait")
+            
+            // 4. Native Interstitial (No-Media - Màn Ngang)
+            PreviewContainer(layoutName: "native_inter_no_media")
+                .previewInterfaceOrientation(.landscapeLeft)
+                .ignoresSafeArea()
+                .previewDisplayName("4. Interstitial No-Media - Landscape")
             
             // 3. Native AppOpen (High-CTR)
             PreviewContainer(layoutName: "native_appopen_media")
@@ -93,6 +104,10 @@ private struct PreviewContainer: UIViewRepresentable {
         view.adMediaView.backgroundColor = UIColor(hex: "#2A2D34")
         view.countdownLbl.text = "5s remaining..."
         view.progressBar.progress = 0.4
+        
+        if let interNoMedia = view as? NativeInterNoMediaLayoutView {
+            interNoMedia.largeIconImgView.backgroundColor = .systemBlue
+        }
         
         return container
     }

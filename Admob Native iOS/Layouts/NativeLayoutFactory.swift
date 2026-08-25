@@ -3,29 +3,53 @@
 //  Admob Native iOS
 //
 //  Factory ánh xạ chuỗi layoutName truyền từ Unity C# sang View UIKit tương ứng.
+//  Khớp chính xác 100% từng chuỗi layoutName từ Android.
 //
 
 import UIKit
 
 public final class NativeLayoutFactory {
+    
     public static func createLayout(layoutName: String) -> BaseNativeAdLayoutView {
-        let name = layoutName.lowercased()
+        let name = layoutName.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
         
-        if name.contains("appopen") {
+        switch name {
+        // MARK: - 1. Native Interstitial (Full Screen)
+        case "native_inter_media", "native_inter_media_2":
+            return NativeInterMediaLayoutView()
+            
+        case "native_inter_no_media", "native_inter_no_media_2":
+            return NativeInterNoMediaLayoutView()
+            
+        // MARK: - 2. Native AppOpen (High CTR)
+        case "native_appopen_media", "native_appopen_no_media":
             return NativeAppOpenLayoutView(layoutName: name)
-        } else if name.contains("reward") {
+            
+        // MARK: - 3. Native Reward
+        case "native_reward_media", "native_reward_media_2",
+             "native_reward_no_media", "native_reward_no_media_2":
             return NativeRewardLayoutView(layoutName: name)
-        } else if name.contains("halfscreen") {
+            
+        // MARK: - 4. Native Half-Screen
+        case "native_halfscreen_media", "native_halfscreen_no_media":
             return NativeHalfScreenLayoutView(layoutName: name)
-        } else if name.contains("banner") {
+            
+        // MARK: - 5. Native Banner
+        case "native_banner":
             return NativeBannerLayoutView(layoutName: name)
-        } else if name.contains("mrec") {
+            
+        // MARK: - 6. Native MREC (300x250)
+        case "native_mrec_media", "native_mrec_no_media":
             return NativeMrecLayoutView(layoutName: name)
-        } else if name.contains("video") {
+            
+        // MARK: - 7. Native Video
+        case "native_video":
             return NativeVideoLayoutView(layoutName: name)
-        } else {
-            // Mặc định là Interstitial (native_inter_media, native_inter_no_media, v.v.)
-            return NativeInterLayoutView(layoutName: name)
+            
+        // MARK: - Default Fallback
+        default:
+            print("[AdmobNativeFactory] Cảnh báo: Không tìm thấy layout chính xác cho '\(layoutName)', dùng fallback 'native_inter_media'")
+            return NativeInterMediaLayoutView()
         }
     }
 }
