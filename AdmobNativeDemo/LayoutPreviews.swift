@@ -125,16 +125,27 @@ public struct LayoutPreviews_Previews: PreviewProvider {
                 .ignoresSafeArea()
                 .previewDisplayName("12d. Reward 2 No-Media - Landscape")
             
-            // 13. Native Half-Screen (Màn Dọc)
+            // 13a. Native Half-Screen (Media - Màn Dọc)
             PreviewContainer(layoutName: "native_halfscreen_media")
                 .ignoresSafeArea()
-                .previewDisplayName("13. Half-Screen - Portrait")
+                .previewDisplayName("13a. Half-Screen Media - Portrait")
             
-            // 14. Native Half-Screen (Màn Ngang)
+            // 13b. Native Half-Screen (Media - Màn Ngang)
             PreviewContainer(layoutName: "native_halfscreen_media")
                 .previewInterfaceOrientation(.landscapeLeft)
                 .ignoresSafeArea()
-                .previewDisplayName("14. Half-Screen - Landscape")
+                .previewDisplayName("13b. Half-Screen Media - Landscape")
+            
+            // 13c. Native Half-Screen (No-Media - Màn Dọc)
+            PreviewContainer(layoutName: "native_halfscreen_no_media")
+                .ignoresSafeArea()
+                .previewDisplayName("13c. Half-Screen No-Media - Portrait")
+            
+            // 13d. Native Half-Screen (No-Media - Màn Ngang)
+            PreviewContainer(layoutName: "native_halfscreen_no_media")
+                .previewInterfaceOrientation(.landscapeLeft)
+                .ignoresSafeArea()
+                .previewDisplayName("13d. Half-Screen No-Media - Landscape")
             
             // 15. Native Banner (Bottom Bar)
             PreviewContainer(layoutName: "native_banner")
@@ -174,12 +185,12 @@ private struct PreviewContainer: UIViewRepresentable {
         ])
         
         // Mock dữ liệu mẫu thuần tuý (text/progress) để render Canvas
-        view.headlineLbl.text = "Clash of Clans: Epic Battles"
-        view.bodyLbl.text = "Lead your clan to victory in legendary strategy wars!"
-        view.advertiserLbl.text = "Supercell Games"
-        view.callToActionBtn.setTitle("CTA", for: .normal)
+        view.headlineLbl.text = "Quảng cáo thử nghiệm"
+        view.bodyLbl.text = "Install Flood-It App for free!"
+        view.advertiserLbl.text = "Install Flood-It App for free!"
+        view.callToActionBtn.setTitle("INSTALL", for: .normal)
         view.iconImgView.backgroundColor = .systemBlue
-        view.countdownLbl.text = "5s remaining..."
+        view.countdownLbl.text = "5"
         view.progressBar.progress = 0.4
         
         if let interNoMedia = view as? NativeInterNoMediaLayoutView {
@@ -196,6 +207,9 @@ private struct PreviewContainer: UIViewRepresentable {
         }
         if let reward2NoMedia = view as? NativeRewardNoMedia2LayoutView {
             reward2NoMedia.largeIconImgView.backgroundColor = .systemBlue
+        }
+        if let halfScreenNoMedia = view as? NativeHalfScreenNoMediaLayoutView {
+            halfScreenNoMedia.largeIconImgView.backgroundColor = .systemBlue
         }
         
         return container

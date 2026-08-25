@@ -48,8 +48,11 @@ public final class NativeLayoutFactory {
             return NativeRewardNoMedia2LayoutView()
             
         // MARK: - 4. Native Half-Screen
-        case "native_halfscreen_media", "native_halfscreen_no_media":
-            return NativeHalfScreenLayoutView(layoutName: name)
+        case "native_halfscreen_media":
+            return NativeHalfScreenMediaLayoutView()
+            
+        case "native_halfscreen_no_media":
+            return NativeHalfScreenNoMediaLayoutView()
             
         // MARK: - 5. Native Banner
         case "native_banner":
