@@ -2,7 +2,7 @@
 //  NativeMrecLayoutView.swift
 //  Admob Native iOS
 //
-//  Layout Native MREC (Medium Rectangle 300x250 format).
+//  Layout Medium Rectangle (300x250) chuẩn AdMob.
 //
 
 import UIKit
@@ -12,7 +12,7 @@ public final class NativeMrecLayoutView: BaseNativeAdLayoutView {
     
     private let isNoMediaVariant: Bool
     
-    public init(layoutName: String) {
+    public init(layoutName: String = "native_mrec_media") {
         self.isNoMediaVariant = layoutName.contains("no_media")
         super.init(frame: .zero)
     }
@@ -24,12 +24,16 @@ public final class NativeMrecLayoutView: BaseNativeAdLayoutView {
     
     public override func setupLayout() {
         backgroundColor = .clear
+        
         cardContainerView.backgroundColor = .gntBgNativeSolid
         cardContainerView.layer.cornerRadius = 8
+        cardContainerView.layer.borderColor = UIColor.gntBorderDark.cgColor
+        cardContainerView.layer.borderWidth = 1
         
         addSubview(cardContainerView)
         
-        cardContainerView.addSubview(isNoMediaVariant ? mainImgView : adMediaView)
+        let mediaOrImage = isNoMediaVariant ? mainImgView : adMediaView
+        cardContainerView.addSubview(mediaOrImage)
         
         let footerStack = UIStackView()
         footerStack.translatesAutoresizingMaskIntoConstraints = false
@@ -47,12 +51,12 @@ public final class NativeMrecLayoutView: BaseNativeAdLayoutView {
         let titleRow = UIStackView()
         titleRow.axis = .horizontal
         titleRow.alignment = .center
-        titleRow.spacing = 4
+        titleRow.spacing = 6
         titleRow.addArrangedSubview(adBadgeLbl)
         titleRow.addArrangedSubview(headlineLbl)
         
         textStack.addArrangedSubview(titleRow)
-        textStack.addArrangedSubview(advertiserLbl)
+        textStack.addArrangedSubview(bodyLbl)
         
         footerStack.addArrangedSubview(textStack)
         footerStack.addArrangedSubview(callToActionBtn)
@@ -63,28 +67,51 @@ public final class NativeMrecLayoutView: BaseNativeAdLayoutView {
             cardContainerView.leadingAnchor.constraint(equalTo: leadingAnchor),
             cardContainerView.trailingAnchor.constraint(equalTo: trailingAnchor),
             
-            // Kích thước chuẩn MREC 300x250 (hoặc co giãn theo container)
-            cardContainerView.widthAnchor.constraint(greaterThanOrEqualToConstant: 300),
-            cardContainerView.heightAnchor.constraint(greaterThanOrEqualToConstant: 250),
-            
-            (isNoMediaVariant ? mainImgView : adMediaView).topAnchor.constraint(equalTo: cardContainerView.topAnchor, constant: 6),
-            (isNoMediaVariant ? mainImgView : adMediaView).leadingAnchor.constraint(equalTo: cardContainerView.leadingAnchor, constant: 6),
-            (isNoMediaVariant ? mainImgView : adMediaView).trailingAnchor.constraint(equalTo: cardContainerView.trailingAnchor, constant: -6),
-            (isNoMediaVariant ? mainImgView : adMediaView).bottomAnchor.constraint(equalTo: footerStack.topAnchor, constant: -6),
+            mediaOrImage.topAnchor.constraint(equalTo: cardContainerView.topAnchor, constant: 8),
+            mediaOrImage.leadingAnchor.constraint(equalTo: cardContainerView.leadingAnchor, constant: 8),
+            mediaOrImage.trailingAnchor.constraint(equalTo: cardContainerView.trailingAnchor, constant: -8),
+            mediaOrImage.bottomAnchor.constraint(equalTo: footerStack.topAnchor, constant: -6),
             
             footerStack.leadingAnchor.constraint(equalTo: cardContainerView.leadingAnchor, constant: 8),
             footerStack.trailingAnchor.constraint(equalTo: cardContainerView.trailingAnchor, constant: -8),
             footerStack.bottomAnchor.constraint(equalTo: cardContainerView.bottomAnchor, constant: -8),
-            footerStack.heightAnchor.constraint(equalToConstant: 48),
+            footerStack.heightAnchor.constraint(equalToConstant: 44),
             
-            iconImgView.widthAnchor.constraint(equalToConstant: 32),
-            iconImgView.heightAnchor.constraint(equalToConstant: 32),
+            iconImgView.widthAnchor.constraint(equalToConstant: 40),
+            iconImgView.heightAnchor.constraint(equalToConstant: 40),
             
-            adBadgeLbl.widthAnchor.constraint(equalToConstant: 20),
+            adBadgeLbl.widthAnchor.constraint(equalToConstant: 22),
             adBadgeLbl.heightAnchor.constraint(equalToConstant: 14),
             
-            callToActionBtn.widthAnchor.constraint(equalToConstant: 90),
+            callToActionBtn.widthAnchor.constraint(equalToConstant: 80),
             callToActionBtn.heightAnchor.constraint(equalToConstant: 32)
         ])
     }
 }
+
+// MARK: - Live Canvas Preview
+#if DEBUG && canImport(SwiftUI)
+import SwiftUI
+
+@available(iOS 15.0, *)
+public struct NativeMrecLayoutView_Previews: PreviewProvider {
+    public static var previews: some View {
+        MrecPreviewContainer()
+            .frame(width: 320, height: 260)
+            .previewDisplayName("MREC Preview")
+    }
+    
+    private struct MrecPreviewContainer: UIViewRepresentable {
+        func makeUIView(context: Context) -> NativeMrecLayoutView {
+            let view = NativeMrecLayoutView()
+            view.headlineLbl.text = "Epic Strategy"
+            view.bodyLbl.text = "Join over 1M players worldwide!"
+            view.callToActionBtn.setTitle("PLAY", for: .normal)
+            view.iconImgView.backgroundColor = .systemBlue
+            view.adMediaView.backgroundColor = UIColor(hex: "#D9D9D9")
+            return view
+        }
+        func updateUIView(_ uiView: NativeMrecLayoutView, context: Context) {}
+    }
+}
+#endif

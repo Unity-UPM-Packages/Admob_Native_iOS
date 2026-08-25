@@ -2,7 +2,7 @@
 //  NativeInterLayoutView.swift
 //  Admob Native iOS
 //
-//  Layout Interstitial toàn màn hình hỗ trợ đầy đủ cả Portrait và Landscape (tương đương layout và layout-land của Android).
+//  Layout Interstitial toàn màn hình hỗ trợ đầy đủ cả Portrait và Landscape.
 //
 
 import UIKit
@@ -103,9 +103,7 @@ public final class NativeInterLayoutView: BaseNativeAdLayoutView {
             progressBar.heightAnchor.constraint(equalToConstant: 3)
         ])
         
-        // -------------------------------------------------------------
-        // PORTRAIT CONSTRAINTS (Màn Dọc)
-        // -------------------------------------------------------------
+        // PORTRAIT
         portraitConstraints = [
             cardContainerView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 50),
             cardContainerView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -16),
@@ -134,9 +132,7 @@ public final class NativeInterLayoutView: BaseNativeAdLayoutView {
             countdownContainerView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -15)
         ]
         
-        // -------------------------------------------------------------
-        // LANDSCAPE CONSTRAINTS (Màn Ngang - tương đương layout-land XML)
-        // -------------------------------------------------------------
+        // LANDSCAPE
         landscapeConstraints = [
             cardContainerView.topAnchor.constraint(equalTo: topAnchor),
             cardContainerView.bottomAnchor.constraint(equalTo: bottomAnchor),
@@ -168,3 +164,37 @@ public final class NativeInterLayoutView: BaseNativeAdLayoutView {
         updateOrientationConstraints()
     }
 }
+
+// MARK: - Live Canvas Preview
+#if DEBUG && canImport(SwiftUI)
+import SwiftUI
+
+@available(iOS 15.0, *)
+public struct NativeInterLayoutView_Previews: PreviewProvider {
+    public static var previews: some View {
+        Group {
+            InterPreviewContainer()
+                .previewDisplayName("Portrait")
+            
+            InterPreviewContainer()
+                .previewInterfaceOrientation(.landscapeLeft)
+                .previewDisplayName("Landscape")
+        }
+    }
+    
+    private struct InterPreviewContainer: UIViewRepresentable {
+        func makeUIView(context: Context) -> NativeInterLayoutView {
+            let view = NativeInterLayoutView(layoutName: "native_inter_media")
+            view.headlineLbl.text = "Clash of Clans"
+            view.advertiserLbl.text = "Supercell"
+            view.callToActionBtn.setTitle("INSTALL NOW", for: .normal)
+            view.iconImgView.backgroundColor = .systemBlue
+            view.adMediaView.backgroundColor = UIColor(hex: "#D9D9D9")
+            view.countdownLbl.text = "5s remaining..."
+            view.progressBar.progress = 0.5
+            return view
+        }
+        func updateUIView(_ uiView: NativeInterLayoutView, context: Context) {}
+    }
+}
+#endif
