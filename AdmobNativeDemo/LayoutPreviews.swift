@@ -134,25 +134,13 @@ private struct PreviewContainer: UIViewRepresentable {
             view.trailingAnchor.constraint(equalTo: container.trailingAnchor)
         ])
         
-        // Mock dữ liệu mẫu để render giao diện trực quan trong Canvas
+        // Mock dữ liệu mẫu thuần tuý (text/progress) để render Canvas
         view.headlineLbl.text = "Clash of Clans: Epic Battles"
         view.bodyLbl.text = "Lead your clan to victory in legendary strategy wars!"
         view.advertiserLbl.text = "Supercell Games"
         view.callToActionBtn.setTitle("INSTALL NOW", for: .normal)
-        view.iconImgView.backgroundColor = .systemBlue
-        view.adMediaView.backgroundColor = UIColor(hex: "#2A2D34")
         view.countdownLbl.text = "5s remaining..."
         view.progressBar.progress = 0.4
-        
-        if let interNoMedia = view as? NativeInterNoMediaLayoutView {
-            interNoMedia.largeIconImgView.backgroundColor = .systemBlue
-        }
-        if let inter2NoMedia = view as? NativeInterNoMedia2LayoutView {
-            inter2NoMedia.largeIconImgView.backgroundColor = .systemBlue
-        }
-        if let appOpenNoMedia = view as? NativeAppOpenNoMediaLayoutView {
-            appOpenNoMedia.largeIconImgView.backgroundColor = .systemBlue
-        }
         
         return container
     }

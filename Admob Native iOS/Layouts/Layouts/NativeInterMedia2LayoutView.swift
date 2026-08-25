@@ -47,7 +47,7 @@ public final class NativeInterMedia2LayoutView: BaseNativeAdLayoutView {
         
         adMediaView.translatesAutoresizingMaskIntoConstraints = false
         adMediaView.contentMode = .scaleAspectFit
-        adMediaView.backgroundColor = .clear
+        adMediaView.backgroundColor = UIColor(hex: "#D9D9D9")
         mediaContainerView.addSubview(adMediaView)
         
         // 2. Info Container (#FFFFFF)
@@ -190,8 +190,8 @@ public final class NativeInterMedia2LayoutView: BaseNativeAdLayoutView {
             mediaContainerView.trailingAnchor.constraint(equalTo: trailingAnchor),
             mediaContainerView.bottomAnchor.constraint(equalTo: infoContainerView.topAnchor),
             
-            // Nút Close X ở góc trên bên phải màn dọc
-            closeButton.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 14),
+            // Nút Close X ở góc trên bên phải trong safe area (nâng cao hơn)
+            closeButton.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 4),
             closeButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
             
             // Info Container (Bottom Card trắng)
@@ -253,6 +253,8 @@ public final class NativeInterMedia2LayoutView: BaseNativeAdLayoutView {
         if isLandscape {
             closeButton.isHidden = true
             circularCountdownView.isHidden = false
+            landscapeButtonRow.addArrangedSubview(landscapeCloseBtn)
+            landscapeButtonRow.addArrangedSubview(callToActionBtn)
             infoContainerView.addSubview(landscapeButtonRow)
             NSLayoutConstraint.activate(landscapeConstraints)
         } else {
