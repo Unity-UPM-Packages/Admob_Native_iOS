@@ -50,6 +50,13 @@
 			);
 			target = D42B858D303D761B004B6144 /* AdmobNativeDemo */;
 		};
+		D42B8693303D8612004B6144 /* Exceptions for "AdmobNativeDemo" folder in "Admob Native iOS" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				LayoutPreviews.swift,
+			);
+			target = D42B8550303D4CBA004B6144 /* Admob Native iOS */;
+		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -62,6 +69,7 @@
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
 				D42B85A2303D774F004B6144 /* Exceptions for "AdmobNativeDemo" folder in "AdmobNativeDemo" target */,
+				D42B8693303D8612004B6144 /* Exceptions for "AdmobNativeDemo" folder in "Admob Native iOS" target */,
 			);
 			path = AdmobNativeDemo;
 			sourceTree = "<group>";
