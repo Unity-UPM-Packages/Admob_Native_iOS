@@ -48,7 +48,7 @@ public extension UIColor {
     }
     
     // Bảng màu chuẩn dự án (đồng bộ 100% với Android)
-    static let gntBgDark = UIColor(hex: "#101826")
+    static let gntBgDark = UIColor(hex: "#0B1528")
     static let gntCardDark = UIColor(hex: "#151F31")
     static let gntRewardBgDark = UIColor(hex: "#2F2A2E")
     static let gntGrayD9 = UIColor(hex: "#D9D9D9")

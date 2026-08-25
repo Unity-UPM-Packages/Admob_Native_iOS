@@ -81,36 +81,53 @@ public struct LayoutPreviews_Previews: PreviewProvider {
                 .ignoresSafeArea()
                 .previewDisplayName("8. AppOpen No-Media - Landscape")
             
-            // 4. Native Reward (Split Dark V2)
-            PreviewContainer(layoutName: "native_reward_media_2")
+            // 9. Native Reward (Media - Màn Dọc)
+            PreviewContainer(layoutName: "native_reward_media")
                 .ignoresSafeArea()
-                .previewDisplayName("4. Reward - Split Dark")
+                .previewDisplayName("9. Reward Media - Portrait")
             
-            // 5. Native Half-Screen (Màn Dọc)
+            // 10. Native Reward (Media - Màn Ngang)
+            PreviewContainer(layoutName: "native_reward_media")
+                .previewInterfaceOrientation(.landscapeLeft)
+                .ignoresSafeArea()
+                .previewDisplayName("10. Reward Media - Landscape")
+            
+            // 11. Native Reward (No-Media - Màn Dọc)
+            PreviewContainer(layoutName: "native_reward_no_media")
+                .ignoresSafeArea()
+                .previewDisplayName("11. Reward No-Media - Portrait")
+            
+            // 12. Native Reward (No-Media - Màn Ngang)
+            PreviewContainer(layoutName: "native_reward_no_media")
+                .previewInterfaceOrientation(.landscapeLeft)
+                .ignoresSafeArea()
+                .previewDisplayName("12. Reward No-Media - Landscape")
+            
+            // 13. Native Half-Screen (Màn Dọc)
             PreviewContainer(layoutName: "native_halfscreen_media")
                 .ignoresSafeArea()
-                .previewDisplayName("5. Half-Screen - Portrait")
+                .previewDisplayName("13. Half-Screen - Portrait")
             
-            // 6. Native Half-Screen (Màn Ngang)
+            // 14. Native Half-Screen (Màn Ngang)
             PreviewContainer(layoutName: "native_halfscreen_media")
                 .previewInterfaceOrientation(.landscapeLeft)
                 .ignoresSafeArea()
-                .previewDisplayName("6. Half-Screen - Landscape")
+                .previewDisplayName("14. Half-Screen - Landscape")
             
-            // 7. Native Banner (Bottom Bar)
+            // 15. Native Banner (Bottom Bar)
             PreviewContainer(layoutName: "native_banner")
                 .frame(height: 70)
-                .previewDisplayName("7. Native Banner")
+                .previewDisplayName("15. Native Banner")
             
-            // 8. Native MREC (300x250)
+            // 16. Native MREC (300x250)
             PreviewContainer(layoutName: "native_mrec_media")
                 .frame(width: 320, height: 260)
-                .previewDisplayName("8. Native MREC")
+                .previewDisplayName("16. Native MREC")
             
-            // 9. Native Video (Màn Dọc)
+            // 17. Native Video (Màn Dọc)
             PreviewContainer(layoutName: "native_video")
                 .ignoresSafeArea()
-                .previewDisplayName("9. Video - Portrait")
+                .previewDisplayName("17. Video - Portrait")
         }
     }
 }
@@ -138,9 +155,10 @@ private struct PreviewContainer: UIViewRepresentable {
         view.headlineLbl.text = "Clash of Clans: Epic Battles"
         view.bodyLbl.text = "Lead your clan to victory in legendary strategy wars!"
         view.advertiserLbl.text = "Supercell Games"
-        view.callToActionBtn.setTitle("INSTALL NOW", for: .normal)
+        view.callToActionBtn.setTitle("CTA", for: .normal)
         view.iconImgView.backgroundColor = .systemBlue
         view.countdownLbl.text = "5"
+        view.countdownText = "5s remaining..."
         view.progressBar.progress = 0.4
         
         if let interNoMedia = view as? NativeInterNoMediaLayoutView {
@@ -151,6 +169,9 @@ private struct PreviewContainer: UIViewRepresentable {
         }
         if let appOpenNoMedia = view as? NativeAppOpenNoMediaLayoutView {
             appOpenNoMedia.largeIconImgView.backgroundColor = .systemBlue
+        }
+        if let rewardNoMedia = view as? NativeRewardNoMediaLayoutView {
+            rewardNoMedia.largeIconImgView.backgroundColor = .systemBlue
         }
         
         return container

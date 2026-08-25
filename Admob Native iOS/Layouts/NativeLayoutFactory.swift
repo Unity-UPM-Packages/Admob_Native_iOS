@@ -35,9 +35,14 @@ public final class NativeLayoutFactory {
             return NativeAppOpenNoMediaLayoutView()
             
         // MARK: - 3. Native Reward
-        case "native_reward_media", "native_reward_media_2",
-             "native_reward_no_media", "native_reward_no_media_2":
-            return NativeRewardLayoutView(layoutName: name)
+        case "native_reward_media":
+            return NativeRewardMediaLayoutView()
+            
+        case "native_reward_no_media":
+            return NativeRewardNoMediaLayoutView()
+            
+        case "native_reward_media_2", "native_reward_no_media_2":
+            return name.contains("no_media") ? NativeRewardNoMediaLayoutView() : NativeRewardMediaLayoutView()
             
         // MARK: - 4. Native Half-Screen
         case "native_halfscreen_media", "native_halfscreen_no_media":
