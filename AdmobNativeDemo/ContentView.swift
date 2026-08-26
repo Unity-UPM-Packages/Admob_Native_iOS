@@ -129,7 +129,7 @@ struct ContentView: View {
         }
     }
     
-    private func showAd(layout: String, countdown: Double, initial: Double) {
+    private func showAd(layout: String, countdown: Float, initial: Float) {
         if countdown > 0 {
             controller.withCountdown(initial: initial, duration: countdown, closeDelay: 1.0)
         }
