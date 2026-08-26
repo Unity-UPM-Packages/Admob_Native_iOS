@@ -171,7 +171,27 @@ private struct PreviewContainer: UIViewRepresentable {
     
     func makeUIView(context: Context) -> UIView {
         let container = UIView()
-        container.backgroundColor = UIColor(hex: "#101826")
+        
+        // Nếu là Half-Screen, tạo nền giả lập Game Screen phía sau để thấy rõ hiệu ứng trong suốt
+        if layoutName.contains("halfscreen") {
+            container.backgroundColor = UIColor(hex: "#1E293B")
+            
+            let gameMockupLbl = UILabel()
+            gameMockupLbl.translatesAutoresizingMaskIntoConstraints = false
+            gameMockupLbl.text = "🎮 GAMEPLAY SCREEN\n(Interactive Area)"
+            gameMockupLbl.textColor = UIColor.white.withAlphaComponent(0.6)
+            gameMockupLbl.font = UIFont.systemFont(ofSize: 18, weight: .heavy)
+            gameMockupLbl.numberOfLines = 2
+            gameMockupLbl.textAlignment = .center
+            container.addSubview(gameMockupLbl)
+            
+            NSLayoutConstraint.activate([
+                gameMockupLbl.centerXAnchor.constraint(equalTo: container.centerXAnchor),
+                gameMockupLbl.centerYAnchor.constraint(equalTo: container.centerYAnchor)
+            ])
+        } else {
+            container.backgroundColor = UIColor(hex: "#101826")
+        }
         
         let view = NativeLayoutFactory.createLayout(layoutName: layoutName)
         view.translatesAutoresizingMaskIntoConstraints = false
