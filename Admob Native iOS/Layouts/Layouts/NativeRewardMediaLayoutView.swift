@@ -282,13 +282,13 @@ public final class NativeRewardMediaLayoutView: BaseNativeAdLayoutView {
             // Cụm Text ở giữa nửa phải
             textStack.leadingAnchor.constraint(equalTo: bottomCardView.leadingAnchor, constant: 32),
             textStack.trailingAnchor.constraint(equalTo: bottomCardView.trailingAnchor, constant: -32),
-            textStack.bottomAnchor.constraint(equalTo: callToActionBtn.topAnchor, constant: -18),
+            textStack.bottomAnchor.constraint(equalTo: callToActionBtn.topAnchor, constant: -14),
             
-            // Nút CTA ở giữa nửa phải
-            callToActionBtn.leadingAnchor.constraint(equalTo: bottomCardView.leadingAnchor, constant: 32),
-            callToActionBtn.trailingAnchor.constraint(equalTo: bottomCardView.trailingAnchor, constant: -32),
-            callToActionBtn.centerYAnchor.constraint(equalTo: bottomCardView.centerYAnchor, constant: 36),
-            callToActionBtn.heightAnchor.constraint(equalToConstant: 44)
+            // Nút CTA ở giữa nửa phải (Rộng 160pt, cao 38pt chuẩn Android)
+            callToActionBtn.centerXAnchor.constraint(equalTo: bottomCardView.centerXAnchor),
+            callToActionBtn.widthAnchor.constraint(equalToConstant: 160),
+            callToActionBtn.heightAnchor.constraint(equalToConstant: 38),
+            callToActionBtn.centerYAnchor.constraint(equalTo: bottomCardView.centerYAnchor, constant: 40)
         ]
         
         updateOrientationConstraints()
