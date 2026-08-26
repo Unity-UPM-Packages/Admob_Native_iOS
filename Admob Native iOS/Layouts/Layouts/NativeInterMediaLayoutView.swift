@@ -159,14 +159,14 @@ public final class NativeInterMediaLayoutView: BaseNativeAdLayoutView {
             
             // Icon bên trái cụm text ở top card
             iconImgView.leadingAnchor.constraint(equalTo: topCardView.leadingAnchor, constant: 16),
-            iconImgView.bottomAnchor.constraint(equalTo: topCardView.bottomAnchor, constant: -10),
+            iconImgView.centerYAnchor.constraint(equalTo: topCardView.centerYAnchor),
             
             textStack.leadingAnchor.constraint(equalTo: iconImgView.trailingAnchor, constant: 10),
-            textStack.centerYAnchor.constraint(equalTo: iconImgView.centerYAnchor),
+            textStack.centerYAnchor.constraint(equalTo: topCardView.centerYAnchor),
             textStack.trailingAnchor.constraint(lessThanOrEqualTo: closeButton.leadingAnchor, constant: -10),
             
             closeButton.trailingAnchor.constraint(equalTo: topCardView.trailingAnchor, constant: -16),
-            closeButton.centerYAnchor.constraint(equalTo: iconImgView.centerYAnchor),
+            closeButton.centerYAnchor.constraint(equalTo: topCardView.centerYAnchor),
             
             topDividerView.topAnchor.constraint(equalTo: topCardView.bottomAnchor),
             

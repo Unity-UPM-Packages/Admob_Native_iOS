@@ -157,11 +157,11 @@ public final class NativeInterNoMediaLayoutView: BaseNativeAdLayoutView {
             topCardView.heightAnchor.constraint(equalToConstant: 80),
             
             textStack.leadingAnchor.constraint(equalTo: topCardView.leadingAnchor, constant: 16),
-            textStack.bottomAnchor.constraint(equalTo: topCardView.bottomAnchor, constant: -12),
+            textStack.centerYAnchor.constraint(equalTo: topCardView.centerYAnchor),
             textStack.trailingAnchor.constraint(lessThanOrEqualTo: closeButton.leadingAnchor, constant: -10),
             
             closeButton.trailingAnchor.constraint(equalTo: topCardView.trailingAnchor, constant: -16),
-            closeButton.centerYAnchor.constraint(equalTo: textStack.centerYAnchor),
+            closeButton.centerYAnchor.constraint(equalTo: topCardView.centerYAnchor),
             
             topDividerView.topAnchor.constraint(equalTo: topCardView.bottomAnchor),
             
