@@ -143,7 +143,7 @@ public final class CountdownDecorator: BaseShowBehavior {
                 adView.countdownLbl.text = "\(secondsRemaining)"
             }
             
-            // Cập nhật thanh progress
+            // Cập nhật thanh progress & circular countdown
             let progress: Float
             if adView.isLineFill {
                 let elapsedMs = totalDurationMs - timeRemainingMs
@@ -152,6 +152,7 @@ public final class CountdownDecorator: BaseShowBehavior {
                 progress = Float(timeRemainingMs / totalDurationMs)
             }
             adView.progressBar.setProgress(max(0.0, min(1.0, progress)), animated: false)
+            adView.circularProgressView.setProgress(max(0.0, min(1.0, progress)))
         }
         
         countdownTimer?.onFinish = { [weak self, weak adView] in

@@ -21,9 +21,6 @@ public final class NativeHalfScreenNoMediaLayoutView: BaseNativeAdLayoutView {
     private let textStack = UIStackView()
     private let subRow = UIStackView()
     
-    // Container chứa Circular Countdown
-    private let countdownContainer = UIView()
-    
     private var lastAppliedIsLandscape: Bool?
     
     public init() {
@@ -50,18 +47,16 @@ public final class NativeHalfScreenNoMediaLayoutView: BaseNativeAdLayoutView {
         adCardView.clipsToBounds = true
         addSubview(adCardView)
         
-        // 2. Circular Countdown ở góc trên bên trái
-        countdownContainer.translatesAutoresizingMaskIntoConstraints = false
-        countdownContainer.backgroundColor = UIColor.black.withAlphaComponent(0.4)
-        countdownContainer.layer.cornerRadius = 14
-        countdownContainer.clipsToBounds = true
-        adCardView.addSubview(countdownContainer)
-        
-        countdownLbl.translatesAutoresizingMaskIntoConstraints = false
-        countdownLbl.textColor = .white
+        // 2. Circular Countdown ở góc trên bên trái (Dùng countdownContainerView & circularProgressView từ Base)
+        countdownContainerView.translatesAutoresizingMaskIntoConstraints = false
+        countdownContainerView.backgroundColor = .clear
+        countdownContainerView.isHidden = true
+        circularProgressView.isHidden = false
+        circularProgressView.progressColor = UIColor(hex: "#7F7F7F")
+        circularProgressView.trackColor = UIColor.white.withAlphaComponent(0.3)
         countdownLbl.font = UIFont.boldSystemFont(ofSize: 12)
-        countdownLbl.textAlignment = .center
-        countdownContainer.addSubview(countdownLbl)
+        countdownLbl.textColor = UIColor(hex: "#7F7F7F")
+        adCardView.addSubview(countdownContainerView)
         
         // 3. Nút Close (X) ở góc trên bên phải
         closeButton.translatesAutoresizingMaskIntoConstraints = false
@@ -127,25 +122,22 @@ public final class NativeHalfScreenNoMediaLayoutView: BaseNativeAdLayoutView {
             adBadgeLbl.widthAnchor.constraint(equalToConstant: 24),
             adBadgeLbl.heightAnchor.constraint(equalToConstant: 16),
             
-            // Countdown container
-            countdownContainer.widthAnchor.constraint(equalToConstant: 28),
-            countdownContainer.heightAnchor.constraint(equalToConstant: 28),
-            countdownContainer.topAnchor.constraint(equalTo: adCardView.topAnchor, constant: 16),
-            countdownContainer.leadingAnchor.constraint(equalTo: adCardView.leadingAnchor, constant: 16),
+            // Countdown container (24x24dp)
+            countdownContainerView.widthAnchor.constraint(equalToConstant: 24),
+            countdownContainerView.heightAnchor.constraint(equalToConstant: 24),
+            countdownContainerView.topAnchor.constraint(equalTo: adCardView.topAnchor, constant: 16),
+            countdownContainerView.leadingAnchor.constraint(equalTo: adCardView.leadingAnchor, constant: 16),
             
-            countdownLbl.centerXAnchor.constraint(equalTo: countdownContainer.centerXAnchor),
-            countdownLbl.centerYAnchor.constraint(equalTo: countdownContainer.centerYAnchor),
-            
-            // Close button
-            closeButton.widthAnchor.constraint(equalToConstant: 28),
-            closeButton.heightAnchor.constraint(equalToConstant: 28),
+            // Close button (24x24dp)
+            closeButton.widthAnchor.constraint(equalToConstant: 24),
+            closeButton.heightAnchor.constraint(equalToConstant: 24),
             closeButton.topAnchor.constraint(equalTo: adCardView.topAnchor, constant: 16),
             closeButton.trailingAnchor.constraint(equalTo: adCardView.trailingAnchor, constant: -16),
             
             // Cụm Text căn ngang hàng với countdown và close button
-            textStack.leadingAnchor.constraint(equalTo: countdownContainer.trailingAnchor, constant: 10),
+            textStack.leadingAnchor.constraint(equalTo: countdownContainerView.trailingAnchor, constant: 10),
             textStack.trailingAnchor.constraint(equalTo: closeButton.leadingAnchor, constant: -10),
-            textStack.topAnchor.constraint(equalTo: adCardView.topAnchor, constant: 14),
+            textStack.centerYAnchor.constraint(equalTo: countdownContainerView.centerYAnchor),
             
             // Icon lớn căn giữa
             largeIconImgView.centerXAnchor.constraint(equalTo: adCardView.centerXAnchor),
@@ -198,6 +190,9 @@ public final class NativeHalfScreenNoMediaLayoutView: BaseNativeAdLayoutView {
         } else {
             NSLayoutConstraint.activate(portraitConstraints)
         }
+        
+        adCardView.bringSubviewToFront(countdownContainerView)
+        adCardView.bringSubviewToFront(closeButton)
     }
     
     public override func populate(nativeAd: GADNativeAd) {

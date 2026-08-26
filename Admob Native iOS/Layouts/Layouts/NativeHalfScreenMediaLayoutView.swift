@@ -59,18 +59,16 @@ public final class NativeHalfScreenMediaLayoutView: BaseNativeAdLayoutView {
         adMediaView.clipsToBounds = true
         adCardView.addSubview(adMediaView)
         
-        // 3. Circular Countdown ở góc trên bên trái MediaView
-        countdownContainer.translatesAutoresizingMaskIntoConstraints = false
-        countdownContainer.backgroundColor = UIColor.black.withAlphaComponent(0.4)
-        countdownContainer.layer.cornerRadius = 14
-        countdownContainer.clipsToBounds = true
-        adCardView.addSubview(countdownContainer)
-        
-        countdownLbl.translatesAutoresizingMaskIntoConstraints = false
-        countdownLbl.textColor = .white
+        // 3. Circular Countdown ở góc trên bên trái MediaView (Dùng countdownContainerView & circularProgressView từ Base)
+        countdownContainerView.translatesAutoresizingMaskIntoConstraints = false
+        countdownContainerView.backgroundColor = .clear
+        countdownContainerView.isHidden = true
+        circularProgressView.isHidden = false
+        circularProgressView.progressColor = UIColor(hex: "#7F7F7F")
+        circularProgressView.trackColor = UIColor.white.withAlphaComponent(0.3)
         countdownLbl.font = UIFont.boldSystemFont(ofSize: 12)
-        countdownLbl.textAlignment = .center
-        countdownContainer.addSubview(countdownLbl)
+        countdownLbl.textColor = UIColor(hex: "#7F7F7F")
+        adCardView.addSubview(countdownContainerView)
         
         // 4. Nút Close (X) ở góc trên bên phải MediaView
         closeButton.translatesAutoresizingMaskIntoConstraints = false
@@ -135,18 +133,15 @@ public final class NativeHalfScreenMediaLayoutView: BaseNativeAdLayoutView {
             adBadgeLbl.widthAnchor.constraint(equalToConstant: 24),
             adBadgeLbl.heightAnchor.constraint(equalToConstant: 16),
             
-            // Countdown container
-            countdownContainer.widthAnchor.constraint(equalToConstant: 28),
-            countdownContainer.heightAnchor.constraint(equalToConstant: 28),
-            countdownContainer.topAnchor.constraint(equalTo: adMediaView.topAnchor, constant: 8),
-            countdownContainer.leadingAnchor.constraint(equalTo: adMediaView.leadingAnchor, constant: 8),
+            // Countdown container (24x24dp giống Android)
+            countdownContainerView.widthAnchor.constraint(equalToConstant: 24),
+            countdownContainerView.heightAnchor.constraint(equalToConstant: 24),
+            countdownContainerView.topAnchor.constraint(equalTo: adMediaView.topAnchor, constant: 8),
+            countdownContainerView.leadingAnchor.constraint(equalTo: adMediaView.leadingAnchor, constant: 8),
             
-            countdownLbl.centerXAnchor.constraint(equalTo: countdownContainer.centerXAnchor),
-            countdownLbl.centerYAnchor.constraint(equalTo: countdownContainer.centerYAnchor),
-            
-            // Close button đè trên góc phải MediaView
-            closeButton.widthAnchor.constraint(equalToConstant: 28),
-            closeButton.heightAnchor.constraint(equalToConstant: 28),
+            // Close button đè trên góc phải MediaView (24x24dp)
+            closeButton.widthAnchor.constraint(equalToConstant: 24),
+            closeButton.heightAnchor.constraint(equalToConstant: 24),
             closeButton.topAnchor.constraint(equalTo: adMediaView.topAnchor, constant: 8),
             closeButton.trailingAnchor.constraint(equalTo: adMediaView.trailingAnchor, constant: -8)
         ])
@@ -222,7 +217,7 @@ public final class NativeHalfScreenMediaLayoutView: BaseNativeAdLayoutView {
             NSLayoutConstraint.activate(portraitConstraints)
         }
         
-        adCardView.bringSubviewToFront(countdownContainer)
+        adCardView.bringSubviewToFront(countdownContainerView)
         adCardView.bringSubviewToFront(closeButton)
     }
 }

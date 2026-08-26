@@ -8,6 +8,15 @@
 import UIKit
 import GoogleMobileAds
 
+// Custom Container View cho phép touch xuyên qua vùng trong suốt
+open class PassthroughContainerView: UIView {
+    open override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+        let hitView = super.hitTest(point, with: event)
+        // Nếu chạm vào chính container (vùng trong suốt), trả về nil để touch xuyên qua màn hình Game
+        return hitView == self ? nil : hitView
+    }
+}
+
 open class BaseShowBehavior: IShowBehavior {
     
     internal var rootView: UIView?
@@ -28,8 +37,8 @@ open class BaseShowBehavior: IShowBehavior {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
             
-            // 1. Container bao bọc toàn bộ màn hình
-            let container = UIView(frame: viewController.view.bounds)
+            // 1. Container bao bọc toàn bộ màn hình (hỗ trợ touch xuyên qua vùng trong suốt)
+            let container = PassthroughContainerView(frame: viewController.view.bounds)
             container.translatesAutoresizingMaskIntoConstraints = false
             container.backgroundColor = .clear
             self.rootView = container

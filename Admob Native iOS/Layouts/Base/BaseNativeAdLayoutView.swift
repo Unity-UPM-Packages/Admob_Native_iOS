@@ -29,6 +29,7 @@ open class BaseNativeAdLayoutView: GADNativeAdView {
     public let progressBar = UIProgressView(progressViewStyle: .default)
     public let countdownLbl = UILabel()
     public let countdownContainerView = UIView()
+    public let circularProgressView = CircularCountdownView()
     public let dividerView = UIView()
     
     // MARK: - Orientation Constraints
@@ -133,11 +134,23 @@ open class BaseNativeAdLayoutView: GADNativeAdView {
         countdownContainerView.clipsToBounds = true
         countdownContainerView.isHidden = true
         
+        circularProgressView.translatesAutoresizingMaskIntoConstraints = false
+        circularProgressView.isHidden = true
+        countdownContainerView.addSubview(circularProgressView)
+        
         countdownLbl.translatesAutoresizingMaskIntoConstraints = false
         countdownLbl.textColor = .white
         countdownLbl.font = UIFont.boldSystemFont(ofSize: LayoutDimensions.countdownTextSize)
         countdownLbl.textAlignment = .center
         countdownLbl.isHidden = true
+        countdownContainerView.addSubview(countdownLbl)
+        
+        NSLayoutConstraint.activate([
+            circularProgressView.topAnchor.constraint(equalTo: countdownContainerView.topAnchor),
+            circularProgressView.bottomAnchor.constraint(equalTo: countdownContainerView.bottomAnchor),
+            circularProgressView.leadingAnchor.constraint(equalTo: countdownContainerView.leadingAnchor),
+            circularProgressView.trailingAnchor.constraint(equalTo: countdownContainerView.trailingAnchor)
+        ])
         
         progressBar.translatesAutoresizingMaskIntoConstraints = false
         progressBar.progressViewStyle = .bar
