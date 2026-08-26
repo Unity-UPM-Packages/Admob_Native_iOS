@@ -22,7 +22,11 @@ public final class NativeInterMedia2LayoutView: BaseNativeAdLayoutView {
     
     // Hàng 2 nút bấm cho màn ngang (Close viền xám + CTA xanh lá)
     private let landscapeButtonRow = UIStackView()
-    private let landscapeCloseBtn = UIButton(type: .system)
+    public let landscapeCloseBtn = UIButton(type: .system)
+    
+    open override var landscapeCloseButton: UIButton? {
+        return landscapeCloseBtn
+    }
     
     private var lastAppliedIsLandscape: Bool?
     
@@ -114,6 +118,9 @@ public final class NativeInterMedia2LayoutView: BaseNativeAdLayoutView {
         landscapeCloseBtn.setTitle("CLOSE", for: .normal)
         landscapeCloseBtn.setTitleColor(.black, for: .normal)
         landscapeCloseBtn.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
+        landscapeCloseBtn.isHidden = true
+        landscapeCloseBtn.alpha = 0.5
+        landscapeCloseBtn.isUserInteractionEnabled = false
         landscapeCloseBtn.addTarget(self, action: #selector(handleLandscapeCloseTapped), for: .touchUpInside)
         
         landscapeButtonRow.translatesAutoresizingMaskIntoConstraints = false
@@ -181,7 +188,7 @@ public final class NativeInterMedia2LayoutView: BaseNativeAdLayoutView {
             
             // Nút Close X ở vị trí tương đương
             closeButton.topAnchor.constraint(equalTo: progressBar.bottomAnchor, constant: 18),
-            closeButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -18),
+            closeButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
             
             // Info Container ở dưới (Bottom Card trắng)
             infoContainerView.leadingAnchor.constraint(equalTo: leadingAnchor),
@@ -189,16 +196,16 @@ public final class NativeInterMedia2LayoutView: BaseNativeAdLayoutView {
             infoContainerView.bottomAnchor.constraint(equalTo: bottomAnchor),
             infoContainerView.heightAnchor.constraint(equalToConstant: 130),
             
-            // TextStack ở bên trái (không dùng icon)
+            // Cụm Text trong bottom card (y hệt no media)
             textStack.leadingAnchor.constraint(equalTo: infoContainerView.leadingAnchor, constant: 16),
-            textStack.trailingAnchor.constraint(equalTo: callToActionBtn.leadingAnchor, constant: -12),
-            textStack.centerYAnchor.constraint(equalTo: infoContainerView.centerYAnchor),
+            textStack.trailingAnchor.constraint(equalTo: infoContainerView.trailingAnchor, constant: -16),
+            textStack.topAnchor.constraint(equalTo: infoContainerView.topAnchor, constant: 14),
             
-            // CTA Button bên phải
+            // Nút CTA xanh tràn viền ngang ở đáy (y hệt no media)
+            callToActionBtn.leadingAnchor.constraint(equalTo: infoContainerView.leadingAnchor, constant: 16),
             callToActionBtn.trailingAnchor.constraint(equalTo: infoContainerView.trailingAnchor, constant: -16),
-            callToActionBtn.centerYAnchor.constraint(equalTo: infoContainerView.centerYAnchor),
-            callToActionBtn.widthAnchor.constraint(equalToConstant: 120),
-            callToActionBtn.heightAnchor.constraint(equalToConstant: 40)
+            callToActionBtn.topAnchor.constraint(equalTo: textStack.bottomAnchor, constant: 12),
+            callToActionBtn.heightAnchor.constraint(equalToConstant: 44)
         ]
         
         // -------------------------------------------------------------

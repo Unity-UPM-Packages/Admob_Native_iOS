@@ -31,6 +31,7 @@ open class BaseNativeAdLayoutView: GADNativeAdView {
     public let countdownContainerView = UIView()
     public let circularProgressView = CircularCountdownView()
     public let dividerView = UIView()
+    open var landscapeCloseButton: UIButton? { return nil }
     
     // MARK: - Orientation Constraints
     public var portraitConstraints: [NSLayoutConstraint] = []

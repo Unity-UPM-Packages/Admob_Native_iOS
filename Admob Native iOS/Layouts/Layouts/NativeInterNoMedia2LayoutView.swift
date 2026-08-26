@@ -24,8 +24,11 @@ public final class NativeInterNoMedia2LayoutView: BaseNativeAdLayoutView {
     private let textStack = UIStackView()
     
     // Hàng 2 nút bấm cho màn ngang (Close viền xám + CTA xanh lá)
-    private let landscapeButtonRow = UIStackView()
     private let landscapeCloseBtn = UIButton(type: .system)
+    
+    public override var landscapeCloseButton: UIButton? {
+        return landscapeCloseBtn
+    }
     
     private var lastAppliedIsLandscape: Bool?
     
@@ -119,6 +122,9 @@ public final class NativeInterNoMedia2LayoutView: BaseNativeAdLayoutView {
         landscapeCloseBtn.setTitle("CLOSE", for: .normal)
         landscapeCloseBtn.setTitleColor(.black, for: .normal)
         landscapeCloseBtn.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
+        landscapeCloseBtn.isHidden = true
+        landscapeCloseBtn.alpha = 0.5
+        landscapeCloseBtn.isUserInteractionEnabled = false
         landscapeCloseBtn.addTarget(self, action: #selector(handleLandscapeCloseTapped), for: .touchUpInside)
         
         landscapeButtonRow.translatesAutoresizingMaskIntoConstraints = false
