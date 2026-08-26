@@ -26,6 +26,7 @@ public final class NativeHalfScreenNoMediaLayoutView: BaseNativeAdLayoutView {
     public init() {
         super.init(frame: .zero)
         self.isLineFill = false
+        self.isCircularProgress = true
     }
     
     public required init?(coder: NSCoder) {

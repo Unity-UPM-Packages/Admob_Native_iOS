@@ -40,6 +40,7 @@ open class BaseNativeAdLayoutView: GADNativeAdView {
     
     // MARK: - Layout Configuration Flags
     public var isLineFill: Bool = false
+    public var isCircularProgress: Bool = false
     public var isRemainingSuffix: Bool = false
     public var onCloseClicked: (() -> Void)?
     
@@ -135,7 +136,7 @@ open class BaseNativeAdLayoutView: GADNativeAdView {
         countdownContainerView.isHidden = true
         
         circularProgressView.translatesAutoresizingMaskIntoConstraints = false
-        circularProgressView.isHidden = false
+        circularProgressView.isHidden = true
         countdownContainerView.addSubview(circularProgressView)
         
         countdownLbl.translatesAutoresizingMaskIntoConstraints = false

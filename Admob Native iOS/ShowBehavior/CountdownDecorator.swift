@@ -105,9 +105,25 @@ public final class CountdownDecorator: BaseShowBehavior {
     }
     
     private func startMainCountdown(adView: BaseNativeAdLayoutView) {
-        adView.countdownContainerView.isHidden = adView.isLineFill
-        adView.progressBar.isHidden = !adView.isLineFill
-        adView.countdownLbl.isHidden = adView.isLineFill
+        if adView.isLineFill {
+            adView.progressBar.isHidden = false
+            adView.countdownContainerView.isHidden = true
+            adView.circularProgressView.isHidden = true
+            adView.countdownLbl.isHidden = true
+            adView.progressBar.progress = 0.0
+        } else if adView.isCircularProgress {
+            adView.progressBar.isHidden = true
+            adView.countdownContainerView.isHidden = false
+            adView.circularProgressView.isHidden = false
+            adView.countdownLbl.isHidden = false
+            adView.circularProgressView.setProgress(1.0)
+        } else {
+            // Dạng Pill (AppOpen, Reward, Inter 1 Landscape)
+            adView.progressBar.isHidden = true
+            adView.countdownContainerView.isHidden = false
+            adView.circularProgressView.isHidden = true
+            adView.countdownLbl.isHidden = false
+        }
         
         adView.closeButton.isHidden = true
         adView.closeButton.alpha = 0.5
@@ -118,14 +134,6 @@ public final class CountdownDecorator: BaseShowBehavior {
         adView.landscapeCloseButton?.isUserInteractionEnabled = false
         
         let totalDurationMs = Double(countdownDurationSeconds * 1000.0)
-        
-        if adView.isLineFill {
-            adView.progressBar.progress = 0.0
-            adView.circularProgressView.setProgress(0.0)
-        } else {
-            adView.progressBar.progress = 1.0
-            adView.circularProgressView.setProgress(1.0)
-        }
         
         countdownTimer = AdmobNativeTimer(durationMillis: totalDurationMs, intervalMillis: 16.0)
         
@@ -152,27 +160,38 @@ public final class CountdownDecorator: BaseShowBehavior {
                 adView.landscapeCloseButton?.isHidden = true
             }
             
-            // Cập nhật text đếm ngược
-            adView.countdownLbl.isHidden = adView.isLineFill
-            adView.countdownContainerView.isHidden = adView.isLineFill
-            adView.progressBar.isHidden = !adView.isLineFill
+            // Cập nhật hiển thị thành phần (Chỉ 1 trong 3 dạng được phép hiện)
+            if adView.isLineFill {
+                adView.progressBar.isHidden = false
+                adView.countdownContainerView.isHidden = true
+                adView.circularProgressView.isHidden = true
+                adView.countdownLbl.isHidden = true
+                
+                let elapsedMs = totalDurationMs - timeRemainingMs
+                let progress = Float(elapsedMs / totalDurationMs)
+                adView.progressBar.setProgress(max(0.0, min(1.0, progress)), animated: false)
+            } else if adView.isCircularProgress {
+                adView.progressBar.isHidden = true
+                adView.countdownContainerView.isHidden = false
+                adView.circularProgressView.isHidden = false
+                adView.countdownLbl.isHidden = false
+                
+                let progress = Float(timeRemainingMs / totalDurationMs)
+                adView.circularProgressView.setProgress(max(0.0, min(1.0, progress)))
+            } else {
+                // Pill
+                adView.progressBar.isHidden = true
+                adView.countdownContainerView.isHidden = false
+                adView.circularProgressView.isHidden = true
+                adView.countdownLbl.isHidden = false
+            }
             
+            // Cập nhật text đếm ngược
             if adView.isRemainingSuffix {
                 adView.countdownLbl.text = "\(secondsRemaining)s remaining..."
             } else {
                 adView.countdownLbl.text = "\(secondsRemaining)"
             }
-            
-            // Cập nhật thanh progress & circular countdown
-            let progress: Float
-            if adView.isLineFill {
-                let elapsedMs = totalDurationMs - timeRemainingMs
-                progress = Float(elapsedMs / totalDurationMs)
-            } else {
-                progress = Float(timeRemainingMs / totalDurationMs)
-            }
-            adView.progressBar.setProgress(max(0.0, min(1.0, progress)), animated: false)
-            adView.circularProgressView.setProgress(max(0.0, min(1.0, progress)))
         }
         
         countdownTimer?.onFinish = { [weak self, weak adView] in
@@ -187,9 +206,10 @@ public final class CountdownDecorator: BaseShowBehavior {
     }
     
     private func startCloseButtonDelay(adView: BaseNativeAdLayoutView) {
-        // Ẩn text đếm ngược và pill
+        // Ẩn text đếm ngược, pill và circularProgressView
         adView.countdownLbl.isHidden = true
         adView.countdownContainerView.isHidden = true
+        adView.circularProgressView.isHidden = true
         
         // Giữ lại thanh progressBar vàng ở mức 1.0 (không ẩn khi chạy hết giờ)
         if adView.isLineFill {

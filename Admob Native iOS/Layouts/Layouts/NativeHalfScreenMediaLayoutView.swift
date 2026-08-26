@@ -29,7 +29,8 @@ public final class NativeHalfScreenMediaLayoutView: BaseNativeAdLayoutView {
     
     public init() {
         super.init(frame: .zero)
-        self.isLineFill = false // Dùng Circular Countdown
+        self.isLineFill = false
+        self.isCircularProgress = true
     }
     
     public required init?(coder: NSCoder) {
