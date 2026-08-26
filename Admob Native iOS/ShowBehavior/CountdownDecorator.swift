@@ -169,7 +169,14 @@ public final class CountdownDecorator: BaseShowBehavior {
         // Ẩn text đếm ngược và pill
         adView.countdownLbl.isHidden = true
         adView.countdownContainerView.isHidden = true
-        adView.progressBar.isHidden = true
+        
+        // Giữ lại thanh progressBar vàng ở mức 1.0 (không ẩn khi chạy hết giờ)
+        if adView.isLineFill {
+            adView.progressBar.isHidden = false
+            adView.progressBar.progress = 1.0
+        } else {
+            adView.progressBar.isHidden = true
+        }
         
         // Hiện rõ nút close nhưng chưa cho click
         adView.closeButton.isHidden = false

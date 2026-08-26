@@ -142,7 +142,7 @@ open class BaseNativeAdLayoutView: GADNativeAdView {
         progressBar.translatesAutoresizingMaskIntoConstraints = false
         progressBar.progressTintColor = .gntAdBadgeYellow
         progressBar.trackTintColor = UIColor.white.withAlphaComponent(0.3)
-        progressBar.layer.cornerRadius = 2
+        progressBar.layer.cornerRadius = 0
         progressBar.clipsToBounds = true
         progressBar.isHidden = true
         
@@ -166,6 +166,11 @@ open class BaseNativeAdLayoutView: GADNativeAdView {
     // MARK: - Auto Orientation Handling (Portrait <-> Landscape)
     open override func layoutSubviews() {
         super.layoutSubviews()
+        progressBar.layer.cornerRadius = 0
+        progressBar.layer.sublayers?.forEach { sublayer in
+            sublayer.cornerRadius = 0
+            sublayer.masksToBounds = true
+        }
         updateOrientationConstraints()
     }
     
