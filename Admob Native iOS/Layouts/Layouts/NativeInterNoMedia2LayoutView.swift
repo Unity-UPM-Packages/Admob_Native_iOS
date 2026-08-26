@@ -24,7 +24,8 @@ public final class NativeInterNoMedia2LayoutView: BaseNativeAdLayoutView {
     private let textStack = UIStackView()
     
     // Hàng 2 nút bấm cho màn ngang (Close viền xám + CTA xanh lá)
-    private let landscapeCloseBtn = UIButton(type: .system)
+    private let landscapeButtonRow = UIStackView()
+    public let landscapeCloseBtn = UIButton(type: .system)
     
     public override var landscapeCloseButton: UIButton? {
         return landscapeCloseBtn
