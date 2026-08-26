@@ -24,7 +24,7 @@ public final class NativeInterMedia2LayoutView: BaseNativeAdLayoutView {
     private let landscapeButtonRow = UIStackView()
     public let landscapeCloseBtn = UIButton(type: .system)
     
-    open override var landscapeCloseButton: UIButton? {
+    public override var landscapeCloseButton: UIButton? {
         return landscapeCloseBtn
     }
     
