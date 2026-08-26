@@ -70,6 +70,7 @@ open class BaseNativeAdLayoutView: GADNativeAdView {
         
         // 2. Media & Images
         adMediaView.translatesAutoresizingMaskIntoConstraints = false
+        adMediaView.contentMode = .scaleAspectFit
         adMediaView.clipsToBounds = true
         
         mainImgView.translatesAutoresizingMaskIntoConstraints = false
