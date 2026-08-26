@@ -237,7 +237,7 @@ open class BaseNativeAdLayoutView: GADNativeAdView {
         onCloseClicked?()
     }
     
-    private func createCloseIcon() -> UIImage? {
+    public func createCloseIcon() -> UIImage? {
         let size = CGSize(width: 28, height: 28)
         UIGraphicsBeginImageContextWithOptions(size, false, 0.0)
         guard let ctx = UIGraphicsGetCurrentContext() else { return nil }
