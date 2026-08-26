@@ -15,152 +15,165 @@ import Admob_Native_iOS
 public struct LayoutPreviews_Previews: PreviewProvider {
     public static var previews: some View {
         Group {
-            // 1. Native Interstitial (Media - Màn Dọc)
+            // MARK: - 1. NATIVE INTERSTITIAL
+            /*
+            // 1. Interstitial Media - Portrait
             PreviewContainer(layoutName: "native_inter_media")
                 .ignoresSafeArea()
                 .previewDisplayName("1. Interstitial Media - Portrait")
             
-            // 2. Native Interstitial (Media - Màn Ngang)
+            // 2. Interstitial Media - Landscape
             PreviewContainer(layoutName: "native_inter_media")
                 .previewInterfaceOrientation(.landscapeLeft)
                 .ignoresSafeArea()
                 .previewDisplayName("2. Interstitial Media - Landscape")
             
-            // 3. Native Interstitial (No-Media - Màn Dọc)
+            // 3. Interstitial No-Media - Portrait
             PreviewContainer(layoutName: "native_inter_no_media")
                 .ignoresSafeArea()
                 .previewDisplayName("3. Interstitial No-Media - Portrait")
             
-            // 4. Native Interstitial (No-Media - Màn Ngang)
+            // 4. Interstitial No-Media - Landscape
             PreviewContainer(layoutName: "native_inter_no_media")
                 .previewInterfaceOrientation(.landscapeLeft)
                 .ignoresSafeArea()
                 .previewDisplayName("4. Interstitial No-Media - Landscape")
             
-            // 4a. Native Interstitial 2 (Media - Màn Dọc)
+            // 5. Interstitial 2 Media - Portrait
             PreviewContainer(layoutName: "native_inter_media_2")
                 .ignoresSafeArea()
-                .previewDisplayName("4a. Interstitial 2 Media - Portrait")
+                .previewDisplayName("5. Interstitial 2 Media - Portrait")
             
-            // 4b. Native Interstitial 2 (Media - Màn Ngang 50/50)
+            // 6. Interstitial 2 Media - Landscape
             PreviewContainer(layoutName: "native_inter_media_2")
                 .previewInterfaceOrientation(.landscapeLeft)
                 .ignoresSafeArea()
-                .previewDisplayName("4b. Interstitial 2 Media - Landscape")
+                .previewDisplayName("6. Interstitial 2 Media - Landscape")
             
-            // 4c. Native Interstitial 2 (No-Media - Màn Dọc)
+            // 7. Interstitial 2 No-Media - Portrait
             PreviewContainer(layoutName: "native_inter_no_media_2")
                 .ignoresSafeArea()
-                .previewDisplayName("4c. Interstitial 2 No-Media - Portrait")
+                .previewDisplayName("7. Interstitial 2 No-Media - Portrait")
             
-            // 4d. Native Interstitial 2 (No-Media - Màn Ngang 50/50)
+            // 8. Interstitial 2 No-Media - Landscape
             PreviewContainer(layoutName: "native_inter_no_media_2")
                 .previewInterfaceOrientation(.landscapeLeft)
                 .ignoresSafeArea()
-                .previewDisplayName("4d. Interstitial 2 No-Media - Landscape")
+                .previewDisplayName("8. Interstitial 2 No-Media - Landscape")
+            */
             
-            // 5. Native AppOpen (Media - Màn Dọc)
+            // MARK: - 2. NATIVE APPOPEN
+            /*
+            // 9. AppOpen Media - Portrait
             PreviewContainer(layoutName: "native_appopen_media")
                 .ignoresSafeArea()
-                .previewDisplayName("5. AppOpen Media - Portrait")
+                .previewDisplayName("9. AppOpen Media - Portrait")
             
-            // 6. Native AppOpen (Media - Màn Ngang)
+            // 10. AppOpen Media - Landscape
             PreviewContainer(layoutName: "native_appopen_media")
                 .previewInterfaceOrientation(.landscapeLeft)
                 .ignoresSafeArea()
-                .previewDisplayName("6. AppOpen Media - Landscape")
+                .previewDisplayName("10. AppOpen Media - Landscape")
             
-            // 7. Native AppOpen (No-Media - Màn Dọc)
+            // 11. AppOpen No-Media - Portrait
             PreviewContainer(layoutName: "native_appopen_no_media")
                 .ignoresSafeArea()
-                .previewDisplayName("7. AppOpen No-Media - Portrait")
+                .previewDisplayName("11. AppOpen No-Media - Portrait")
             
-            // 8. Native AppOpen (No-Media - Màn Ngang)
+            // 12. AppOpen No-Media - Landscape
             PreviewContainer(layoutName: "native_appopen_no_media")
                 .previewInterfaceOrientation(.landscapeLeft)
                 .ignoresSafeArea()
-                .previewDisplayName("8. AppOpen No-Media - Landscape")
+                .previewDisplayName("12. AppOpen No-Media - Landscape")
+            */
             
-            // 9. Native Reward (Media - Màn Dọc)
+            // MARK: - 3. NATIVE REWARD
+            /*
+            // 13. Reward Media - Portrait
             PreviewContainer(layoutName: "native_reward_media")
                 .ignoresSafeArea()
-                .previewDisplayName("9. Reward Media - Portrait")
+                .previewDisplayName("13. Reward Media - Portrait")
             
-            // 10. Native Reward (Media - Màn Ngang)
+            // 14. Reward Media - Landscape
             PreviewContainer(layoutName: "native_reward_media")
                 .previewInterfaceOrientation(.landscapeLeft)
                 .ignoresSafeArea()
-                .previewDisplayName("10. Reward Media - Landscape")
+                .previewDisplayName("14. Reward Media - Landscape")
             
-            // 11. Native Reward (No-Media - Màn Dọc)
+            // 15. Reward No-Media - Portrait
             PreviewContainer(layoutName: "native_reward_no_media")
                 .ignoresSafeArea()
-                .previewDisplayName("11. Reward No-Media - Portrait")
+                .previewDisplayName("15. Reward No-Media - Portrait")
             
-            // 12. Native Reward (No-Media - Màn Ngang)
+            // 16. Reward No-Media - Landscape
             PreviewContainer(layoutName: "native_reward_no_media")
                 .previewInterfaceOrientation(.landscapeLeft)
                 .ignoresSafeArea()
-                .previewDisplayName("12. Reward No-Media - Landscape")
+                .previewDisplayName("16. Reward No-Media - Landscape")
             
-            // 12a. Native Reward 2 (Media - Màn Dọc)
+            // 17. Reward 2 Media - Portrait
             PreviewContainer(layoutName: "native_reward_media_2")
                 .ignoresSafeArea()
-                .previewDisplayName("12a. Reward 2 Media - Portrait")
+                .previewDisplayName("17. Reward 2 Media - Portrait")
             
-            // 12b. Native Reward 2 (Media - Màn Ngang)
+            // 18. Reward 2 Media - Landscape
             PreviewContainer(layoutName: "native_reward_media_2")
                 .previewInterfaceOrientation(.landscapeLeft)
                 .ignoresSafeArea()
-                .previewDisplayName("12b. Reward 2 Media - Landscape")
+                .previewDisplayName("18. Reward 2 Media - Landscape")
             
-            // 12c. Native Reward 2 (No-Media - Màn Dọc)
+            // 19. Reward 2 No-Media - Portrait
             PreviewContainer(layoutName: "native_reward_no_media_2")
                 .ignoresSafeArea()
-                .previewDisplayName("12c. Reward 2 No-Media - Portrait")
+                .previewDisplayName("19. Reward 2 No-Media - Portrait")
             
-            // 12d. Native Reward 2 (No-Media - Màn Ngang)
+            // 20. Reward 2 No-Media - Landscape
             PreviewContainer(layoutName: "native_reward_no_media_2")
                 .previewInterfaceOrientation(.landscapeLeft)
                 .ignoresSafeArea()
-                .previewDisplayName("12d. Reward 2 No-Media - Landscape")
+                .previewDisplayName("20. Reward 2 No-Media - Landscape")
+            */
             
-            // 13. Native Half-Screen (Media - Màn Dọc)
+            // MARK: - 4. NATIVE HALF-SCREEN
+            // 21. Half-Screen Media - Portrait
             PreviewContainer(layoutName: "native_halfscreen_media")
                 .ignoresSafeArea()
-                .previewDisplayName("13. Half-Screen Media - Portrait")
+                .previewDisplayName("21. Half-Screen Media - Portrait")
             
-            // 14. Native Half-Screen (Media - Màn Ngang)
+            // 22. Half-Screen Media - Landscape
             PreviewContainer(layoutName: "native_halfscreen_media")
                 .previewInterfaceOrientation(.landscapeLeft)
                 .ignoresSafeArea()
-                .previewDisplayName("14. Half-Screen Media - Landscape")
+                .previewDisplayName("22. Half-Screen Media - Landscape")
             
-            // 14a. Native Half-Screen (No-Media - Màn Dọc)
+            // 23. Half-Screen No-Media - Portrait
             PreviewContainer(layoutName: "native_halfscreen_no_media")
                 .ignoresSafeArea()
-                .previewDisplayName("14a. Half-Screen No-Media - Portrait")
+                .previewDisplayName("23. Half-Screen No-Media - Portrait")
             
-            // 14b. Native Half-Screen (No-Media - Màn Ngang)
+            // 24. Half-Screen No-Media - Landscape
             PreviewContainer(layoutName: "native_halfscreen_no_media")
                 .previewInterfaceOrientation(.landscapeLeft)
                 .ignoresSafeArea()
-                .previewDisplayName("14b. Half-Screen No-Media - Landscape")
+                .previewDisplayName("24. Half-Screen No-Media - Landscape")
             
-            // 15. Native Banner (Bottom Bar)
+            // MARK: - 5. OTHER FORMATS
+            /*
+            // 25. Native Banner (Bottom Bar)
             PreviewContainer(layoutName: "native_banner")
                 .frame(height: 70)
-                .previewDisplayName("15. Native Banner")
+                .previewDisplayName("25. Native Banner")
             
-            // 16. Native MREC (300x250)
+            // 26. Native MREC (300x250)
             PreviewContainer(layoutName: "native_mrec_media")
                 .frame(width: 320, height: 260)
-                .previewDisplayName("16. Native MREC")
+                .previewDisplayName("26. Native MREC")
             
-            // 17. Native Video (Màn Dọc)
+            // 27. Native Video (Màn Dọc)
             PreviewContainer(layoutName: "native_video")
                 .ignoresSafeArea()
-                .previewDisplayName("17. Video - Portrait")
+                .previewDisplayName("27. Video - Portrait")
+            */
         }
     }
 }
@@ -172,23 +185,9 @@ private struct PreviewContainer: UIViewRepresentable {
     func makeUIView(context: Context) -> UIView {
         let container = UIView()
         
-        // Nếu là Half-Screen, tạo nền giả lập Game Screen phía sau để thấy rõ hiệu ứng trong suốt
+        // Với Half-Screen, để nền trắng sạch sẽ để dễ nhìn phần trong suốt
         if layoutName.contains("halfscreen") {
-            container.backgroundColor = UIColor(hex: "#1E293B")
-            
-            let gameMockupLbl = UILabel()
-            gameMockupLbl.translatesAutoresizingMaskIntoConstraints = false
-            gameMockupLbl.text = "🎮 GAMEPLAY SCREEN\n(Interactive Area)"
-            gameMockupLbl.textColor = UIColor.white.withAlphaComponent(0.6)
-            gameMockupLbl.font = UIFont.systemFont(ofSize: 18, weight: .heavy)
-            gameMockupLbl.numberOfLines = 2
-            gameMockupLbl.textAlignment = .center
-            container.addSubview(gameMockupLbl)
-            
-            NSLayoutConstraint.activate([
-                gameMockupLbl.centerXAnchor.constraint(equalTo: container.centerXAnchor),
-                gameMockupLbl.centerYAnchor.constraint(equalTo: container.centerYAnchor)
-            ])
+            container.backgroundColor = .white
         } else {
             container.backgroundColor = UIColor(hex: "#101826")
         }
