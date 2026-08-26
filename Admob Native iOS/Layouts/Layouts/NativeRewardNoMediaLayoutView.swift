@@ -26,12 +26,6 @@ public final class NativeRewardNoMediaLayoutView: BaseNativeAdLayoutView {
     private let titleRow = UIStackView()
     private let textStack = UIStackView()
     
-    // Nút Skip (▶▶ Skip) dạng Pill bo góc trái (bg_countdown_pill_right)
-    private let skipButton = UIButton(type: .system)
-    
-    // Pill đếm giờ màn ngang (5s remaining...) bo góc phải (bg_countdown_pill_left)
-    private let landscapeCountdownPill = UIView()
-    
     private var lastAppliedIsLandscape: Bool?
     
     public init() {
@@ -115,33 +109,35 @@ public final class NativeRewardNoMediaLayoutView: BaseNativeAdLayoutView {
         textStack.addArrangedSubview(advertiserLbl)
         topCardView.addSubview(textStack)
         
-        // 3. Nút Skip (▶▶ Skip) dạng Pill bo góc trái (3 cạnh thẳng, 1 cạnh cong trái)
-        skipButton.translatesAutoresizingMaskIntoConstraints = false
-        skipButton.backgroundColor = UIColor(hex: "#2B3648")
-        skipButton.setImage(createSkipIcon().withRenderingMode(.alwaysOriginal), for: .normal)
-        skipButton.setTitle(" Skip", for: .normal)
-        skipButton.setTitleColor(.white, for: .normal)
-        skipButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 13)
-        skipButton.layer.cornerRadius = 14
-        skipButton.layer.maskedCorners = [.layerMinXMinYCorner, .layerMinXMaxYCorner] // Bo tròn cạnh trái
-        skipButton.clipsToBounds = true
-        skipButton.contentEdgeInsets = UIEdgeInsets(top: 6, left: 16, bottom: 6, right: 16)
-        skipButton.addTarget(self, action: #selector(handleSkipTapped), for: .touchUpInside)
-        addSubview(skipButton)
+        // 3. Nút Skip (▶▶ Skip) dạng Pill bo góc trái (dùng closeButton của BaseNativeAdLayoutView)
+        closeButton.translatesAutoresizingMaskIntoConstraints = false
+        closeButton.backgroundColor = UIColor(hex: "#2B3648")
+        closeButton.setImage(createSkipIcon().withRenderingMode(.alwaysOriginal), for: .normal)
+        closeButton.setTitle(" Skip", for: .normal)
+        closeButton.setTitleColor(.white, for: .normal)
+        closeButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 13)
+        closeButton.layer.cornerRadius = 14
+        closeButton.layer.maskedCorners = [.layerMinXMinYCorner, .layerMinXMaxYCorner] // Bo tròn cạnh trái
+        closeButton.clipsToBounds = true
+        closeButton.contentEdgeInsets = UIEdgeInsets(top: 6, left: 16, bottom: 6, right: 16)
+        closeButton.isHidden = true // Mặc định ẩn hoàn toàn từ đầu
+        addSubview(closeButton)
         
-        // 4. Pill đếm giờ màn ngang (5s remaining...) bo góc phải (3 cạnh thẳng, 1 cạnh cong phải)
-        landscapeCountdownPill.translatesAutoresizingMaskIntoConstraints = false
-        landscapeCountdownPill.backgroundColor = UIColor(hex: "#2B3648")
-        landscapeCountdownPill.layer.cornerRadius = 14
-        landscapeCountdownPill.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMaxXMaxYCorner] // Bo tròn cạnh phải
-        landscapeCountdownPill.clipsToBounds = true
+        // 4. Pill đếm giờ màn ngang (5s remaining...) bo góc phải (dùng countdownContainerView của BaseNativeAdLayoutView)
+        countdownContainerView.translatesAutoresizingMaskIntoConstraints = false
+        countdownContainerView.backgroundColor = UIColor(hex: "#2B3648")
+        countdownContainerView.layer.cornerRadius = 14
+        countdownContainerView.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMaxXMaxYCorner] // Bo tròn cạnh phải
+        countdownContainerView.clipsToBounds = true
+        countdownContainerView.isHidden = true // Mặc định ẩn hoàn toàn từ đầu
         
         countdownLbl.translatesAutoresizingMaskIntoConstraints = false
         countdownLbl.textColor = UIColor(hex: "#C5CCD6")
         countdownLbl.font = UIFont.systemFont(ofSize: 13, weight: .medium)
         countdownLbl.textAlignment = .center
-        landscapeCountdownPill.addSubview(countdownLbl)
-        addSubview(landscapeCountdownPill)
+        countdownLbl.isHidden = true
+        countdownContainerView.addSubview(countdownLbl)
+        addSubview(countdownContainerView)
         
         // 5. Nút CTA xanh dương #1A73E8, viền #505763
         callToActionBtn.translatesAutoresizingMaskIntoConstraints = false
@@ -158,9 +154,11 @@ public final class NativeRewardNoMediaLayoutView: BaseNativeAdLayoutView {
         progressBar.translatesAutoresizingMaskIntoConstraints = false
         progressBar.progressTintColor = .gntAdBadgeYellow
         progressBar.trackTintColor = .clear
+        progressBar.isHidden = true
         addSubview(progressBar)
         
-        bringSubviewToFront(skipButton)
+        bringSubviewToFront(closeButton)
+        bringSubviewToFront(countdownContainerView)
         bringSubviewToFront(progressBar)
         
         let iconSize = LayoutDimensions.largeIconSize
@@ -188,12 +186,12 @@ public final class NativeRewardNoMediaLayoutView: BaseNativeAdLayoutView {
             largeIconImgView.widthAnchor.constraint(equalToConstant: iconSize),
             largeIconImgView.heightAnchor.constraint(equalToConstant: iconSize),
             
-            skipButton.heightAnchor.constraint(equalToConstant: 28),
+            closeButton.heightAnchor.constraint(equalToConstant: 28),
             
-            landscapeCountdownPill.heightAnchor.constraint(equalToConstant: 28),
-            countdownLbl.leadingAnchor.constraint(equalTo: landscapeCountdownPill.leadingAnchor, constant: 16),
-            countdownLbl.trailingAnchor.constraint(equalTo: landscapeCountdownPill.trailingAnchor, constant: -20),
-            countdownLbl.centerYAnchor.constraint(equalTo: landscapeCountdownPill.centerYAnchor)
+            countdownContainerView.heightAnchor.constraint(equalToConstant: 28),
+            countdownLbl.leadingAnchor.constraint(equalTo: countdownContainerView.leadingAnchor, constant: 16),
+            countdownLbl.trailingAnchor.constraint(equalTo: countdownContainerView.trailingAnchor, constant: -20),
+            countdownLbl.centerYAnchor.constraint(equalTo: countdownContainerView.centerYAnchor)
         ])
         
         // -------------------------------------------------------------
@@ -210,11 +208,11 @@ public final class NativeRewardNoMediaLayoutView: BaseNativeAdLayoutView {
             
             textStack.leadingAnchor.constraint(equalTo: topCardView.leadingAnchor, constant: 16),
             textStack.centerYAnchor.constraint(equalTo: topCardView.centerYAnchor),
-            textStack.trailingAnchor.constraint(lessThanOrEqualTo: skipButton.leadingAnchor, constant: -10),
+            textStack.trailingAnchor.constraint(lessThanOrEqualTo: closeButton.leadingAnchor, constant: -10),
             
-            // Nút Skip neo độc lập ở giữa trục dọc Top Card
-            skipButton.trailingAnchor.constraint(equalTo: topCardView.trailingAnchor),
-            skipButton.centerYAnchor.constraint(equalTo: topCardView.centerYAnchor),
+            // Nút Skip (closeButton) neo độc lập ở giữa trục dọc Top Card
+            closeButton.trailingAnchor.constraint(equalTo: topCardView.trailingAnchor),
+            closeButton.centerYAnchor.constraint(equalTo: topCardView.centerYAnchor),
             
             topDividerView.topAnchor.constraint(equalTo: topCardView.bottomAnchor),
             
@@ -260,8 +258,8 @@ public final class NativeRewardNoMediaLayoutView: BaseNativeAdLayoutView {
             iconContainerView.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.5),
             
             // Pill đếm giờ chạm sát mép trái (3 cạnh thẳng, 1 cạnh cong phải)
-            landscapeCountdownPill.leadingAnchor.constraint(equalTo: leadingAnchor),
-            landscapeCountdownPill.topAnchor.constraint(equalTo: topAnchor, constant: 16),
+            countdownContainerView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            countdownContainerView.topAnchor.constraint(equalTo: topAnchor, constant: 16),
             
             // Nửa phải 50%: Bottom Card (đóng vai trò right_container màu #2F2A2E)
             bottomCardView.topAnchor.constraint(equalTo: topAnchor),
@@ -269,9 +267,9 @@ public final class NativeRewardNoMediaLayoutView: BaseNativeAdLayoutView {
             bottomCardView.trailingAnchor.constraint(equalTo: trailingAnchor),
             bottomCardView.leadingAnchor.constraint(equalTo: iconContainerView.trailingAnchor),
             
-            // Nút Skip chạm sát mép phải (3 cạnh thẳng, 1 cạnh cong trái)
-            skipButton.trailingAnchor.constraint(equalTo: trailingAnchor),
-            skipButton.topAnchor.constraint(equalTo: topAnchor, constant: 16),
+            // Nút Skip (closeButton) chạm sát mép phải (3 cạnh thẳng, 1 cạnh cong trái)
+            closeButton.trailingAnchor.constraint(equalTo: trailingAnchor),
+            closeButton.topAnchor.constraint(equalTo: topAnchor, constant: 16),
             
             // Cụm Text ở giữa nửa phải
             textStack.leadingAnchor.constraint(equalTo: bottomCardView.leadingAnchor, constant: 32),
@@ -299,23 +297,23 @@ public final class NativeRewardNoMediaLayoutView: BaseNativeAdLayoutView {
         NSLayoutConstraint.deactivate(landscapeConstraints)
         
         if isLandscape {
-            progressBar.isHidden = true
-            landscapeCountdownPill.isHidden = false
+            self.isLineFill = false
+            self.isRemainingSuffix = true
             bottomCardView.backgroundColor = UIColor(hex: "#2F2A2E")
             bottomCardView.addSubview(textStack)
             bottomCardView.addSubview(callToActionBtn)
             NSLayoutConstraint.activate(landscapeConstraints)
         } else {
-            progressBar.isHidden = false
-            landscapeCountdownPill.isHidden = true
+            self.isLineFill = true
+            self.isRemainingSuffix = false
             bottomCardView.backgroundColor = UIColor(hex: "#0B1528")
             topCardView.addSubview(textStack)
             bottomCardView.addSubview(callToActionBtn)
             NSLayoutConstraint.activate(portraitConstraints)
         }
         
-        bringSubviewToFront(skipButton)
-        bringSubviewToFront(landscapeCountdownPill)
+        bringSubviewToFront(closeButton)
+        bringSubviewToFront(countdownContainerView)
         bringSubviewToFront(progressBar)
     }
     
