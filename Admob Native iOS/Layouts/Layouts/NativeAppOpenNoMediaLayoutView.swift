@@ -27,6 +27,7 @@ public final class NativeAppOpenNoMediaLayoutView: BaseNativeAdLayoutView {
     public init() {
         super.init(frame: .zero)
         self.isLineFill = false
+        self.isRemainingSuffix = true
     }
     
     public required init?(coder: NSCoder) {

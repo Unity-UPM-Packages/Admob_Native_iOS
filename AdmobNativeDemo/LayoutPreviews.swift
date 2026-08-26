@@ -236,7 +236,7 @@ private struct PreviewContainer: UIViewRepresentable {
         view.advertiserLbl.text = "Make your business more visible!"
         view.callToActionBtn.setTitle("CONTINUE", for: .normal)
         view.iconImgView.backgroundColor = .systemBlue
-        view.countdownLbl.text = "5"
+        view.countdownLbl.text = layoutName.contains("appopen") ? "5s remaining..." : "5"
         view.progressBar.progress = 0.4
         
         if let interNoMedia = view as? NativeInterNoMediaLayoutView {
