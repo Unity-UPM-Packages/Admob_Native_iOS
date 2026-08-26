@@ -116,8 +116,10 @@ public final class CountdownDecorator: BaseShowBehavior {
         
         if adView.isLineFill {
             adView.progressBar.progress = 0.0
+            adView.circularProgressView.setProgress(0.0)
         } else {
             adView.progressBar.progress = 1.0
+            adView.circularProgressView.setProgress(1.0)
         }
         
         countdownTimer = AdmobNativeTimer(durationMillis: totalDurationMs, intervalMillis: 16.0)

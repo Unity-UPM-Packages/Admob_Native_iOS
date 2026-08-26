@@ -149,7 +149,10 @@ open class BaseNativeAdLayoutView: GADNativeAdView {
             circularProgressView.topAnchor.constraint(equalTo: countdownContainerView.topAnchor),
             circularProgressView.bottomAnchor.constraint(equalTo: countdownContainerView.bottomAnchor),
             circularProgressView.leadingAnchor.constraint(equalTo: countdownContainerView.leadingAnchor),
-            circularProgressView.trailingAnchor.constraint(equalTo: countdownContainerView.trailingAnchor)
+            circularProgressView.trailingAnchor.constraint(equalTo: countdownContainerView.trailingAnchor),
+            
+            countdownLbl.centerXAnchor.constraint(equalTo: countdownContainerView.centerXAnchor),
+            countdownLbl.centerYAnchor.constraint(equalTo: countdownContainerView.centerYAnchor)
         ])
         
         progressBar.translatesAutoresizingMaskIntoConstraints = false

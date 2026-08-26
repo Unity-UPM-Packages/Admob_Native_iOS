@@ -3,21 +3,14 @@
 //  Admob Native iOS
 //
 //  Custom View vẽ vòng tròn đếm ngược (Circular Progress Ring) dạng fill/stroke mất dần
-//  Ánh xạ 1:1 với drawable/circular_progress_bar.xml của Android.
+//  Ánh xạ 1:1 với drawable/circular_progress_bar.xml của Android (chỉ có 1 viền ring duy nhất, không có nền mờ phía sau).
 //
 
 import UIKit
 
 public final class CircularCountdownView: UIView {
     
-    private let trackLayer = CAShapeLayer()
     private let progressLayer = CAShapeLayer()
-    
-    public var trackColor: UIColor = UIColor.white.withAlphaComponent(0.2) {
-        didSet {
-            trackLayer.strokeColor = trackColor.cgColor
-        }
-    }
     
     public var progressColor: UIColor = UIColor(hex: "#7F7F7F") {
         didSet {
@@ -27,7 +20,6 @@ public final class CircularCountdownView: UIView {
     
     public var ringLineWidth: CGFloat = 2.5 {
         didSet {
-            trackLayer.lineWidth = ringLineWidth
             progressLayer.lineWidth = ringLineWidth
             setNeedsLayout()
         }
@@ -46,11 +38,6 @@ public final class CircularCountdownView: UIView {
     private func setupLayers() {
         backgroundColor = .clear
         
-        trackLayer.fillColor = UIColor.clear.cgColor
-        trackLayer.strokeColor = trackColor.cgColor
-        trackLayer.lineWidth = ringLineWidth
-        layer.addSublayer(trackLayer)
-        
         progressLayer.fillColor = UIColor.clear.cgColor
         progressLayer.strokeColor = progressColor.cgColor
         progressLayer.lineWidth = ringLineWidth
@@ -61,12 +48,11 @@ public final class CircularCountdownView: UIView {
     
     public override func layoutSubviews() {
         super.layoutSubviews()
-        trackLayer.frame = bounds
         progressLayer.frame = bounds
         
         let center = CGPoint(x: bounds.midX, y: bounds.midY)
         let radius = max(0, (min(bounds.width, bounds.height) - ringLineWidth) / 2)
-        // Bắt đầu từ đỉnh trên cùng (-90 độ)
+        // Bắt đầu từ đỉnh trên cùng (-90 độ / 270 độ như Android)
         let startAngle = -CGFloat.pi / 2
         let endAngle = startAngle + 2 * CGFloat.pi
         let path = UIBezierPath(
@@ -77,7 +63,6 @@ public final class CircularCountdownView: UIView {
             clockwise: true
         )
         
-        trackLayer.path = path.cgPath
         progressLayer.path = path.cgPath
     }
     
