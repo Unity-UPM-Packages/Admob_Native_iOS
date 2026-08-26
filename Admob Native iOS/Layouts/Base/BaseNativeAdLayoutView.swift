@@ -121,7 +121,7 @@ open class BaseNativeAdLayoutView: GADNativeAdView {
         // 6. Close Button
         closeButton.translatesAutoresizingMaskIntoConstraints = false
         closeButton.setImage(createCloseIcon(), for: .normal)
-        closeButton.backgroundColor = UIColor.black.withAlphaComponent(0.4)
+        closeButton.backgroundColor = .clear
         closeButton.layer.cornerRadius = LayoutDimensions.closeBtnSize / 2.0
         closeButton.clipsToBounds = true
         closeButton.isHidden = true // Ẩn mặc định từ đầu để tránh nháy khi load
@@ -129,13 +129,12 @@ open class BaseNativeAdLayoutView: GADNativeAdView {
         
         // 7. Countdown & Progress
         countdownContainerView.translatesAutoresizingMaskIntoConstraints = false
-        countdownContainerView.backgroundColor = .gntPillBg
-        countdownContainerView.layer.cornerRadius = 12
+        countdownContainerView.backgroundColor = .clear
         countdownContainerView.clipsToBounds = true
         countdownContainerView.isHidden = true
         
         circularProgressView.translatesAutoresizingMaskIntoConstraints = false
-        circularProgressView.isHidden = true
+        circularProgressView.isHidden = false
         countdownContainerView.addSubview(circularProgressView)
         
         countdownLbl.translatesAutoresizingMaskIntoConstraints = false

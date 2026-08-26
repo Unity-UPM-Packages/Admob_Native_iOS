@@ -64,9 +64,9 @@ public final class NativeHalfScreenMediaLayoutView: BaseNativeAdLayoutView {
         countdownContainerView.backgroundColor = .clear
         countdownContainerView.isHidden = true
         circularProgressView.isHidden = false
-        circularProgressView.progressColor = UIColor(hex: "#7F7F7F")
+        circularProgressView.progressColor = .white
         countdownLbl.font = UIFont.boldSystemFont(ofSize: 12)
-        countdownLbl.textColor = UIColor(hex: "#7F7F7F")
+        countdownLbl.textColor = .white
         adCardView.addSubview(countdownContainerView)
         
         // 4. Nút Close (X) ở góc trên bên phải MediaView
