@@ -125,27 +125,27 @@ public struct LayoutPreviews_Previews: PreviewProvider {
                 .ignoresSafeArea()
                 .previewDisplayName("12d. Reward 2 No-Media - Landscape")
             
-            // 13a. Native Half-Screen (Media - Màn Dọc)
+            // 13. Native Half-Screen (Media - Màn Dọc)
             PreviewContainer(layoutName: "native_halfscreen_media")
                 .ignoresSafeArea()
-                .previewDisplayName("13a. Half-Screen Media - Portrait")
+                .previewDisplayName("13. Half-Screen Media - Portrait")
             
-            // 13b. Native Half-Screen (Media - Màn Ngang)
+            // 14. Native Half-Screen (Media - Màn Ngang)
             PreviewContainer(layoutName: "native_halfscreen_media")
                 .previewInterfaceOrientation(.landscapeLeft)
                 .ignoresSafeArea()
-                .previewDisplayName("13b. Half-Screen Media - Landscape")
+                .previewDisplayName("14. Half-Screen Media - Landscape")
             
-            // 13c. Native Half-Screen (No-Media - Màn Dọc)
+            // 14a. Native Half-Screen (No-Media - Màn Dọc)
             PreviewContainer(layoutName: "native_halfscreen_no_media")
                 .ignoresSafeArea()
-                .previewDisplayName("13c. Half-Screen No-Media - Portrait")
+                .previewDisplayName("14a. Half-Screen No-Media - Portrait")
             
-            // 13d. Native Half-Screen (No-Media - Màn Ngang)
+            // 14b. Native Half-Screen (No-Media - Màn Ngang)
             PreviewContainer(layoutName: "native_halfscreen_no_media")
                 .previewInterfaceOrientation(.landscapeLeft)
                 .ignoresSafeArea()
-                .previewDisplayName("13d. Half-Screen No-Media - Landscape")
+                .previewDisplayName("14b. Half-Screen No-Media - Landscape")
             
             // 15. Native Banner (Bottom Bar)
             PreviewContainer(layoutName: "native_banner")
@@ -171,12 +171,7 @@ private struct PreviewContainer: UIViewRepresentable {
     
     func makeUIView(context: Context) -> UIView {
         let container = UIView()
-        // Nếu là Half-Screen thì dùng màu nền sáng (#E5E9F0) để giả lập màn hình game phía sau
-        if layoutName.contains("halfscreen") {
-            container.backgroundColor = UIColor(hex: "#E5E9F0")
-        } else {
-            container.backgroundColor = UIColor(hex: "#101826")
-        }
+        container.backgroundColor = UIColor(hex: "#101826")
         
         let view = NativeLayoutFactory.createLayout(layoutName: layoutName)
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -191,11 +186,10 @@ private struct PreviewContainer: UIViewRepresentable {
         
         // Mock dữ liệu mẫu thuần tuý (text/progress) để render Canvas
         view.headlineLbl.text = "Quảng cáo thử nghiệm"
-        view.bodyLbl.text = "Install Flood-It App for free!"
+        view.bodyLbl.text = "Lead your clan to victory in legendary strategy wars!"
         view.advertiserLbl.text = "Install Flood-It App for free!"
         view.callToActionBtn.setTitle("INSTALL", for: .normal)
         view.iconImgView.backgroundColor = .systemBlue
-        view.adMediaView.layer.backgroundColor = UIColor(hex: "#9E9E9E").cgColor
         view.countdownLbl.text = "5"
         view.progressBar.progress = 0.4
         
