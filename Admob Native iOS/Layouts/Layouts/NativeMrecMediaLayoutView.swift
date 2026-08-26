@@ -91,10 +91,10 @@ public final class NativeMrecMediaLayoutView: BaseNativeAdLayoutView {
         infoBar.addArrangedSubview(bodyLbl)
         mrecCardView.addSubview(infoBar)
         
-        // 7. Nút CTA xanh chuối (#C9FF23, chữ đen #0E2139) ở dưới cùng
+        // 7. Nút CTA xanh dương (#1A73E8, chữ trắng) ở dưới cùng
         callToActionBtn.translatesAutoresizingMaskIntoConstraints = false
-        callToActionBtn.backgroundColor = UIColor(hex: "#C9FF23")
-        callToActionBtn.setTitleColor(UIColor(hex: "#0E2139"), for: .normal)
+        callToActionBtn.backgroundColor = UIColor(hex: "#1A73E8")
+        callToActionBtn.setTitleColor(.white, for: .normal)
         callToActionBtn.titleLabel?.font = UIFont.boldSystemFont(ofSize: 15)
         callToActionBtn.layer.cornerRadius = 6
         callToActionBtn.clipsToBounds = true

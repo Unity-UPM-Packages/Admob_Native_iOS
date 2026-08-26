@@ -78,14 +78,21 @@ open class BaseShowBehavior: IShowBehavior {
     }
     
     open func destroy() {
-        DispatchQueue.main.async { [weak self] in
-            guard let self = self else { return }
+        let performDestroy = {
             self.currentAdView?.nativeAd = nil
             self.currentAdView?.removeFromSuperview()
             self.currentAdView = nil
             
             self.rootView?.removeFromSuperview()
             self.rootView = nil
+        }
+        
+        if Thread.isMainThread {
+            performDestroy()
+        } else {
+            DispatchQueue.main.async {
+                performDestroy()
+            }
         }
     }
     

@@ -111,6 +111,7 @@ struct ContentView: View {
             }
             .navigationTitle("AdMob Native iOS Demo")
         }
+        .navigationViewStyle(.stack)
         .onAppear {
             GADMobileAds.sharedInstance().start(completionHandler: nil)
         }

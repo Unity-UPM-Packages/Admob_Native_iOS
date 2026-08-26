@@ -119,12 +119,16 @@ public final class AdmobNativeController: NSObject {
         )
         
         currentShowBehavior = behavior
-        callbacks?.onAdShow?(clientPtr)
+        
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            self.callbacks?.onAdShow?(self.clientPtr)
+        }
     }
     
     // MARK: - Destroy Ad
     public func destroyAd() {
-        DispatchQueue.main.async { [weak self] in
+        let performDestroy = { [weak self] in
             guard let self = self else { return }
             self.countdownConfig = nil
             self.positionConfig = nil
@@ -136,6 +140,14 @@ public final class AdmobNativeController: NSObject {
             self.adLoader = nil
             
             self.callbacks?.onAdClosed?(self.clientPtr)
+        }
+        
+        if Thread.isMainThread {
+            performDestroy()
+        } else {
+            DispatchQueue.main.async {
+                performDestroy()
+            }
         }
     }
     
@@ -230,13 +242,15 @@ extension AdmobNativeController: GADNativeAdLoaderDelegate, GADNativeAdDelegate,
             
             // Paid Event Listener
             nativeAd.paidEventHandler = { [weak self] adValue in
-                guard let self = self else { return }
-                let precision = Int32(adValue.precision.rawValue)
-                let micros = adValue.value.multiplying(byPowerOf10: 6).int64Value
-                let currency = adValue.currencyCode
-                
-                currency.withCString { cStr in
-                    self.callbacks?.onPaidEvent?(self.clientPtr, precision, micros, cStr)
+                DispatchQueue.main.async {
+                    guard let self = self else { return }
+                    let precision = Int32(adValue.precision.rawValue)
+                    let micros = adValue.value.multiplying(byPowerOf10: 6).int64Value
+                    let currency = adValue.currencyCode
+                    
+                    currency.withCString { cStr in
+                        self.callbacks?.onPaidEvent?(self.clientPtr, precision, micros, cStr)
+                    }
                 }
             }
             
