@@ -162,7 +162,6 @@ public final class NativeInterNoMedia2LayoutView: BaseNativeAdLayoutView {
         NSLayoutConstraint.activate([
             progressBar.leadingAnchor.constraint(equalTo: leadingAnchor),
             progressBar.trailingAnchor.constraint(equalTo: trailingAnchor),
-            progressBar.topAnchor.constraint(equalTo: topAnchor),
             progressBar.heightAnchor.constraint(equalToConstant: 4),
             
             closeButton.widthAnchor.constraint(equalToConstant: 28),
@@ -191,6 +190,9 @@ public final class NativeInterNoMedia2LayoutView: BaseNativeAdLayoutView {
         // PORTRAIT CONSTRAINTS (Màn Dọc - Toàn Màn Hình Edge-to-Edge)
         // -------------------------------------------------------------
         portraitConstraints = [
+            // ProgressBar nằm dưới Safe Area (Dynamic Island / Tai thỏ)
+            progressBar.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
+            
             // Icon Container ở trên
             iconContainerView.topAnchor.constraint(equalTo: topAnchor),
             iconContainerView.leadingAnchor.constraint(equalTo: leadingAnchor),
@@ -223,6 +225,8 @@ public final class NativeInterNoMedia2LayoutView: BaseNativeAdLayoutView {
         // LANDSCAPE CONSTRAINTS (Màn Ngang - Phân Chia 50/50 2 Nửa)
         // -------------------------------------------------------------
         landscapeConstraints = [
+            progressBar.topAnchor.constraint(equalTo: topAnchor),
+            
             // Nửa trái 50%: Icon Container (#D9D9D9)
             iconContainerView.topAnchor.constraint(equalTo: topAnchor),
             iconContainerView.bottomAnchor.constraint(equalTo: bottomAnchor),

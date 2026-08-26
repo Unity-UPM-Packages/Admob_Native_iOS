@@ -123,6 +123,7 @@ open class BaseNativeAdLayoutView: GADNativeAdView {
         closeButton.backgroundColor = UIColor.black.withAlphaComponent(0.4)
         closeButton.layer.cornerRadius = LayoutDimensions.closeBtnSize / 2.0
         closeButton.clipsToBounds = true
+        closeButton.isHidden = true // Ẩn mặc định từ đầu để tránh nháy khi load
         closeButton.addTarget(self, action: #selector(handleCloseTapped), for: .touchUpInside)
         
         // 7. Countdown & Progress
@@ -130,17 +131,20 @@ open class BaseNativeAdLayoutView: GADNativeAdView {
         countdownContainerView.backgroundColor = .gntPillBg
         countdownContainerView.layer.cornerRadius = 12
         countdownContainerView.clipsToBounds = true
+        countdownContainerView.isHidden = true
         
         countdownLbl.translatesAutoresizingMaskIntoConstraints = false
         countdownLbl.textColor = .white
         countdownLbl.font = UIFont.boldSystemFont(ofSize: LayoutDimensions.countdownTextSize)
         countdownLbl.textAlignment = .center
+        countdownLbl.isHidden = true
         
         progressBar.translatesAutoresizingMaskIntoConstraints = false
         progressBar.progressTintColor = .gntAdBadgeYellow
         progressBar.trackTintColor = UIColor.white.withAlphaComponent(0.3)
         progressBar.layer.cornerRadius = 2
         progressBar.clipsToBounds = true
+        progressBar.isHidden = true
         
         // 8. Divider line
         dividerView.translatesAutoresizingMaskIntoConstraints = false
