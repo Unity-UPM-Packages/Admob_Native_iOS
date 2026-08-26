@@ -135,6 +135,7 @@ public struct LayoutPreviews_Previews: PreviewProvider {
             */
             
             // MARK: - 4. NATIVE HALF-SCREEN
+            /*
             // 21. Half-Screen Media - Portrait
             PreviewContainer(layoutName: "native_halfscreen_media")
                 .ignoresSafeArea()
@@ -156,23 +157,30 @@ public struct LayoutPreviews_Previews: PreviewProvider {
                 .previewInterfaceOrientation(.landscapeLeft)
                 .ignoresSafeArea()
                 .previewDisplayName("24. Half-Screen No-Media - Landscape")
+            */
             
             // MARK: - 5. OTHER FORMATS
-            /*
-            // 25. Native Banner (Bottom Bar)
+            // 25. Native Banner - Portrait
             PreviewContainer(layoutName: "native_banner")
-                .frame(height: 70)
-                .previewDisplayName("25. Native Banner")
+                .ignoresSafeArea()
+                .previewDisplayName("25. Native Banner - Portrait")
             
-            // 26. Native MREC (300x250)
+            // 26. Native Banner - Landscape
+            PreviewContainer(layoutName: "native_banner")
+                .previewInterfaceOrientation(.landscapeLeft)
+                .ignoresSafeArea()
+                .previewDisplayName("26. Native Banner - Landscape")
+            
+            /*
+            // 27. Native MREC (300x250)
             PreviewContainer(layoutName: "native_mrec_media")
                 .frame(width: 320, height: 260)
-                .previewDisplayName("26. Native MREC")
+                .previewDisplayName("27. Native MREC")
             
-            // 27. Native Video (Màn Dọc)
+            // 28. Native Video (Màn Dọc)
             PreviewContainer(layoutName: "native_video")
                 .ignoresSafeArea()
-                .previewDisplayName("27. Video - Portrait")
+                .previewDisplayName("28. Video - Portrait")
             */
         }
     }
@@ -185,8 +193,8 @@ private struct PreviewContainer: UIViewRepresentable {
     func makeUIView(context: Context) -> UIView {
         let container = UIView()
         
-        // Với Half-Screen, để nền trắng sạch sẽ để dễ nhìn phần trong suốt
-        if layoutName.contains("halfscreen") {
+        // Với Half-Screen và Banner, để nền trắng sạch sẽ để dễ nhìn phần trong suốt
+        if layoutName.contains("halfscreen") || layoutName.contains("banner") {
             container.backgroundColor = .white
         } else {
             container.backgroundColor = UIColor(hex: "#101826")

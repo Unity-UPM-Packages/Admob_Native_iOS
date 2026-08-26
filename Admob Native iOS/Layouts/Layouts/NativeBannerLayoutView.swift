@@ -2,13 +2,27 @@
 //  NativeBannerLayoutView.swift
 //  Admob Native iOS
 //
-//  Layout Native Banner nhỏ dạng bar đính cạnh màn hình (Bottom/Top).
+//  Layout Native Banner đính cạnh dưới màn hình (cao 60pt), phần còn lại trong suốt cho phép tương tác Game/App.
+//  Nền #0E2139 trong suốt 80%, CTA màu #C9FF23.
+//  Ánh xạ 1:1 chuẩn xác với Android: res/layout/native_banner.xml & res/layout-land/native_banner.xml.
 //
 
 import UIKit
 import GoogleMobileAds
 
 public final class NativeBannerLayoutView: BaseNativeAdLayoutView {
+    
+    // Khung chứa nội dung Banner (đính ở đáy màn hình, cao 60pt)
+    private let bannerContainerView = UIView()
+    
+    // Cụm Text màn dọc
+    private let portraitTextStack = UIStackView()
+    private let portraitTitleRow = UIStackView()
+    
+    // Cụm Text màn ngang (1 hàng ngang: [Ad] -> Headline -> Advertiser)
+    private let landscapeRow = UIStackView()
+    
+    private var lastAppliedIsLandscape: Bool?
     
     public init(layoutName: String = "native_banner") {
         super.init(frame: .zero)
@@ -18,60 +32,168 @@ public final class NativeBannerLayoutView: BaseNativeAdLayoutView {
         super.init(coder: coder)
     }
     
+    // Cho phép touch xuyên qua phần màn hình phía trên Banner để tương tác với Game/App
+    public override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+        let hitView = super.hitTest(point, with: event)
+        return hitView == self ? nil : hitView
+    }
+    
     public override func setupLayout() {
         backgroundColor = .clear
         
-        cardContainerView.backgroundColor = .gntBgNativeBanner
-        cardContainerView.layer.cornerRadius = 0 // Banner tràn viền cạnh dưới
+        // 1. Banner Container (Màu #0E2139 trong suốt 80%, đính sát đáy, cao 60pt)
+        bannerContainerView.translatesAutoresizingMaskIntoConstraints = false
+        bannerContainerView.backgroundColor = UIColor(hex: "#0E2139").withAlphaComponent(0.8)
+        bannerContainerView.clipsToBounds = true
+        addSubview(bannerContainerView)
         
-        addSubview(cardContainerView)
+        // 2. Icon ứng dụng bên trái
+        iconImgView.translatesAutoresizingMaskIntoConstraints = false
+        iconImgView.contentMode = .scaleAspectFit
+        iconImgView.layer.cornerRadius = 6
+        iconImgView.clipsToBounds = true
+        bannerContainerView.addSubview(iconImgView)
         
-        let contentStack = UIStackView()
-        contentStack.translatesAutoresizingMaskIntoConstraints = false
-        contentStack.axis = .horizontal
-        contentStack.alignment = .center
-        contentStack.spacing = 10
-        cardContainerView.addSubview(contentStack)
+        // 3. Nhãn Ad màu vàng chữ nâu
+        adBadgeLbl.translatesAutoresizingMaskIntoConstraints = false
+        adBadgeLbl.backgroundColor = .gntAdBadgeYellow
+        adBadgeLbl.textColor = .gntAdBadgeTextBrown
+        adBadgeLbl.font = UIFont.boldSystemFont(ofSize: 10)
+        adBadgeLbl.layer.cornerRadius = 3
+        adBadgeLbl.clipsToBounds = true
+        adBadgeLbl.textAlignment = .center
         
-        contentStack.addArrangedSubview(iconImgView)
+        // 4. Headline (chữ trắng/xám sáng in đậm)
+        headlineLbl.translatesAutoresizingMaskIntoConstraints = false
+        headlineLbl.textColor = .white
+        headlineLbl.font = UIFont.boldSystemFont(ofSize: 14)
+        headlineLbl.numberOfLines = 1
+        headlineLbl.lineBreakMode = .byTruncatingTail
+        headlineLbl.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         
-        let textStack = UIStackView()
-        textStack.axis = .vertical
-        textStack.spacing = 2
+        // 5. Advertiser (chữ xám #B6BCC3)
+        advertiserLbl.translatesAutoresizingMaskIntoConstraints = false
+        advertiserLbl.textColor = UIColor(hex: "#B6BCC3")
+        advertiserLbl.font = UIFont.systemFont(ofSize: 12)
+        advertiserLbl.numberOfLines = 1
+        advertiserLbl.lineBreakMode = .byTruncatingTail
         
-        let titleRow = UIStackView()
-        titleRow.axis = .horizontal
-        titleRow.alignment = .center
-        titleRow.spacing = 6
-        titleRow.addArrangedSubview(adBadgeLbl)
-        titleRow.addArrangedSubview(headlineLbl)
+        // 6. Cấu hình Cụm Text Màn Dọc (2 dòng: Dòng 1 [Ad] + Headline, Dòng 2 Advertiser)
+        portraitTitleRow.translatesAutoresizingMaskIntoConstraints = false
+        portraitTitleRow.axis = .horizontal
+        portraitTitleRow.alignment = .center
+        portraitTitleRow.spacing = 6
+        portraitTitleRow.addArrangedSubview(adBadgeLbl)
+        portraitTitleRow.addArrangedSubview(headlineLbl)
         
-        textStack.addArrangedSubview(titleRow)
-        textStack.addArrangedSubview(bodyLbl)
+        portraitTextStack.translatesAutoresizingMaskIntoConstraints = false
+        portraitTextStack.axis = .vertical
+        portraitTextStack.alignment = .leading
+        portraitTextStack.spacing = 3
+        portraitTextStack.addArrangedSubview(portraitTitleRow)
+        portraitTextStack.addArrangedSubview(advertiserLbl)
+        bannerContainerView.addSubview(portraitTextStack)
         
-        contentStack.addArrangedSubview(textStack)
-        contentStack.addArrangedSubview(callToActionBtn)
+        // 7. Cấu hình Cụm Text Màn Ngang (1 hàng ngang: [Ad] -> Headline -> Advertiser)
+        landscapeRow.translatesAutoresizingMaskIntoConstraints = false
+        landscapeRow.axis = .horizontal
+        landscapeRow.alignment = .center
+        landscapeRow.spacing = 8
+        landscapeRow.distribution = .fill
         
+        // 8. Nút CTA xanh chuối (#C9FF23, chữ đen #0E2139)
+        callToActionBtn.translatesAutoresizingMaskIntoConstraints = false
+        callToActionBtn.backgroundColor = UIColor(hex: "#C9FF23")
+        callToActionBtn.setTitleColor(UIColor(hex: "#0E2139"), for: .normal)
+        callToActionBtn.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
+        callToActionBtn.layer.cornerRadius = 6
+        callToActionBtn.clipsToBounds = true
+        bannerContainerView.addSubview(callToActionBtn)
+        
+        // Base Constraints cố định: Banner luôn đính sát đáy với chiều cao chuẩn 60pt
         NSLayoutConstraint.activate([
-            cardContainerView.topAnchor.constraint(equalTo: topAnchor),
-            cardContainerView.bottomAnchor.constraint(equalTo: bottomAnchor),
-            cardContainerView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            cardContainerView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            bannerContainerView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            bannerContainerView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            bannerContainerView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            bannerContainerView.heightAnchor.constraint(equalToConstant: 60),
             
-            contentStack.leadingAnchor.constraint(equalTo: cardContainerView.leadingAnchor, constant: 8),
-            contentStack.trailingAnchor.constraint(equalTo: cardContainerView.trailingAnchor, constant: -8),
-            contentStack.topAnchor.constraint(equalTo: cardContainerView.topAnchor, constant: 4),
-            contentStack.bottomAnchor.constraint(equalTo: cardContainerView.bottomAnchor, constant: -4),
+            adBadgeLbl.widthAnchor.constraint(equalToConstant: 24),
+            adBadgeLbl.heightAnchor.constraint(equalToConstant: 16),
             
-            iconImgView.widthAnchor.constraint(equalToConstant: 44),
-            iconImgView.heightAnchor.constraint(equalToConstant: 44),
-            
-            adBadgeLbl.widthAnchor.constraint(equalToConstant: 22),
-            adBadgeLbl.heightAnchor.constraint(equalToConstant: 14),
-            
-            callToActionBtn.widthAnchor.constraint(equalToConstant: 100),
-            callToActionBtn.heightAnchor.constraint(equalToConstant: 36)
+            callToActionBtn.trailingAnchor.constraint(equalTo: bannerContainerView.trailingAnchor, constant: -10),
+            callToActionBtn.centerYAnchor.constraint(equalTo: bannerContainerView.centerYAnchor),
+            callToActionBtn.heightAnchor.constraint(equalToConstant: 40)
         ])
+        
+        // -------------------------------------------------------------
+        // PORTRAIT CONSTRAINTS (Màn Dọc)
+        // Icon (46x46) -> Cụm Text 2 tầng -> CTA (120pt)
+        // -------------------------------------------------------------
+        portraitConstraints = [
+            iconImgView.leadingAnchor.constraint(equalTo: bannerContainerView.leadingAnchor, constant: 8),
+            iconImgView.centerYAnchor.constraint(equalTo: bannerContainerView.centerYAnchor),
+            iconImgView.widthAnchor.constraint(equalToConstant: 46),
+            iconImgView.heightAnchor.constraint(equalToConstant: 46),
+            
+            portraitTextStack.leadingAnchor.constraint(equalTo: iconImgView.trailingAnchor, constant: 8),
+            portraitTextStack.trailingAnchor.constraint(equalTo: callToActionBtn.leadingAnchor, constant: -8),
+            portraitTextStack.centerYAnchor.constraint(equalTo: bannerContainerView.centerYAnchor),
+            
+            callToActionBtn.widthAnchor.constraint(equalToConstant: 120)
+        ]
+        
+        // -------------------------------------------------------------
+        // LANDSCAPE CONSTRAINTS (Màn Ngang)
+        // Icon (38x38) -> [Ad] -> Headline -> Advertiser -> CTA (130pt)
+        // -------------------------------------------------------------
+        landscapeConstraints = [
+            iconImgView.leadingAnchor.constraint(equalTo: bannerContainerView.leadingAnchor, constant: 10),
+            iconImgView.centerYAnchor.constraint(equalTo: bannerContainerView.centerYAnchor),
+            iconImgView.widthAnchor.constraint(equalToConstant: 38),
+            iconImgView.heightAnchor.constraint(equalToConstant: 38),
+            
+            landscapeRow.leadingAnchor.constraint(equalTo: iconImgView.trailingAnchor, constant: 10),
+            landscapeRow.trailingAnchor.constraint(equalTo: callToActionBtn.leadingAnchor, constant: -10),
+            landscapeRow.centerYAnchor.constraint(equalTo: bannerContainerView.centerYAnchor),
+            
+            callToActionBtn.widthAnchor.constraint(equalToConstant: 130)
+        ]
+        
+        updateOrientationConstraints()
+    }
+    
+    public override func updateOrientationConstraints() {
+        guard bounds.width > 0 && bounds.height > 0 else { return }
+        let isLandscape = bounds.width > bounds.height
+        
+        if lastAppliedIsLandscape == isLandscape { return }
+        lastAppliedIsLandscape = isLandscape
+        
+        NSLayoutConstraint.deactivate(portraitConstraints)
+        NSLayoutConstraint.deactivate(landscapeConstraints)
+        
+        if isLandscape {
+            portraitTextStack.removeFromSuperview()
+            landscapeRow.arrangedSubviews.forEach { $0.removeFromSuperview() }
+            
+            landscapeRow.addArrangedSubview(adBadgeLbl)
+            landscapeRow.addArrangedSubview(headlineLbl)
+            landscapeRow.addArrangedSubview(advertiserLbl)
+            bannerContainerView.addSubview(landscapeRow)
+            
+            NSLayoutConstraint.activate(landscapeConstraints)
+        } else {
+            landscapeRow.removeFromSuperview()
+            portraitTitleRow.arrangedSubviews.forEach { $0.removeFromSuperview() }
+            portraitTextStack.arrangedSubviews.forEach { $0.removeFromSuperview() }
+            
+            portraitTitleRow.addArrangedSubview(adBadgeLbl)
+            portraitTitleRow.addArrangedSubview(headlineLbl)
+            portraitTextStack.addArrangedSubview(portraitTitleRow)
+            portraitTextStack.addArrangedSubview(advertiserLbl)
+            bannerContainerView.addSubview(portraitTextStack)
+            
+            NSLayoutConstraint.activate(portraitConstraints)
+        }
     }
 }
-
