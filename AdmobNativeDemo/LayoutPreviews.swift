@@ -173,21 +173,33 @@ public struct LayoutPreviews_Previews: PreviewProvider {
                 .previewDisplayName("26. Native Banner - Landscape")
             */
             
-            // 27. Native MREC Media (300x250)
+            // 27. Native MREC Media - Portrait
             PreviewContainer(layoutName: "native_mrec_media")
                 .ignoresSafeArea()
-                .previewDisplayName("27. Native MREC Media")
+                .previewDisplayName("27. Native MREC Media - Portrait")
             
-            // 28. Native MREC No-Media (300x250)
+            // 28. Native MREC Media - Landscape
+            PreviewContainer(layoutName: "native_mrec_media")
+                .previewInterfaceOrientation(.landscapeLeft)
+                .ignoresSafeArea()
+                .previewDisplayName("28. Native MREC Media - Landscape")
+            
+            // 29. Native MREC No-Media - Portrait
             PreviewContainer(layoutName: "native_mrec_no_media")
                 .ignoresSafeArea()
-                .previewDisplayName("28. Native MREC No-Media")
+                .previewDisplayName("29. Native MREC No-Media - Portrait")
+            
+            // 30. Native MREC No-Media - Landscape
+            PreviewContainer(layoutName: "native_mrec_no_media")
+                .previewInterfaceOrientation(.landscapeLeft)
+                .ignoresSafeArea()
+                .previewDisplayName("30. Native MREC No-Media - Landscape")
             
             /*
-            // 29. Native Video (Màn Dọc)
+            // 31. Native Video (Màn Dọc)
             PreviewContainer(layoutName: "native_video")
                 .ignoresSafeArea()
-                .previewDisplayName("29. Video - Portrait")
+                .previewDisplayName("31. Video - Portrait")
             */
         }
     }
