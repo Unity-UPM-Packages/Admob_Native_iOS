@@ -41,6 +41,7 @@ public final class NativeBannerLayoutView: BaseNativeAdLayoutView {
     
     public override func setupLayout() {
         backgroundColor = .clear
+        self.mediaView = nil
         
         // 1. Banner Container (Màu #0E2139 trong suốt 80%, đính sát đáy, cao 60pt)
         bannerContainerView.translatesAutoresizingMaskIntoConstraints = false
@@ -106,10 +107,10 @@ public final class NativeBannerLayoutView: BaseNativeAdLayoutView {
         landscapeTitleGroup.addArrangedSubview(adBadgeLbl)
         landscapeTitleGroup.addArrangedSubview(headlineLbl)
         
-        // 8. Nút CTA xanh chuối (#C9FF23, chữ đen #0E2139)
+        // 8. Nút CTA xanh dương (#1A73E8, chữ trắng)
         callToActionBtn.translatesAutoresizingMaskIntoConstraints = false
-        callToActionBtn.backgroundColor = UIColor(hex: "#C9FF23")
-        callToActionBtn.setTitleColor(UIColor(hex: "#0E2139"), for: .normal)
+        callToActionBtn.backgroundColor = UIColor(hex: "#1A73E8")
+        callToActionBtn.setTitleColor(.white, for: .normal)
         callToActionBtn.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
         callToActionBtn.layer.cornerRadius = 6
         callToActionBtn.clipsToBounds = true
@@ -210,5 +211,10 @@ public final class NativeBannerLayoutView: BaseNativeAdLayoutView {
             
             NSLayoutConstraint.activate(portraitConstraints)
         }
+    }
+    
+    public override func populate(nativeAd: GADNativeAd) {
+        super.populate(nativeAd: nativeAd)
+        self.mediaView = nil
     }
 }
