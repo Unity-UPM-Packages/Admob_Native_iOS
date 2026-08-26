@@ -105,9 +105,9 @@ public final class CountdownDecorator: BaseShowBehavior {
     }
     
     private func startMainCountdown(adView: BaseNativeAdLayoutView) {
-        adView.countdownContainerView.isHidden = false
+        adView.countdownContainerView.isHidden = adView.isLineFill
         adView.progressBar.isHidden = !adView.isLineFill
-        adView.countdownLbl.isHidden = false
+        adView.countdownLbl.isHidden = adView.isLineFill
         adView.closeButton.isHidden = true
         adView.closeButton.alpha = 0.5
         adView.closeButton.isUserInteractionEnabled = false
@@ -166,12 +166,10 @@ public final class CountdownDecorator: BaseShowBehavior {
     }
     
     private func startCloseButtonDelay(adView: BaseNativeAdLayoutView) {
-        // Ẩn text đếm ngược
+        // Ẩn text đếm ngược và pill
         adView.countdownLbl.isHidden = true
-        if !adView.isLineFill {
-            adView.progressBar.isHidden = true
-            adView.countdownContainerView.isHidden = true
-        }
+        adView.countdownContainerView.isHidden = true
+        adView.progressBar.isHidden = true
         
         // Hiện rõ nút close nhưng chưa cho click
         adView.closeButton.isHidden = false
