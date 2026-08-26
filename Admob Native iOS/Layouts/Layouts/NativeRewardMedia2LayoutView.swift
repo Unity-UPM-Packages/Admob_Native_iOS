@@ -144,8 +144,6 @@ public final class NativeRewardMedia2LayoutView: BaseNativeAdLayoutView {
         
         // 7. Thanh ProgressBar màu vàng ở sát mép trên màn dọc
         progressBar.translatesAutoresizingMaskIntoConstraints = false
-        progressBar.progressTintColor = .gntAdBadgeYellow
-        progressBar.trackTintColor = .clear
         progressBar.isHidden = true
         addSubview(progressBar)
         

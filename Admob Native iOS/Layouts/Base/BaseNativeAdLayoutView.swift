@@ -140,8 +140,9 @@ open class BaseNativeAdLayoutView: GADNativeAdView {
         countdownLbl.isHidden = true
         
         progressBar.translatesAutoresizingMaskIntoConstraints = false
-        progressBar.progressTintColor = .gntAdBadgeYellow
-        progressBar.trackTintColor = UIColor.white.withAlphaComponent(0.3)
+        progressBar.progressViewStyle = .bar
+        progressBar.progressImage = BaseNativeAdLayoutView.createSolidColorImage(color: .gntAdBadgeYellow)
+        progressBar.trackImage = BaseNativeAdLayoutView.createSolidColorImage(color: UIColor.white.withAlphaComponent(0.3))
         progressBar.layer.cornerRadius = 0
         progressBar.clipsToBounds = true
         progressBar.isHidden = true
@@ -192,26 +193,9 @@ open class BaseNativeAdLayoutView: GADNativeAdView {
     
     // MARK: - Populate Data
     open func populate(nativeAd: GADNativeAd) {
-        if let headline = nativeAd.headline {
-            headlineLbl.text = headline
-            headlineLbl.isHidden = false
-        } else {
-            headlineLbl.isHidden = true
-        }
-        
-        if let body = nativeAd.body {
-            bodyLbl.text = body
-            bodyLbl.isHidden = false
-        } else {
-            bodyLbl.isHidden = true
-        }
-        
-        if let cta = nativeAd.callToAction {
-            callToActionBtn.setTitle(cta, for: .normal)
-            callToActionBtn.isHidden = false
-        } else {
-            callToActionBtn.isHidden = true
-        }
+        headlineLbl.text = nativeAd.headline
+        bodyLbl.text = nativeAd.body
+        callToActionBtn.setTitle(nativeAd.callToAction, for: .normal)
         
         if let icon = nativeAd.icon {
             iconImgView.image = icon.image
@@ -240,6 +224,17 @@ open class BaseNativeAdLayoutView: GADNativeAdView {
     
     @objc private func handleCloseTapped() {
         onCloseClicked?()
+    }
+    
+    public static func createSolidColorImage(color: UIColor) -> UIImage? {
+        let size = CGSize(width: 2, height: 2)
+        UIGraphicsBeginImageContextWithOptions(size, false, 0.0)
+        guard let ctx = UIGraphicsGetCurrentContext() else { return nil }
+        ctx.setFillColor(color.cgColor)
+        ctx.fill(CGRect(origin: .zero, size: size))
+        let image = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return image
     }
     
     public func createCloseIcon() -> UIImage? {

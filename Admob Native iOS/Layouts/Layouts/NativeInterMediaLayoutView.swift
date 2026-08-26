@@ -117,9 +117,9 @@ public final class NativeInterMediaLayoutView: BaseNativeAdLayoutView {
         closeButton.translatesAutoresizingMaskIntoConstraints = false
         addSubview(closeButton)
         
+        // 7. Thanh ProgressBar màu vàng ở sát mép trên màn dọc
         progressBar.translatesAutoresizingMaskIntoConstraints = false
-        progressBar.progressTintColor = .gntAdBadgeYellow
-        progressBar.trackTintColor = .clear
+        progressBar.isHidden = true
         addSubview(progressBar)
         
         bringSubviewToFront(closeButton)

@@ -134,8 +134,7 @@ public final class NativeInterMedia2LayoutView: BaseNativeAdLayoutView {
         addSubview(closeButton)
         
         progressBar.translatesAutoresizingMaskIntoConstraints = false
-        progressBar.progressTintColor = .gntAdBadgeYellow
-        progressBar.trackTintColor = .clear
+        progressBar.isHidden = true
         addSubview(progressBar)
         
         // 8. Circular Countdown (màn ngang)
