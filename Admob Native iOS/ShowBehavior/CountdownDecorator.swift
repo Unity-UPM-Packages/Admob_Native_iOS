@@ -143,6 +143,10 @@ public final class CountdownDecorator: BaseShowBehavior {
             }
             
             // Cập nhật text đếm ngược
+            adView.countdownLbl.isHidden = adView.isLineFill
+            adView.countdownContainerView.isHidden = adView.isLineFill
+            adView.progressBar.isHidden = !adView.isLineFill
+            
             if adView.isRemainingSuffix {
                 adView.countdownLbl.text = "\(secondsRemaining)s remaining..."
             } else {

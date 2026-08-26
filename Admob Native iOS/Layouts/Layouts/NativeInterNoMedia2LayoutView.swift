@@ -257,6 +257,7 @@ public final class NativeInterNoMedia2LayoutView: BaseNativeAdLayoutView {
             progressBar.isHidden = true
             closeButton.isHidden = true
             countdownContainerView.isHidden = false
+            countdownLbl.isHidden = false
             circularProgressView.isHidden = false
             circularProgressView.progressColor = UIColor(hex: "#7F7F7F")
             countdownLbl.textColor = UIColor(hex: "#7F7F7F")
