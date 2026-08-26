@@ -63,12 +63,12 @@ public final class NativeMrecNoMediaLayoutView: BaseNativeAdLayoutView {
         headlineLbl.lineBreakMode = .byTruncatingTail
         headlineLbl.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         
-        // 4. Body/Advertiser (chữ xám #B6BCC3)
-        bodyLbl.translatesAutoresizingMaskIntoConstraints = false
-        bodyLbl.textColor = UIColor(hex: "#B6BCC3")
-        bodyLbl.font = UIFont.systemFont(ofSize: 12)
-        bodyLbl.numberOfLines = 1
-        bodyLbl.lineBreakMode = .byTruncatingTail
+        // 4. Advertiser (chữ xám #B6BCC3)
+        advertiserLbl.translatesAutoresizingMaskIntoConstraints = false
+        advertiserLbl.textColor = UIColor(hex: "#B6BCC3")
+        advertiserLbl.font = UIFont.systemFont(ofSize: 12)
+        advertiserLbl.numberOfLines = 1
+        advertiserLbl.lineBreakMode = .byTruncatingTail
         
         // 5. Cấu hình Cụm Info Bar ở phía trên cùng
         titleRow.translatesAutoresizingMaskIntoConstraints = false
@@ -83,7 +83,7 @@ public final class NativeMrecNoMediaLayoutView: BaseNativeAdLayoutView {
         infoBar.alignment = .leading
         infoBar.spacing = 2
         infoBar.addArrangedSubview(titleRow)
-        infoBar.addArrangedSubview(bodyLbl)
+        infoBar.addArrangedSubview(advertiserLbl)
         mrecCardView.addSubview(infoBar)
         
         // 6. Icon lớn căn giữa (100x100pt, bo góc 16pt)

@@ -68,14 +68,14 @@ public final class NativeMrecMediaLayoutView: BaseNativeAdLayoutView {
         headlineLbl.lineBreakMode = .byTruncatingTail
         headlineLbl.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         
-        // 5. Body/Advertiser (chữ xám #B6BCC3)
-        bodyLbl.translatesAutoresizingMaskIntoConstraints = false
-        bodyLbl.textColor = UIColor(hex: "#B6BCC3")
-        bodyLbl.font = UIFont.systemFont(ofSize: 12)
-        bodyLbl.numberOfLines = 1
-        bodyLbl.lineBreakMode = .byTruncatingTail
+        // 5. Advertiser (chữ xám #B6BCC3)
+        advertiserLbl.translatesAutoresizingMaskIntoConstraints = false
+        advertiserLbl.textColor = UIColor(hex: "#B6BCC3")
+        advertiserLbl.font = UIFont.systemFont(ofSize: 12)
+        advertiserLbl.numberOfLines = 1
+        advertiserLbl.lineBreakMode = .byTruncatingTail
         
-        // 6. Cấu hình Cụm Info Bar (2 dòng: Dòng 1 [Ad] + Headline, Dòng 2 Body)
+        // 6. Cấu hình Cụm Info Bar (2 dòng: Dòng 1 [Ad] + Headline, Dòng 2 Advertiser)
         titleRow.translatesAutoresizingMaskIntoConstraints = false
         titleRow.axis = .horizontal
         titleRow.alignment = .center
@@ -88,7 +88,7 @@ public final class NativeMrecMediaLayoutView: BaseNativeAdLayoutView {
         infoBar.alignment = .leading
         infoBar.spacing = 2
         infoBar.addArrangedSubview(titleRow)
-        infoBar.addArrangedSubview(bodyLbl)
+        infoBar.addArrangedSubview(advertiserLbl)
         mrecCardView.addSubview(infoBar)
         
         // 7. Nút CTA xanh dương (#1A73E8, chữ trắng) ở dưới cùng
