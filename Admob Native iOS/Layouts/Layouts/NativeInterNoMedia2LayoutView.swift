@@ -199,8 +199,8 @@ public final class NativeInterNoMedia2LayoutView: BaseNativeAdLayoutView {
             iconContainerView.trailingAnchor.constraint(equalTo: trailingAnchor),
             iconContainerView.bottomAnchor.constraint(equalTo: infoContainerView.topAnchor),
             
-            // Nút Close X ở góc trên bên phải trong safe area (nâng cao hơn)
-            closeButton.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 4),
+            // Nút Close X ở vị trí tương đương phiên bản không 2 (cách progressBar 18pt)
+            closeButton.topAnchor.constraint(equalTo: progressBar.bottomAnchor, constant: 18),
             closeButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
             
             // Info Container (Bottom Card trắng)
@@ -262,16 +262,12 @@ public final class NativeInterNoMedia2LayoutView: BaseNativeAdLayoutView {
         NSLayoutConstraint.deactivate(landscapeConstraints)
         
         if isLandscape {
-            closeButton.isHidden = true
-            progressBar.isHidden = true
             circularCountdownView.isHidden = false
             landscapeButtonRow.addArrangedSubview(landscapeCloseBtn)
             landscapeButtonRow.addArrangedSubview(callToActionBtn)
             infoContainerView.addSubview(landscapeButtonRow)
             NSLayoutConstraint.activate(landscapeConstraints)
         } else {
-            closeButton.isHidden = false
-            progressBar.isHidden = false
             circularCountdownView.isHidden = true
             infoContainerView.addSubview(callToActionBtn)
             landscapeButtonRow.removeFromSuperview()
