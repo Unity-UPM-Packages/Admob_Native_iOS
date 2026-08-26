@@ -21,7 +21,7 @@ public final class NativeInterMedia2LayoutView: BaseNativeAdLayoutView {
     private let textStack = UIStackView()
     
     // Hàng 2 nút bấm cho màn ngang (Close viền xám + CTA xanh lá)
-    private let landscapeButtonRow = UIStackView()
+    private let landscapeButtonRow = UIView()
     public let landscapeCloseBtn = UIButton(type: .system)
     
     public override var landscapeCloseButton: UIButton? {
@@ -124,11 +124,6 @@ public final class NativeInterMedia2LayoutView: BaseNativeAdLayoutView {
         landscapeCloseBtn.addTarget(self, action: #selector(handleLandscapeCloseTapped), for: .touchUpInside)
         
         landscapeButtonRow.translatesAutoresizingMaskIntoConstraints = false
-        landscapeButtonRow.axis = .horizontal
-        landscapeButtonRow.distribution = .fillEqually
-        landscapeButtonRow.spacing = 12
-        landscapeButtonRow.addArrangedSubview(landscapeCloseBtn)
-        landscapeButtonRow.addArrangedSubview(callToActionBtn)
         
         // 7. Nút Close dạng tròn X (màn dọc) và Progress Bar Line Fill sát mép trên
         closeButton.translatesAutoresizingMaskIntoConstraints = false
@@ -233,7 +228,19 @@ public final class NativeInterMedia2LayoutView: BaseNativeAdLayoutView {
             landscapeButtonRow.leadingAnchor.constraint(equalTo: infoContainerView.leadingAnchor, constant: 32),
             landscapeButtonRow.trailingAnchor.constraint(equalTo: infoContainerView.trailingAnchor, constant: -32),
             landscapeButtonRow.centerYAnchor.constraint(equalTo: infoContainerView.centerYAnchor, constant: 28),
-            landscapeButtonRow.heightAnchor.constraint(equalToConstant: 44)
+            landscapeButtonRow.heightAnchor.constraint(equalToConstant: 44),
+            
+            // Nút Close chiếm 50% bên trái (cách tâm 6pt)
+            landscapeCloseBtn.topAnchor.constraint(equalTo: landscapeButtonRow.topAnchor),
+            landscapeCloseBtn.bottomAnchor.constraint(equalTo: landscapeButtonRow.bottomAnchor),
+            landscapeCloseBtn.leadingAnchor.constraint(equalTo: landscapeButtonRow.leadingAnchor),
+            landscapeCloseBtn.trailingAnchor.constraint(equalTo: landscapeButtonRow.centerXAnchor, constant: -6),
+            
+            // Nút CTA chiếm 50% bên phải (cách tâm 6pt) - CỐ ĐỊNH KÍCH THƯỚC không bị dãn khi Close ẩn/hiện
+            callToActionBtn.topAnchor.constraint(equalTo: landscapeButtonRow.topAnchor),
+            callToActionBtn.bottomAnchor.constraint(equalTo: landscapeButtonRow.bottomAnchor),
+            callToActionBtn.leadingAnchor.constraint(equalTo: landscapeButtonRow.centerXAnchor, constant: 6),
+            callToActionBtn.trailingAnchor.constraint(equalTo: landscapeButtonRow.trailingAnchor)
         ]
         
         updateOrientationConstraints()
@@ -260,8 +267,8 @@ public final class NativeInterMedia2LayoutView: BaseNativeAdLayoutView {
             circularProgressView.progressColor = UIColor(hex: "#7F7F7F")
             countdownLbl.textColor = UIColor(hex: "#7F7F7F")
             
-            landscapeButtonRow.addArrangedSubview(landscapeCloseBtn)
-            landscapeButtonRow.addArrangedSubview(callToActionBtn)
+            landscapeButtonRow.addSubview(landscapeCloseBtn)
+            landscapeButtonRow.addSubview(callToActionBtn)
             infoContainerView.addSubview(landscapeButtonRow)
             NSLayoutConstraint.activate(landscapeConstraints)
         } else {
@@ -270,8 +277,9 @@ public final class NativeInterMedia2LayoutView: BaseNativeAdLayoutView {
             countdownContainerView.isHidden = true
             progressBar.isHidden = false
             
-            infoContainerView.addSubview(callToActionBtn)
+            landscapeCloseBtn.removeFromSuperview()
             landscapeButtonRow.removeFromSuperview()
+            infoContainerView.addSubview(callToActionBtn)
             NSLayoutConstraint.activate(portraitConstraints)
         }
         
