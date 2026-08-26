@@ -167,3 +167,71 @@ public func AdmobNative_GetAdapterResponsesCount(_ handle: UnsafeMutableRawPoint
     let controller = Unmanaged<AdmobNativeController>.fromOpaque(handle).takeUnretainedValue()
     return Int32(controller.getAdapterResponsesCount())
 }
+
+@_cdecl("AdmobNative_GetLoadedAdapterResponse")
+public func AdmobNative_GetLoadedAdapterResponse(_ handle: UnsafeMutableRawPointer?) -> UnsafeMutableRawPointer? {
+    guard let handle = handle else { return nil }
+    let controller = Unmanaged<AdmobNativeController>.fromOpaque(handle).takeUnretainedValue()
+    guard let adapter = controller.getLoadedAdapterResponse() else { return nil }
+    return Unmanaged.passRetained(adapter).toOpaque()
+}
+
+@_cdecl("AdmobNative_GetAdapterResponseAt")
+public func AdmobNative_GetAdapterResponseAt(_ handle: UnsafeMutableRawPointer?, _ index: Int32) -> UnsafeMutableRawPointer? {
+    guard let handle = handle else { return nil }
+    let controller = Unmanaged<AdmobNativeController>.fromOpaque(handle).takeUnretainedValue()
+    guard let adapter = controller.getAdapterResponseAt(index: Int(index)) else { return nil }
+    return Unmanaged.passRetained(adapter).toOpaque()
+}
+
+// MARK: - Adapter Response Info
+
+@_cdecl("AdmobNative_AdapterResponse_GetAdapterClassName")
+public func AdmobNative_AdapterResponse_GetAdapterClassName(_ handle: UnsafeMutableRawPointer?) -> UnsafeMutablePointer<CChar>? {
+    guard let handle = handle else { return nil }
+    let info = Unmanaged<GADAdNetworkResponseInfo>.fromOpaque(handle).takeUnretainedValue()
+    return strdup(info.adNetworkClassName)
+}
+
+@_cdecl("AdmobNative_AdapterResponse_GetLatencyMillis")
+public func AdmobNative_AdapterResponse_GetLatencyMillis(_ handle: UnsafeMutableRawPointer?) -> Int64 {
+    guard let handle = handle else { return 0 }
+    let info = Unmanaged<GADAdNetworkResponseInfo>.fromOpaque(handle).takeUnretainedValue()
+    return Int64(info.latency * 1000.0)
+}
+
+@_cdecl("AdmobNative_AdapterResponse_GetAdSourceName")
+public func AdmobNative_AdapterResponse_GetAdSourceName(_ handle: UnsafeMutableRawPointer?) -> UnsafeMutablePointer<CChar>? {
+    guard let handle = handle else { return nil }
+    let info = Unmanaged<GADAdNetworkResponseInfo>.fromOpaque(handle).takeUnretainedValue()
+    return strdup(info.adSourceName)
+}
+
+@_cdecl("AdmobNative_AdapterResponse_GetAdSourceId")
+public func AdmobNative_AdapterResponse_GetAdSourceId(_ handle: UnsafeMutableRawPointer?) -> UnsafeMutablePointer<CChar>? {
+    guard let handle = handle else { return nil }
+    let info = Unmanaged<GADAdNetworkResponseInfo>.fromOpaque(handle).takeUnretainedValue()
+    return strdup(info.adSourceID)
+}
+
+@_cdecl("AdmobNative_AdapterResponse_GetAdSourceInstanceName")
+public func AdmobNative_AdapterResponse_GetAdSourceInstanceName(_ handle: UnsafeMutableRawPointer?) -> UnsafeMutablePointer<CChar>? {
+    guard let handle = handle else { return nil }
+    let info = Unmanaged<GADAdNetworkResponseInfo>.fromOpaque(handle).takeUnretainedValue()
+    return strdup(info.adSourceInstanceName)
+}
+
+@_cdecl("AdmobNative_AdapterResponse_GetAdSourceInstanceId")
+public func AdmobNative_AdapterResponse_GetAdSourceInstanceId(_ handle: UnsafeMutableRawPointer?) -> UnsafeMutablePointer<CChar>? {
+    guard let handle = handle else { return nil }
+    let info = Unmanaged<GADAdNetworkResponseInfo>.fromOpaque(handle).takeUnretainedValue()
+    return strdup(info.adSourceInstanceID)
+}
+
+@_cdecl("AdmobNative_AdapterResponse_GetAdError")
+public func AdmobNative_AdapterResponse_GetAdError(_ handle: UnsafeMutableRawPointer?) -> UnsafeMutablePointer<CChar>? {
+    guard let handle = handle else { return nil }
+    let info = Unmanaged<GADAdNetworkResponseInfo>.fromOpaque(handle).takeUnretainedValue()
+    guard let error = info.error else { return nil }
+    return strdup(error.localizedDescription)
+}

@@ -218,6 +218,17 @@ public final class AdmobNativeController: NSObject {
     public func getAdapterResponsesCount() -> Int {
         return loadedNativeAd?.responseInfo.adNetworkInfoArray.count ?? 0
     }
+    
+    public func getLoadedAdapterResponse() -> GADAdNetworkResponseInfo? {
+        return loadedNativeAd?.responseInfo.loadedAdNetworkResponseInfo
+    }
+    
+    public func getAdapterResponseAt(index: Int) -> GADAdNetworkResponseInfo? {
+        guard let array = loadedNativeAd?.responseInfo.adNetworkInfoArray, index >= 0, index < array.count else {
+            return nil
+        }
+        return array[index]
+    }
 }
 
 // MARK: - GADAdLoaderDelegate & GADNativeAdLoaderDelegate
