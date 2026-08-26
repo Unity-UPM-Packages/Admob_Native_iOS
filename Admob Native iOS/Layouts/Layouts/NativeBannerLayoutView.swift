@@ -19,8 +19,9 @@ public final class NativeBannerLayoutView: BaseNativeAdLayoutView {
     private let portraitTextStack = UIStackView()
     private let portraitTitleRow = UIStackView()
     
-    // Cụm Text màn ngang (Nối tiếp tự nhiên: [Ad] -> Headline -> Advertiser)
+    // Cụm Text màn ngang
     private let landscapeTitleGroup = UIStackView()
+    private let landscapeGuideline = UILayoutGuide() // Trục phân chia 40% như Guideline của Android
     
     private var lastAppliedIsLandscape: Bool?
     
@@ -47,6 +48,9 @@ public final class NativeBannerLayoutView: BaseNativeAdLayoutView {
         bannerContainerView.clipsToBounds = true
         addSubview(bannerContainerView)
         
+        // Trục phân chia 40% chiều rộng giống hệt layout-land của Android
+        bannerContainerView.addLayoutGuide(landscapeGuideline)
+        
         // 2. Icon ứng dụng bên trái
         iconImgView.translatesAutoresizingMaskIntoConstraints = false
         iconImgView.contentMode = .scaleAspectFit
@@ -69,7 +73,7 @@ public final class NativeBannerLayoutView: BaseNativeAdLayoutView {
         headlineLbl.font = UIFont.boldSystemFont(ofSize: 14)
         headlineLbl.numberOfLines = 1
         headlineLbl.lineBreakMode = .byTruncatingTail
-        headlineLbl.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        headlineLbl.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         
         // 5. Advertiser (chữ xám #B6BCC3)
         advertiserLbl.translatesAutoresizingMaskIntoConstraints = false
@@ -77,7 +81,6 @@ public final class NativeBannerLayoutView: BaseNativeAdLayoutView {
         advertiserLbl.font = UIFont.systemFont(ofSize: 12)
         advertiserLbl.numberOfLines = 1
         advertiserLbl.lineBreakMode = .byTruncatingTail
-        advertiserLbl.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         
         // 6. Cấu hình Cụm Text Màn Dọc
         portraitTitleRow.translatesAutoresizingMaskIntoConstraints = false
@@ -119,6 +122,12 @@ public final class NativeBannerLayoutView: BaseNativeAdLayoutView {
             bannerContainerView.bottomAnchor.constraint(equalTo: bottomAnchor),
             bannerContainerView.heightAnchor.constraint(equalToConstant: 60),
             
+            // Trục Guideline 40% chiều rộng
+            landscapeGuideline.leadingAnchor.constraint(equalTo: bannerContainerView.leadingAnchor),
+            landscapeGuideline.topAnchor.constraint(equalTo: bannerContainerView.topAnchor),
+            landscapeGuideline.bottomAnchor.constraint(equalTo: bannerContainerView.bottomAnchor),
+            landscapeGuideline.widthAnchor.constraint(equalTo: bannerContainerView.widthAnchor, multiplier: 0.40),
+            
             adBadgeLbl.widthAnchor.constraint(equalToConstant: 24),
             adBadgeLbl.heightAnchor.constraint(equalToConstant: 16),
             
@@ -145,19 +154,21 @@ public final class NativeBannerLayoutView: BaseNativeAdLayoutView {
         ]
         
         // -------------------------------------------------------------
-        // LANDSCAPE CONSTRAINTS (Màn Ngang)
-        // Icon (38x38) -> [Ad + Headline] -> (cách 12pt) -> Advertiser -> CTA (130pt)
+        // LANDSCAPE CONSTRAINTS (Màn Ngang - Phân chia chuẩn theo Guideline 40% Android)
+        // Khu vực 1 (0 -> 40%): Icon (38x38) + [Ad + Headline]
+        // Khu vực 2 (40% -> CTA): Advertiser
         // -------------------------------------------------------------
         landscapeConstraints = [
-            iconImgView.leadingAnchor.constraint(equalTo: bannerContainerView.leadingAnchor, constant: 10),
+            iconImgView.leadingAnchor.constraint(equalTo: bannerContainerView.leadingAnchor, constant: 8),
             iconImgView.centerYAnchor.constraint(equalTo: bannerContainerView.centerYAnchor),
             iconImgView.widthAnchor.constraint(equalToConstant: 38),
             iconImgView.heightAnchor.constraint(equalToConstant: 38),
             
             landscapeTitleGroup.leadingAnchor.constraint(equalTo: iconImgView.trailingAnchor, constant: 8),
+            landscapeTitleGroup.trailingAnchor.constraint(lessThanOrEqualTo: landscapeGuideline.trailingAnchor, constant: -8),
             landscapeTitleGroup.centerYAnchor.constraint(equalTo: bannerContainerView.centerYAnchor),
             
-            advertiserLbl.leadingAnchor.constraint(equalTo: landscapeTitleGroup.trailingAnchor, constant: 12),
+            advertiserLbl.leadingAnchor.constraint(equalTo: landscapeGuideline.trailingAnchor, constant: 8),
             advertiserLbl.trailingAnchor.constraint(lessThanOrEqualTo: callToActionBtn.leadingAnchor, constant: -10),
             advertiserLbl.centerYAnchor.constraint(equalTo: bannerContainerView.centerYAnchor),
             
