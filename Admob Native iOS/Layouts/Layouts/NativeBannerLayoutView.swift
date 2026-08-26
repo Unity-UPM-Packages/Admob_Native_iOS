@@ -15,12 +15,12 @@ public final class NativeBannerLayoutView: BaseNativeAdLayoutView {
     // Khung chứa nội dung Banner (đính ở đáy màn hình, cao 60pt)
     private let bannerContainerView = UIView()
     
-    // Cụm Text màn dọc
+    // Cụm Text màn dọc (2 tầng: Dòng 1 [Ad] + Headline, Dòng 2 Advertiser)
     private let portraitTextStack = UIStackView()
     private let portraitTitleRow = UIStackView()
     
-    // Cụm Text màn ngang (1 hàng ngang: [Ad] -> Headline -> Advertiser)
-    private let landscapeRow = UIStackView()
+    // Cụm Text màn ngang (Nối tiếp tự nhiên: [Ad] -> Headline -> Advertiser)
+    private let landscapeTitleGroup = UIStackView()
     
     private var lastAppliedIsLandscape: Bool?
     
@@ -69,7 +69,7 @@ public final class NativeBannerLayoutView: BaseNativeAdLayoutView {
         headlineLbl.font = UIFont.boldSystemFont(ofSize: 14)
         headlineLbl.numberOfLines = 1
         headlineLbl.lineBreakMode = .byTruncatingTail
-        headlineLbl.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+        headlineLbl.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         
         // 5. Advertiser (chữ xám #B6BCC3)
         advertiserLbl.translatesAutoresizingMaskIntoConstraints = false
@@ -77,8 +77,9 @@ public final class NativeBannerLayoutView: BaseNativeAdLayoutView {
         advertiserLbl.font = UIFont.systemFont(ofSize: 12)
         advertiserLbl.numberOfLines = 1
         advertiserLbl.lineBreakMode = .byTruncatingTail
+        advertiserLbl.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         
-        // 6. Cấu hình Cụm Text Màn Dọc (2 dòng: Dòng 1 [Ad] + Headline, Dòng 2 Advertiser)
+        // 6. Cấu hình Cụm Text Màn Dọc
         portraitTitleRow.translatesAutoresizingMaskIntoConstraints = false
         portraitTitleRow.axis = .horizontal
         portraitTitleRow.alignment = .center
@@ -94,12 +95,13 @@ public final class NativeBannerLayoutView: BaseNativeAdLayoutView {
         portraitTextStack.addArrangedSubview(advertiserLbl)
         bannerContainerView.addSubview(portraitTextStack)
         
-        // 7. Cấu hình Cụm Text Màn Ngang (1 hàng ngang: [Ad] -> Headline -> Advertiser)
-        landscapeRow.translatesAutoresizingMaskIntoConstraints = false
-        landscapeRow.axis = .horizontal
-        landscapeRow.alignment = .center
-        landscapeRow.spacing = 8
-        landscapeRow.distribution = .fill
+        // 7. Cấu hình Cụm Title Màn Ngang ([Ad] + Headline)
+        landscapeTitleGroup.translatesAutoresizingMaskIntoConstraints = false
+        landscapeTitleGroup.axis = .horizontal
+        landscapeTitleGroup.alignment = .center
+        landscapeTitleGroup.spacing = 6
+        landscapeTitleGroup.addArrangedSubview(adBadgeLbl)
+        landscapeTitleGroup.addArrangedSubview(headlineLbl)
         
         // 8. Nút CTA xanh chuối (#C9FF23, chữ đen #0E2139)
         callToActionBtn.translatesAutoresizingMaskIntoConstraints = false
@@ -144,7 +146,7 @@ public final class NativeBannerLayoutView: BaseNativeAdLayoutView {
         
         // -------------------------------------------------------------
         // LANDSCAPE CONSTRAINTS (Màn Ngang)
-        // Icon (38x38) -> [Ad] -> Headline -> Advertiser -> CTA (130pt)
+        // Icon (38x38) -> [Ad + Headline] -> (cách 12pt) -> Advertiser -> CTA (130pt)
         // -------------------------------------------------------------
         landscapeConstraints = [
             iconImgView.leadingAnchor.constraint(equalTo: bannerContainerView.leadingAnchor, constant: 10),
@@ -152,9 +154,12 @@ public final class NativeBannerLayoutView: BaseNativeAdLayoutView {
             iconImgView.widthAnchor.constraint(equalToConstant: 38),
             iconImgView.heightAnchor.constraint(equalToConstant: 38),
             
-            landscapeRow.leadingAnchor.constraint(equalTo: iconImgView.trailingAnchor, constant: 10),
-            landscapeRow.trailingAnchor.constraint(equalTo: callToActionBtn.leadingAnchor, constant: -10),
-            landscapeRow.centerYAnchor.constraint(equalTo: bannerContainerView.centerYAnchor),
+            landscapeTitleGroup.leadingAnchor.constraint(equalTo: iconImgView.trailingAnchor, constant: 8),
+            landscapeTitleGroup.centerYAnchor.constraint(equalTo: bannerContainerView.centerYAnchor),
+            
+            advertiserLbl.leadingAnchor.constraint(equalTo: landscapeTitleGroup.trailingAnchor, constant: 12),
+            advertiserLbl.trailingAnchor.constraint(lessThanOrEqualTo: callToActionBtn.leadingAnchor, constant: -10),
+            advertiserLbl.centerYAnchor.constraint(equalTo: bannerContainerView.centerYAnchor),
             
             callToActionBtn.widthAnchor.constraint(equalToConstant: 130)
         ]
@@ -174,18 +179,17 @@ public final class NativeBannerLayoutView: BaseNativeAdLayoutView {
         
         if isLandscape {
             portraitTextStack.removeFromSuperview()
-            landscapeRow.arrangedSubviews.forEach { $0.removeFromSuperview() }
+            portraitTitleRow.arrangedSubviews.forEach { $0.removeFromSuperview() }
             
-            landscapeRow.addArrangedSubview(adBadgeLbl)
-            landscapeRow.addArrangedSubview(headlineLbl)
-            landscapeRow.addArrangedSubview(advertiserLbl)
-            bannerContainerView.addSubview(landscapeRow)
+            landscapeTitleGroup.addArrangedSubview(adBadgeLbl)
+            landscapeTitleGroup.addArrangedSubview(headlineLbl)
+            bannerContainerView.addSubview(landscapeTitleGroup)
+            bannerContainerView.addSubview(advertiserLbl)
             
             NSLayoutConstraint.activate(landscapeConstraints)
         } else {
-            landscapeRow.removeFromSuperview()
-            portraitTitleRow.arrangedSubviews.forEach { $0.removeFromSuperview() }
-            portraitTextStack.arrangedSubviews.forEach { $0.removeFromSuperview() }
+            landscapeTitleGroup.removeFromSuperview()
+            landscapeTitleGroup.arrangedSubviews.forEach { $0.removeFromSuperview() }
             
             portraitTitleRow.addArrangedSubview(adBadgeLbl)
             portraitTitleRow.addArrangedSubview(headlineLbl)
