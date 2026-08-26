@@ -176,15 +176,16 @@ public final class NativeAppOpenNoMediaLayoutView: BaseNativeAdLayoutView {
         // PORTRAIT CONSTRAINTS (Màn Dọc - Toàn Màn Hình Edge-to-Edge)
         // -------------------------------------------------------------
         portraitConstraints = [
-            // Top Bar
+            // Top Bar trải dài từ đỉnh màn hình xuống dưới Safe Area 64pt
             topBarView.topAnchor.constraint(equalTo: topAnchor),
             topBarView.leadingAnchor.constraint(equalTo: leadingAnchor),
             topBarView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            topBarView.heightAnchor.constraint(equalToConstant: 80),
+            topBarView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 64),
             
-            closeButton.bottomAnchor.constraint(equalTo: topBarView.bottomAnchor, constant: -14),
+            // Nút Close và Pill đếm giờ nằm ở giữa khu vực 64pt dưới Safe Area (tương đương Inter)
+            closeButton.centerYAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 32),
             
-            // Center Container
+            // Center Container bắt đầu ngay dưới Top Bar (tự động đẩy xuống theo)
             centerContainerView.topAnchor.constraint(equalTo: topBarView.bottomAnchor),
             centerContainerView.leadingAnchor.constraint(equalTo: leadingAnchor),
             centerContainerView.trailingAnchor.constraint(equalTo: trailingAnchor),
