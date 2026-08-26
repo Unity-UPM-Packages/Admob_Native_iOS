@@ -6,6 +6,22 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		D42B86B3303EDF5C004B6144 /* BuildXCFramework */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = D42B86B4303EDF5C004B6144 /* Build configuration list for PBXAggregateTarget "BuildXCFramework" */;
+			buildPhases = (
+				D42B86B7303EDF70004B6144 /* ShellScript */,
+			);
+			dependencies = (
+			);
+			name = BuildXCFramework;
+			packageProductDependencies = (
+			);
+			productName = BuildXCFramework;
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
 		D42B855D303D57C5004B6144 /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = D42B855C303D57C5004B6144 /* GoogleMobileAds */; };
 		D42B8645303D78D0004B6144 /* Admob_Native_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D42B8551303D4CBA004B6144 /* Admob_Native_iOS.framework */; };
@@ -201,6 +217,9 @@
 					D42B858D303D761B004B6144 = {
 						CreatedOnToolsVersion = 26.6;
 					};
+					D42B86B3303EDF5C004B6144 = {
+						CreatedOnToolsVersion = 26.6;
+					};
 				};
 			};
 			buildConfigurationList = D42B854B303D4CBA004B6144 /* Build configuration list for PBXProject "Admob Native iOS" */;
@@ -222,6 +241,7 @@
 			targets = (
 				D42B858D303D761B004B6144 /* AdmobNativeDemo */,
 				D42B8550303D4CBA004B6144 /* Admob Native iOS */,
+				D42B86B3303EDF5C004B6144 /* BuildXCFramework */,
 			);
 		};
 /* End PBXProject section */
@@ -242,6 +262,27 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		D42B86B7303EDF70004B6144 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nbash \"$SRCROOT/build_xcframework.sh\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		D42B854D303D4CBA004B6144 /* Sources */ = {
@@ -542,6 +583,24 @@
 			};
 			name = Release;
 		};
+		D42B86B5303EDF5C004B6144 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 54W757YH63;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		D42B86B6303EDF5C004B6144 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 54W757YH63;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -568,6 +627,15 @@
 			buildConfigurations = (
 				D42B8597303D761D004B6144 /* Debug */,
 				D42B8598303D761D004B6144 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D42B86B4303EDF5C004B6144 /* Build configuration list for PBXAggregateTarget "BuildXCFramework" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D42B86B5303EDF5C004B6144 /* Debug */,
+				D42B86B6303EDF5C004B6144 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
