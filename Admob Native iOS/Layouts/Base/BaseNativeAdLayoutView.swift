@@ -173,7 +173,7 @@ open class BaseNativeAdLayoutView: GADNativeAdView {
         self.iconView = iconImgView
         self.mediaView = adMediaView
         self.advertiserView = advertiserLbl
-        self.imageView = mainImgView
+        self.imageView = nil
     }
     
     // Subclasses override to build UI elements & populate portraitConstraints & landscapeConstraints
@@ -226,12 +226,9 @@ open class BaseNativeAdLayoutView: GADNativeAdView {
             advertiserLbl.isHidden = true
         }
         
-        if nativeAd.mediaContent.hasVideoContent || nativeAd.mediaContent.aspectRatio > 0 {
+        if self.mediaView != nil {
             adMediaView.mediaContent = nativeAd.mediaContent
             adMediaView.isHidden = false
-        } else if let images = nativeAd.images, let firstImage = images.first {
-            mainImgView.image = firstImage.image
-            mainImgView.isHidden = false
         }
         
         self.nativeAd = nativeAd

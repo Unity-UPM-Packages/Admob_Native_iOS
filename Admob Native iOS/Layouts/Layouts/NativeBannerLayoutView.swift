@@ -214,7 +214,8 @@ public final class NativeBannerLayoutView: BaseNativeAdLayoutView {
     }
     
     public override func populate(nativeAd: GADNativeAd) {
-        super.populate(nativeAd: nativeAd)
         self.mediaView = nil
+        self.imageView = nil
+        super.populate(nativeAd: nativeAd)
     }
 }
