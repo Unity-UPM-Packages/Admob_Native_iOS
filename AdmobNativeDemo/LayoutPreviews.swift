@@ -160,6 +160,7 @@ public struct LayoutPreviews_Previews: PreviewProvider {
             */
             
             // MARK: - 5. OTHER FORMATS
+            /*
             // 25. Native Banner - Portrait
             PreviewContainer(layoutName: "native_banner")
                 .ignoresSafeArea()
@@ -170,17 +171,23 @@ public struct LayoutPreviews_Previews: PreviewProvider {
                 .previewInterfaceOrientation(.landscapeLeft)
                 .ignoresSafeArea()
                 .previewDisplayName("26. Native Banner - Landscape")
+            */
+            
+            // 27. Native MREC Media (300x250)
+            PreviewContainer(layoutName: "native_mrec_media")
+                .ignoresSafeArea()
+                .previewDisplayName("27. Native MREC Media")
+            
+            // 28. Native MREC No-Media (300x250)
+            PreviewContainer(layoutName: "native_mrec_no_media")
+                .ignoresSafeArea()
+                .previewDisplayName("28. Native MREC No-Media")
             
             /*
-            // 27. Native MREC (300x250)
-            PreviewContainer(layoutName: "native_mrec_media")
-                .frame(width: 320, height: 260)
-                .previewDisplayName("27. Native MREC")
-            
-            // 28. Native Video (Màn Dọc)
+            // 29. Native Video (Màn Dọc)
             PreviewContainer(layoutName: "native_video")
                 .ignoresSafeArea()
-                .previewDisplayName("28. Video - Portrait")
+                .previewDisplayName("29. Video - Portrait")
             */
         }
     }
@@ -193,8 +200,8 @@ private struct PreviewContainer: UIViewRepresentable {
     func makeUIView(context: Context) -> UIView {
         let container = UIView()
         
-        // Với Half-Screen và Banner, để nền trắng sạch sẽ để dễ nhìn phần trong suốt
-        if layoutName.contains("halfscreen") || layoutName.contains("banner") {
+        // Với Half-Screen, Banner và MREC, để nền trắng sạch sẽ để dễ nhìn phần trong suốt
+        if layoutName.contains("halfscreen") || layoutName.contains("banner") || layoutName.contains("mrec") {
             container.backgroundColor = .white
         } else {
             container.backgroundColor = UIColor(hex: "#101826")
@@ -212,10 +219,10 @@ private struct PreviewContainer: UIViewRepresentable {
         ])
         
         // Mock dữ liệu mẫu thuần tuý (text/progress) để render Canvas
-        view.headlineLbl.text = "Quảng cáo thử nghiệm"
-        view.bodyLbl.text = "Lead your clan to victory in legendary strategy wars!"
-        view.advertiserLbl.text = "Install Flood-It App for free!"
-        view.callToActionBtn.setTitle("INSTALL", for: .normal)
+        view.headlineLbl.text = "Google Ads"
+        view.bodyLbl.text = "Make your business more visible!"
+        view.advertiserLbl.text = "Make your business more visible!"
+        view.callToActionBtn.setTitle("CONTINUE", for: .normal)
         view.iconImgView.backgroundColor = .systemBlue
         view.countdownLbl.text = "5"
         view.progressBar.progress = 0.4
@@ -237,6 +244,9 @@ private struct PreviewContainer: UIViewRepresentable {
         }
         if let halfScreenNoMedia = view as? NativeHalfScreenNoMediaLayoutView {
             halfScreenNoMedia.largeIconImgView.backgroundColor = .systemBlue
+        }
+        if let mrecNoMedia = view as? NativeMrecNoMediaLayoutView {
+            mrecNoMedia.largeIconImgView.backgroundColor = .systemBlue
         }
         
         return container

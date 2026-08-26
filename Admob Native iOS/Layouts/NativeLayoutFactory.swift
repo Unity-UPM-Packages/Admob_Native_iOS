@@ -56,11 +56,14 @@ public final class NativeLayoutFactory {
             
         // MARK: - 5. Native Banner
         case "native_banner":
-            return NativeBannerLayoutView(layoutName: name)
+            return NativeBannerLayoutView()
             
         // MARK: - 6. Native MREC (300x250)
-        case "native_mrec_media", "native_mrec_no_media":
-            return NativeMrecLayoutView(layoutName: name)
+        case "native_mrec_media":
+            return NativeMrecMediaLayoutView()
+            
+        case "native_mrec_no_media":
+            return NativeMrecNoMediaLayoutView()
             
         // MARK: - 7. Native Video
         case "native_video":
