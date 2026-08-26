@@ -173,7 +173,6 @@ public final class NativeRewardMedia2LayoutView: BaseNativeAdLayoutView {
         NSLayoutConstraint.activate([
             progressBar.leadingAnchor.constraint(equalTo: leadingAnchor),
             progressBar.trailingAnchor.constraint(equalTo: trailingAnchor),
-            progressBar.topAnchor.constraint(equalTo: topAnchor),
             progressBar.heightAnchor.constraint(equalToConstant: 4),
             
             adBadgeLbl.widthAnchor.constraint(equalToConstant: 24),
@@ -207,24 +206,27 @@ public final class NativeRewardMedia2LayoutView: BaseNativeAdLayoutView {
         // PORTRAIT CONSTRAINTS (Màn Dọc - Toàn Màn Hình Edge-to-Edge)
         // -------------------------------------------------------------
         portraitConstraints = [
-            topCardView.topAnchor.constraint(equalTo: topAnchor),
+            // ProgressBar nằm dưới Safe Area (Dynamic Island / Tai thỏ)
+            progressBar.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
+            
+            topCardView.topAnchor.constraint(equalTo: progressBar.bottomAnchor),
             topCardView.leadingAnchor.constraint(equalTo: leadingAnchor),
             topCardView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            topCardView.heightAnchor.constraint(equalToConstant: 80),
+            topCardView.heightAnchor.constraint(equalToConstant: 64),
             
             // Icon bên trái cụm text ở top card
             iconImgView.leadingAnchor.constraint(equalTo: topCardView.leadingAnchor, constant: 16),
-            iconImgView.bottomAnchor.constraint(equalTo: topCardView.bottomAnchor, constant: -10),
+            iconImgView.centerYAnchor.constraint(equalTo: topCardView.centerYAnchor),
             iconImgView.widthAnchor.constraint(equalToConstant: 44),
             iconImgView.heightAnchor.constraint(equalToConstant: 44),
             
             textStack.leadingAnchor.constraint(equalTo: iconImgView.trailingAnchor, constant: 10),
-            textStack.centerYAnchor.constraint(equalTo: iconImgView.centerYAnchor),
+            textStack.centerYAnchor.constraint(equalTo: topCardView.centerYAnchor),
             textStack.trailingAnchor.constraint(lessThanOrEqualTo: closeButton.leadingAnchor, constant: -10),
             
-            // Nút Close dạng X ở góc phải Top Card
+            // Nút Close dạng X neo độc lập ở giữa trục dọc Top Card
             closeButton.trailingAnchor.constraint(equalTo: topCardView.trailingAnchor, constant: -16),
-            closeButton.centerYAnchor.constraint(equalTo: iconImgView.centerYAnchor),
+            closeButton.centerYAnchor.constraint(equalTo: topCardView.centerYAnchor),
             
             topDividerView.topAnchor.constraint(equalTo: topCardView.bottomAnchor),
             
@@ -250,6 +252,8 @@ public final class NativeRewardMedia2LayoutView: BaseNativeAdLayoutView {
         // LANDSCAPE CONSTRAINTS (Màn Ngang - Phân Chia 50/50 2 Nửa)
         // -------------------------------------------------------------
         landscapeConstraints = [
+            progressBar.topAnchor.constraint(equalTo: topAnchor),
+            
             topCardView.topAnchor.constraint(equalTo: topAnchor),
             topCardView.heightAnchor.constraint(equalToConstant: 0),
             topCardView.leadingAnchor.constraint(equalTo: leadingAnchor),

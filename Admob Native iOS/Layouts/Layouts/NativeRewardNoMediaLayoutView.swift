@@ -169,7 +169,6 @@ public final class NativeRewardNoMediaLayoutView: BaseNativeAdLayoutView {
         NSLayoutConstraint.activate([
             progressBar.leadingAnchor.constraint(equalTo: leadingAnchor),
             progressBar.trailingAnchor.constraint(equalTo: trailingAnchor),
-            progressBar.topAnchor.constraint(equalTo: topAnchor),
             progressBar.heightAnchor.constraint(equalToConstant: 4),
             
             adBadgeLbl.widthAnchor.constraint(equalToConstant: 24),
@@ -201,18 +200,21 @@ public final class NativeRewardNoMediaLayoutView: BaseNativeAdLayoutView {
         // PORTRAIT CONSTRAINTS (Màn Dọc - Toàn Màn Hình Edge-to-Edge)
         // -------------------------------------------------------------
         portraitConstraints = [
-            topCardView.topAnchor.constraint(equalTo: topAnchor),
+            // ProgressBar nằm dưới Safe Area (Dynamic Island / Tai thỏ)
+            progressBar.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
+            
+            topCardView.topAnchor.constraint(equalTo: progressBar.bottomAnchor),
             topCardView.leadingAnchor.constraint(equalTo: leadingAnchor),
             topCardView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            topCardView.heightAnchor.constraint(equalToConstant: 80),
+            topCardView.heightAnchor.constraint(equalToConstant: 64),
             
             textStack.leadingAnchor.constraint(equalTo: topCardView.leadingAnchor, constant: 16),
-            textStack.bottomAnchor.constraint(equalTo: topCardView.bottomAnchor, constant: -12),
+            textStack.centerYAnchor.constraint(equalTo: topCardView.centerYAnchor),
             textStack.trailingAnchor.constraint(lessThanOrEqualTo: skipButton.leadingAnchor, constant: -10),
             
-            // Nút Skip chạm sát mép phải
+            // Nút Skip neo độc lập ở giữa trục dọc Top Card
             skipButton.trailingAnchor.constraint(equalTo: topCardView.trailingAnchor),
-            skipButton.centerYAnchor.constraint(equalTo: textStack.centerYAnchor),
+            skipButton.centerYAnchor.constraint(equalTo: topCardView.centerYAnchor),
             
             topDividerView.topAnchor.constraint(equalTo: topCardView.bottomAnchor),
             
@@ -238,6 +240,8 @@ public final class NativeRewardNoMediaLayoutView: BaseNativeAdLayoutView {
         // LANDSCAPE CONSTRAINTS (Màn Ngang - Phân Chia 50/50 2 Nửa)
         // -------------------------------------------------------------
         landscapeConstraints = [
+            progressBar.topAnchor.constraint(equalTo: topAnchor),
+            
             topCardView.topAnchor.constraint(equalTo: topAnchor),
             topCardView.heightAnchor.constraint(equalToConstant: 0),
             topCardView.leadingAnchor.constraint(equalTo: leadingAnchor),
