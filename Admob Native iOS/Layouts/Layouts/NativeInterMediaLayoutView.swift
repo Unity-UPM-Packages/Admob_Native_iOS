@@ -129,7 +129,6 @@ public final class NativeInterMediaLayoutView: BaseNativeAdLayoutView {
         NSLayoutConstraint.activate([
             progressBar.leadingAnchor.constraint(equalTo: leadingAnchor),
             progressBar.trailingAnchor.constraint(equalTo: trailingAnchor),
-            progressBar.topAnchor.constraint(equalTo: topAnchor),
             progressBar.heightAnchor.constraint(equalToConstant: 4),
             
             topDividerView.leadingAnchor.constraint(equalTo: leadingAnchor),
@@ -151,11 +150,14 @@ public final class NativeInterMediaLayoutView: BaseNativeAdLayoutView {
         ])
         
         // PORTRAIT CONSTRAINTS (Màn Dọc)
+        // ProgressBar và Top Card nằm dưới Safe Area (Dynamic Island / Tai thỏ)
         portraitConstraints = [
-            topCardView.topAnchor.constraint(equalTo: topAnchor),
+            progressBar.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
+            
+            topCardView.topAnchor.constraint(equalTo: progressBar.bottomAnchor),
             topCardView.leadingAnchor.constraint(equalTo: leadingAnchor),
             topCardView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            topCardView.heightAnchor.constraint(equalToConstant: 80),
+            topCardView.heightAnchor.constraint(equalToConstant: 64),
             
             // Icon bên trái cụm text ở top card
             iconImgView.leadingAnchor.constraint(equalTo: topCardView.leadingAnchor, constant: 16),
@@ -190,6 +192,8 @@ public final class NativeInterMediaLayoutView: BaseNativeAdLayoutView {
         
         // LANDSCAPE CONSTRAINTS (Màn Ngang)
         landscapeConstraints = [
+            progressBar.topAnchor.constraint(equalTo: topAnchor),
+            
             topCardView.topAnchor.constraint(equalTo: topAnchor),
             topCardView.heightAnchor.constraint(equalToConstant: 0),
             topCardView.leadingAnchor.constraint(equalTo: leadingAnchor),
