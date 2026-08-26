@@ -27,8 +27,7 @@ public final class NativeInterNoMedia2LayoutView: BaseNativeAdLayoutView {
     private let landscapeButtonRow = UIStackView()
     private let landscapeCloseBtn = UIButton(type: .system)
     
-    // Circular Countdown ở góc trên bên phải màn ngang
-    private let circularCountdownView = UIView()
+    private var lastAppliedIsLandscape: Bool?
     
     public init() {
         super.init(frame: .zero)
@@ -137,20 +136,12 @@ public final class NativeInterNoMedia2LayoutView: BaseNativeAdLayoutView {
         progressBar.isHidden = true
         addSubview(progressBar)
         
-        // 7. Circular Countdown (màn ngang)
-        circularCountdownView.translatesAutoresizingMaskIntoConstraints = false
-        circularCountdownView.backgroundColor = .white
-        circularCountdownView.layer.borderColor = UIColor(hex: "#7F7F7F").cgColor
-        circularCountdownView.layer.borderWidth = 1.5
-        circularCountdownView.layer.cornerRadius = 14
-        circularCountdownView.clipsToBounds = true
-        
-        countdownLbl.translatesAutoresizingMaskIntoConstraints = false
+        // 7. Circular Countdown (màn ngang - dùng countdownContainerView & circularProgressView kế thừa)
+        countdownContainerView.translatesAutoresizingMaskIntoConstraints = false
+        countdownContainerView.backgroundColor = .clear
+        countdownContainerView.isHidden = true
         countdownLbl.textColor = UIColor(hex: "#7F7F7F")
-        countdownLbl.font = UIFont.boldSystemFont(ofSize: 12)
-        countdownLbl.textAlignment = .center
-        circularCountdownView.addSubview(countdownLbl)
-        infoContainerView.addSubview(circularCountdownView)
+        infoContainerView.addSubview(countdownContainerView)
         
         bringSubviewToFront(closeButton)
         bringSubviewToFront(progressBar)
@@ -175,14 +166,11 @@ public final class NativeInterNoMedia2LayoutView: BaseNativeAdLayoutView {
             largeIconImgView.widthAnchor.constraint(equalToConstant: iconSize),
             largeIconImgView.heightAnchor.constraint(equalToConstant: iconSize),
             
-            // Circular countdown view
-            circularCountdownView.widthAnchor.constraint(equalToConstant: 28),
-            circularCountdownView.heightAnchor.constraint(equalToConstant: 28),
-            circularCountdownView.topAnchor.constraint(equalTo: infoContainerView.topAnchor, constant: 16),
-            circularCountdownView.trailingAnchor.constraint(equalTo: infoContainerView.trailingAnchor, constant: -16),
-            
-            countdownLbl.centerXAnchor.constraint(equalTo: circularCountdownView.centerXAnchor),
-            countdownLbl.centerYAnchor.constraint(equalTo: circularCountdownView.centerYAnchor)
+            // Circular countdown view (24x24dp giống Android)
+            countdownContainerView.widthAnchor.constraint(equalToConstant: 24),
+            countdownContainerView.heightAnchor.constraint(equalToConstant: 24),
+            countdownContainerView.topAnchor.constraint(equalTo: infoContainerView.topAnchor, constant: 15),
+            countdownContainerView.trailingAnchor.constraint(equalTo: infoContainerView.trailingAnchor, constant: -15)
         ])
         
         // -------------------------------------------------------------
@@ -257,17 +245,32 @@ public final class NativeInterNoMedia2LayoutView: BaseNativeAdLayoutView {
         guard bounds.width > 0 && bounds.height > 0 else { return }
         let isLandscape = bounds.width > bounds.height
         
+        if lastAppliedIsLandscape == isLandscape { return }
+        lastAppliedIsLandscape = isLandscape
+        
         NSLayoutConstraint.deactivate(portraitConstraints)
         NSLayoutConstraint.deactivate(landscapeConstraints)
         
         if isLandscape {
-            circularCountdownView.isHidden = false
+            self.isLineFill = false
+            self.isRemainingSuffix = false
+            progressBar.isHidden = true
+            closeButton.isHidden = true
+            countdownContainerView.isHidden = false
+            circularProgressView.isHidden = false
+            circularProgressView.progressColor = UIColor(hex: "#7F7F7F")
+            countdownLbl.textColor = UIColor(hex: "#7F7F7F")
+            
             landscapeButtonRow.addArrangedSubview(landscapeCloseBtn)
             landscapeButtonRow.addArrangedSubview(callToActionBtn)
             infoContainerView.addSubview(landscapeButtonRow)
             NSLayoutConstraint.activate(landscapeConstraints)
         } else {
-            circularCountdownView.isHidden = true
+            self.isLineFill = true
+            self.isRemainingSuffix = false
+            countdownContainerView.isHidden = true
+            progressBar.isHidden = false
+            
             infoContainerView.addSubview(callToActionBtn)
             landscapeButtonRow.removeFromSuperview()
             NSLayoutConstraint.activate(portraitConstraints)

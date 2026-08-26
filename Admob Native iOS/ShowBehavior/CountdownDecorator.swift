@@ -129,11 +129,15 @@ public final class CountdownDecorator: BaseShowBehavior {
             
             let secondsRemaining = Int(ceil(timeRemainingMs / 1000.0))
             
-            // Ở 2 giây cuối: Nút close bắt đầu hiện mờ
+            // Ở 2 giây cuối: Nút close bắt đầu hiện mờ (trừ Inter 2 màn ngang dùng landscapeCloseBtn riêng)
             if secondsRemaining <= 2 {
-                adView.closeButton.isHidden = false
-                adView.closeButton.alpha = 0.5
-                adView.closeButton.isUserInteractionEnabled = false
+                if !adView.isLineFill && (adView is NativeInterMedia2LayoutView || adView is NativeInterNoMedia2LayoutView) {
+                    adView.closeButton.isHidden = true
+                } else {
+                    adView.closeButton.isHidden = false
+                    adView.closeButton.alpha = 0.5
+                    adView.closeButton.isUserInteractionEnabled = false
+                }
             } else {
                 adView.closeButton.isHidden = true
             }
@@ -181,10 +185,14 @@ public final class CountdownDecorator: BaseShowBehavior {
             adView.progressBar.isHidden = true
         }
         
-        // Hiện rõ nút close nhưng chưa cho click
-        adView.closeButton.isHidden = false
-        adView.closeButton.alpha = 1.0
-        adView.closeButton.isUserInteractionEnabled = false
+        // Hiện rõ nút close nhưng chưa cho click (trừ khi là Inter 2 landscape dùng landscapeCloseBtn trong button row)
+        if !adView.isLineFill && (adView is NativeInterMedia2LayoutView || adView is NativeInterNoMedia2LayoutView) {
+            adView.closeButton.isHidden = true
+        } else {
+            adView.closeButton.isHidden = false
+            adView.closeButton.alpha = 1.0
+            adView.closeButton.isUserInteractionEnabled = false
+        }
         
         let closeDelayMs = Double(closeButtonDelaySeconds * 1000.0)
         
