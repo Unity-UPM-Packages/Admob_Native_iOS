@@ -41,7 +41,6 @@ public final class NativeBannerLayoutView: BaseNativeAdLayoutView {
     
     public override func setupLayout() {
         backgroundColor = .clear
-        self.mediaView = nil
         
         // 1. Banner Container (Màu #0E2139 trong suốt 80%, đính sát đáy, cao 60pt)
         bannerContainerView.translatesAutoresizingMaskIntoConstraints = false
@@ -214,7 +213,6 @@ public final class NativeBannerLayoutView: BaseNativeAdLayoutView {
     }
     
     public override func populate(nativeAd: GADNativeAd) {
-        self.mediaView = nil
         self.imageView = nil
         super.populate(nativeAd: nativeAd)
     }
