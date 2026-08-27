@@ -232,15 +232,21 @@ public final class NativeInterMedia2LayoutView: BaseNativeAdLayoutView {
             infoContainerView.bottomAnchor.constraint(equalTo: bottomAnchor),
             infoContainerView.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.5),
             
-            // Cụm Text ở giữa nửa phải (căn chỉnh cân đối với hàng nút)
+            // Icon ứng dụng ở nửa phải phía trên cụm Text (80x80pt, căn giữa theo chiều ngang và định vị theo tâm dọc)
+            iconImgView.centerXAnchor.constraint(equalTo: infoContainerView.centerXAnchor),
+            iconImgView.widthAnchor.constraint(equalToConstant: 80),
+            iconImgView.heightAnchor.constraint(equalToConstant: 80),
+            iconImgView.topAnchor.constraint(equalTo: infoContainerView.centerYAnchor, constant: -96),
+            
+            // Cụm Text ở dưới Icon (cách icon 12pt)
+            textStack.topAnchor.constraint(equalTo: iconImgView.bottomAnchor, constant: 12),
             textStack.leadingAnchor.constraint(equalTo: infoContainerView.leadingAnchor, constant: 32),
             textStack.trailingAnchor.constraint(equalTo: infoContainerView.trailingAnchor, constant: -32),
-            textStack.bottomAnchor.constraint(equalTo: landscapeButtonRow.topAnchor, constant: -16),
             
-            // Hàng 2 nút bấm phân chia 50/50 (CLOSE + CTA) căn giữa nửa phải giống Inter No Media 2
+            // Hàng 2 nút bấm phân chia 50/50 (CLOSE + CTA) ở dưới cụm Text (cách 16pt)
+            landscapeButtonRow.topAnchor.constraint(equalTo: textStack.bottomAnchor, constant: 16),
             landscapeButtonRow.leadingAnchor.constraint(equalTo: infoContainerView.leadingAnchor, constant: 32),
             landscapeButtonRow.trailingAnchor.constraint(equalTo: infoContainerView.trailingAnchor, constant: -32),
-            landscapeButtonRow.centerYAnchor.constraint(equalTo: infoContainerView.centerYAnchor, constant: 28),
             landscapeButtonRow.heightAnchor.constraint(equalToConstant: 44),
             
             // Nút Close chiếm 50% bên trái (cách tâm 6pt)
@@ -275,7 +281,8 @@ public final class NativeInterMedia2LayoutView: BaseNativeAdLayoutView {
             self.isRemainingSuffix = false
             progressBar.isHidden = true
             closeButton.isHidden = true
-            iconImgView.isHidden = true
+            iconImgView.layer.cornerRadius = 16
+            iconImgView.isHidden = false
             countdownContainerView.isHidden = false
             countdownLbl.isHidden = false
             circularProgressView.isHidden = false
@@ -293,6 +300,7 @@ public final class NativeInterMedia2LayoutView: BaseNativeAdLayoutView {
             countdownContainerView.isHidden = true
             circularProgressView.isHidden = true
             progressBar.isHidden = false
+            iconImgView.layer.cornerRadius = 6
             iconImgView.isHidden = false
             
             landscapeCloseBtn.removeFromSuperview()
