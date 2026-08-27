@@ -74,7 +74,14 @@ public final class NativeHalfScreenMediaLayoutView: BaseNativeAdLayoutView {
         closeButton.translatesAutoresizingMaskIntoConstraints = false
         adCardView.addSubview(closeButton)
         
-        // 5. Cụm Text
+        // 5. Icon ứng dụng (bo góc 6pt)
+        iconImgView.translatesAutoresizingMaskIntoConstraints = false
+        iconImgView.layer.cornerRadius = 6
+        iconImgView.clipsToBounds = true
+        iconImgView.contentMode = .scaleAspectFit
+        adCardView.addSubview(iconImgView)
+        
+        // 6. Cụm Text
         titleRow.translatesAutoresizingMaskIntoConstraints = false
         titleRow.axis = .horizontal
         titleRow.alignment = .center
@@ -115,7 +122,7 @@ public final class NativeHalfScreenMediaLayoutView: BaseNativeAdLayoutView {
         textStack.addArrangedSubview(advertiserLbl)
         adCardView.addSubview(textStack)
         
-        // 6. Nút CTA xanh dương (#1A73E8)
+        // 7. Nút CTA xanh dương (#1A73E8)
         callToActionBtn.translatesAutoresizingMaskIntoConstraints = false
         callToActionBtn.backgroundColor = .gntCtaBlue
         callToActionBtn.setTitleColor(.white, for: .normal)
@@ -132,6 +139,9 @@ public final class NativeHalfScreenMediaLayoutView: BaseNativeAdLayoutView {
         NSLayoutConstraint.activate([
             adBadgeLbl.widthAnchor.constraint(equalToConstant: 24),
             adBadgeLbl.heightAnchor.constraint(equalToConstant: 16),
+            
+            iconImgView.widthAnchor.constraint(equalToConstant: 36),
+            iconImgView.heightAnchor.constraint(equalToConstant: 36),
             
             // Countdown container (24x24dp giống Android)
             countdownContainerView.widthAnchor.constraint(equalToConstant: 24),
@@ -160,7 +170,10 @@ public final class NativeHalfScreenMediaLayoutView: BaseNativeAdLayoutView {
             adMediaView.trailingAnchor.constraint(equalTo: adCardView.trailingAnchor, constant: -16),
             adMediaView.bottomAnchor.constraint(lessThanOrEqualTo: textStack.topAnchor, constant: -10),
             
-            textStack.leadingAnchor.constraint(equalTo: adCardView.leadingAnchor, constant: 16),
+            iconImgView.leadingAnchor.constraint(equalTo: adCardView.leadingAnchor, constant: 16),
+            iconImgView.centerYAnchor.constraint(equalTo: textStack.centerYAnchor),
+            
+            textStack.leadingAnchor.constraint(equalTo: iconImgView.trailingAnchor, constant: 10),
             textStack.trailingAnchor.constraint(equalTo: adCardView.trailingAnchor, constant: -16),
             textStack.bottomAnchor.constraint(equalTo: callToActionBtn.topAnchor, constant: -10),
             
@@ -184,7 +197,10 @@ public final class NativeHalfScreenMediaLayoutView: BaseNativeAdLayoutView {
             adMediaView.trailingAnchor.constraint(equalTo: adCardView.trailingAnchor, constant: -16),
             adMediaView.bottomAnchor.constraint(lessThanOrEqualTo: textStack.topAnchor, constant: -10),
             
-            textStack.leadingAnchor.constraint(equalTo: adCardView.leadingAnchor, constant: 16),
+            iconImgView.leadingAnchor.constraint(equalTo: adCardView.leadingAnchor, constant: 16),
+            iconImgView.centerYAnchor.constraint(equalTo: textStack.centerYAnchor),
+            
+            textStack.leadingAnchor.constraint(equalTo: iconImgView.trailingAnchor, constant: 10),
             textStack.trailingAnchor.constraint(equalTo: adCardView.trailingAnchor, constant: -16),
             textStack.bottomAnchor.constraint(equalTo: callToActionBtn.topAnchor, constant: -10),
             
