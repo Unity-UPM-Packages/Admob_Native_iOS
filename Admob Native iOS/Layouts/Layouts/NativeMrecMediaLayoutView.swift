@@ -75,7 +75,14 @@ public final class NativeMrecMediaLayoutView: BaseNativeAdLayoutView {
         advertiserLbl.numberOfLines = 1
         advertiserLbl.lineBreakMode = .byTruncatingTail
         
-        // 6. Cấu hình Cụm Info Bar (2 dòng: Dòng 1 [Ad] + Headline, Dòng 2 Advertiser)
+        // 6. Icon ứng dụng (bo góc 4pt)
+        iconImgView.translatesAutoresizingMaskIntoConstraints = false
+        iconImgView.layer.cornerRadius = 4
+        iconImgView.clipsToBounds = true
+        iconImgView.contentMode = .scaleAspectFit
+        mrecCardView.addSubview(iconImgView)
+        
+        // 7. Cấu hình Cụm Info Bar (2 dòng: Dòng 1 [Ad] + Headline, Dòng 2 Advertiser)
         titleRow.translatesAutoresizingMaskIntoConstraints = false
         titleRow.axis = .horizontal
         titleRow.alignment = .center
@@ -91,7 +98,7 @@ public final class NativeMrecMediaLayoutView: BaseNativeAdLayoutView {
         infoBar.addArrangedSubview(advertiserLbl)
         mrecCardView.addSubview(infoBar)
         
-        // 7. Nút CTA xanh dương (#1A73E8, chữ trắng) ở dưới cùng
+        // 8. Nút CTA xanh dương (#1A73E8, chữ trắng) ở dưới cùng
         callToActionBtn.translatesAutoresizingMaskIntoConstraints = false
         callToActionBtn.backgroundColor = UIColor(hex: "#1A73E8")
         callToActionBtn.setTitleColor(.white, for: .normal)
@@ -114,9 +121,15 @@ public final class NativeMrecMediaLayoutView: BaseNativeAdLayoutView {
             adMediaView.trailingAnchor.constraint(equalTo: mrecCardView.trailingAnchor, constant: -8),
             adMediaView.heightAnchor.constraint(equalTo: adMediaView.widthAnchor, multiplier: 9.0 / 16.0),
             
-            // Cụm Info Bar ở giữa MediaView và CTA
+            // Icon ứng dụng ở bên trái cụm Info Bar (30x30pt)
+            iconImgView.widthAnchor.constraint(equalToConstant: 30),
+            iconImgView.heightAnchor.constraint(equalToConstant: 30),
+            iconImgView.leadingAnchor.constraint(equalTo: mrecCardView.leadingAnchor, constant: 8),
+            iconImgView.centerYAnchor.constraint(equalTo: infoBar.centerYAnchor),
+            
+            // Cụm Info Bar ở giữa MediaView và CTA (bên phải Icon, cách 6pt)
             infoBar.topAnchor.constraint(equalTo: adMediaView.bottomAnchor, constant: 4),
-            infoBar.leadingAnchor.constraint(equalTo: mrecCardView.leadingAnchor, constant: 8),
+            infoBar.leadingAnchor.constraint(equalTo: iconImgView.trailingAnchor, constant: 6),
             infoBar.trailingAnchor.constraint(equalTo: mrecCardView.trailingAnchor, constant: -8),
             
             adBadgeLbl.widthAnchor.constraint(equalToConstant: 24),
