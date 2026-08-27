@@ -59,6 +59,13 @@ public final class NativeInterMedia2LayoutView: BaseNativeAdLayoutView {
         infoContainerView.clipsToBounds = true
         addSubview(infoContainerView)
         
+        // 3. Icon ứng dụng (bo góc 6pt)
+        iconImgView.translatesAutoresizingMaskIntoConstraints = false
+        iconImgView.layer.cornerRadius = 6
+        iconImgView.clipsToBounds = true
+        iconImgView.contentMode = .scaleAspectFit
+        infoContainerView.addSubview(iconImgView)
+        
         // 4. Cấu hình Cụm Text
         titleRow.translatesAutoresizingMaskIntoConstraints = false
         titleRow.axis = .horizontal
@@ -185,21 +192,27 @@ public final class NativeInterMedia2LayoutView: BaseNativeAdLayoutView {
             closeButton.topAnchor.constraint(equalTo: progressBar.bottomAnchor, constant: 18),
             closeButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
             
-            // Info Container ở dưới (Bottom Card trắng)
+            // Info Container ở dưới (Bottom Card trắng - GIỮ NGUYÊN 130pt)
             infoContainerView.leadingAnchor.constraint(equalTo: leadingAnchor),
             infoContainerView.trailingAnchor.constraint(equalTo: trailingAnchor),
             infoContainerView.bottomAnchor.constraint(equalTo: bottomAnchor),
             infoContainerView.heightAnchor.constraint(equalToConstant: 130),
             
-            // Cụm Text trong bottom card (y hệt no media)
-            textStack.leadingAnchor.constraint(equalTo: infoContainerView.leadingAnchor, constant: 16),
-            textStack.trailingAnchor.constraint(equalTo: infoContainerView.trailingAnchor, constant: -16),
-            textStack.topAnchor.constraint(equalTo: infoContainerView.topAnchor, constant: 14),
+            // Icon ứng dụng ở thẻ dưới bên trái (36x36pt)
+            iconImgView.leadingAnchor.constraint(equalTo: infoContainerView.leadingAnchor, constant: 16),
+            iconImgView.topAnchor.constraint(equalTo: infoContainerView.topAnchor, constant: 14),
+            iconImgView.widthAnchor.constraint(equalToConstant: 36),
+            iconImgView.heightAnchor.constraint(equalToConstant: 36),
             
-            // Nút CTA xanh tràn viền ngang ở đáy (y hệt no media)
+            // Cụm Text trong bottom card (nằm bên phải Icon, cách 10pt)
+            textStack.leadingAnchor.constraint(equalTo: iconImgView.trailingAnchor, constant: 10),
+            textStack.trailingAnchor.constraint(equalTo: infoContainerView.trailingAnchor, constant: -16),
+            textStack.centerYAnchor.constraint(equalTo: iconImgView.centerYAnchor),
+            
+            // Nút CTA xanh tràn viền ngang ở đáy
             callToActionBtn.leadingAnchor.constraint(equalTo: infoContainerView.leadingAnchor, constant: 16),
             callToActionBtn.trailingAnchor.constraint(equalTo: infoContainerView.trailingAnchor, constant: -16),
-            callToActionBtn.topAnchor.constraint(equalTo: textStack.bottomAnchor, constant: 12),
+            callToActionBtn.topAnchor.constraint(equalTo: iconImgView.bottomAnchor, constant: 12),
             callToActionBtn.heightAnchor.constraint(equalToConstant: 44)
         ]
         
@@ -262,6 +275,7 @@ public final class NativeInterMedia2LayoutView: BaseNativeAdLayoutView {
             self.isRemainingSuffix = false
             progressBar.isHidden = true
             closeButton.isHidden = true
+            iconImgView.isHidden = true
             countdownContainerView.isHidden = false
             countdownLbl.isHidden = false
             circularProgressView.isHidden = false
@@ -279,6 +293,7 @@ public final class NativeInterMedia2LayoutView: BaseNativeAdLayoutView {
             countdownContainerView.isHidden = true
             circularProgressView.isHidden = true
             progressBar.isHidden = false
+            iconImgView.isHidden = false
             
             landscapeCloseBtn.removeFromSuperview()
             landscapeButtonRow.removeFromSuperview()
