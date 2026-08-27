@@ -72,8 +72,6 @@ open class BaseNativeAdLayoutView: GADNativeAdView {
         adMediaView.translatesAutoresizingMaskIntoConstraints = false
         adMediaView.contentMode = .scaleAspectFit
         adMediaView.clipsToBounds = true
-        adMediaView.isHidden = true
-        addSubview(adMediaView)
         
         mainImgView.translatesAutoresizingMaskIntoConstraints = false
         mainImgView.contentMode = .scaleAspectFit
@@ -231,9 +229,8 @@ open class BaseNativeAdLayoutView: GADNativeAdView {
             advertiserLbl.isHidden = true
         }
         
-        self.mediaView = adMediaView
-        adMediaView.mediaContent = nativeAd.mediaContent
-        if adMediaView.superview != self {
+        if self.mediaView != nil {
+            adMediaView.mediaContent = nativeAd.mediaContent
             adMediaView.isHidden = false
         }
         

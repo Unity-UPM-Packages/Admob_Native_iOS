@@ -255,6 +255,7 @@ public final class NativeInterNoMediaLayoutView: BaseNativeAdLayoutView {
     }
     
     public override func populate(nativeAd: GADNativeAd) {
+        self.mediaView = nil
         self.imageView = nil
         super.populate(nativeAd: nativeAd)
         if let icon = nativeAd.icon {
