@@ -168,14 +168,14 @@ public final class NativeHalfScreenMediaLayoutView: BaseNativeAdLayoutView {
             adMediaView.topAnchor.constraint(equalTo: adCardView.topAnchor, constant: 14),
             adMediaView.leadingAnchor.constraint(equalTo: adCardView.leadingAnchor, constant: 16),
             adMediaView.trailingAnchor.constraint(equalTo: adCardView.trailingAnchor, constant: -16),
-            adMediaView.bottomAnchor.constraint(lessThanOrEqualTo: textStack.topAnchor, constant: -10),
+            adMediaView.bottomAnchor.constraint(lessThanOrEqualTo: textStack.topAnchor, constant: -12),
             
             iconImgView.leadingAnchor.constraint(equalTo: adCardView.leadingAnchor, constant: 16),
             iconImgView.centerYAnchor.constraint(equalTo: textStack.centerYAnchor),
             
             textStack.leadingAnchor.constraint(equalTo: iconImgView.trailingAnchor, constant: 10),
             textStack.trailingAnchor.constraint(equalTo: adCardView.trailingAnchor, constant: -16),
-            textStack.bottomAnchor.constraint(equalTo: callToActionBtn.topAnchor, constant: -10),
+            textStack.bottomAnchor.constraint(equalTo: callToActionBtn.topAnchor, constant: -18),
             
             callToActionBtn.leadingAnchor.constraint(equalTo: adCardView.leadingAnchor, constant: 16),
             callToActionBtn.trailingAnchor.constraint(equalTo: adCardView.trailingAnchor, constant: -16),
@@ -195,14 +195,14 @@ public final class NativeHalfScreenMediaLayoutView: BaseNativeAdLayoutView {
             adMediaView.topAnchor.constraint(equalTo: adCardView.topAnchor, constant: 14),
             adMediaView.leadingAnchor.constraint(equalTo: adCardView.leadingAnchor, constant: 16),
             adMediaView.trailingAnchor.constraint(equalTo: adCardView.trailingAnchor, constant: -16),
-            adMediaView.bottomAnchor.constraint(lessThanOrEqualTo: textStack.topAnchor, constant: -10),
+            adMediaView.bottomAnchor.constraint(lessThanOrEqualTo: textStack.topAnchor, constant: -12),
             
             iconImgView.leadingAnchor.constraint(equalTo: adCardView.leadingAnchor, constant: 16),
             iconImgView.centerYAnchor.constraint(equalTo: textStack.centerYAnchor),
             
             textStack.leadingAnchor.constraint(equalTo: iconImgView.trailingAnchor, constant: 10),
             textStack.trailingAnchor.constraint(equalTo: adCardView.trailingAnchor, constant: -16),
-            textStack.bottomAnchor.constraint(equalTo: callToActionBtn.topAnchor, constant: -10),
+            textStack.bottomAnchor.constraint(equalTo: callToActionBtn.topAnchor, constant: -18),
             
             callToActionBtn.leadingAnchor.constraint(equalTo: adCardView.leadingAnchor, constant: 16),
             callToActionBtn.trailingAnchor.constraint(equalTo: adCardView.trailingAnchor, constant: -16),

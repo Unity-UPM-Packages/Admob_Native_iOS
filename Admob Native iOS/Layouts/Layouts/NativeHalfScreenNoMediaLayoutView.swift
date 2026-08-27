@@ -19,7 +19,7 @@ public final class NativeHalfScreenNoMediaLayoutView: BaseNativeAdLayoutView {
     
     // Cụm thông tin Text
     private let textStack = UIStackView()
-    private let subRow = UIStackView()
+    private let titleRow = UIStackView()
     
     private var lastAppliedIsLandscape: Bool?
     
@@ -63,17 +63,10 @@ public final class NativeHalfScreenNoMediaLayoutView: BaseNativeAdLayoutView {
         adCardView.addSubview(closeButton)
         
         // 4. Cụm Text ở phía trên giữa nút đếm giờ và nút đóng
-        headlineLbl.translatesAutoresizingMaskIntoConstraints = false
-        headlineLbl.textColor = .white
-        headlineLbl.font = UIFont.boldSystemFont(ofSize: 15)
-        headlineLbl.numberOfLines = 1
-        headlineLbl.lineBreakMode = .byTruncatingTail
-        headlineLbl.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
-        
-        subRow.translatesAutoresizingMaskIntoConstraints = false
-        subRow.axis = .horizontal
-        subRow.alignment = .center
-        subRow.spacing = 6
+        titleRow.translatesAutoresizingMaskIntoConstraints = false
+        titleRow.axis = .horizontal
+        titleRow.alignment = .center
+        titleRow.spacing = 6
         
         adBadgeLbl.translatesAutoresizingMaskIntoConstraints = false
         adBadgeLbl.backgroundColor = .gntAdBadgeYellow
@@ -83,21 +76,28 @@ public final class NativeHalfScreenNoMediaLayoutView: BaseNativeAdLayoutView {
         adBadgeLbl.clipsToBounds = true
         adBadgeLbl.textAlignment = .center
         
+        headlineLbl.translatesAutoresizingMaskIntoConstraints = false
+        headlineLbl.textColor = .white
+        headlineLbl.font = UIFont.boldSystemFont(ofSize: 15)
+        headlineLbl.numberOfLines = 1
+        headlineLbl.lineBreakMode = .byTruncatingTail
+        headlineLbl.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+        
+        titleRow.addArrangedSubview(adBadgeLbl)
+        titleRow.addArrangedSubview(headlineLbl)
+        
         advertiserLbl.translatesAutoresizingMaskIntoConstraints = false
         advertiserLbl.textColor = UIColor(hex: "#B0BEC5")
         advertiserLbl.font = UIFont.systemFont(ofSize: 12)
         advertiserLbl.numberOfLines = 1
         advertiserLbl.lineBreakMode = .byTruncatingTail
         
-        subRow.addArrangedSubview(adBadgeLbl)
-        subRow.addArrangedSubview(advertiserLbl)
-        
         textStack.translatesAutoresizingMaskIntoConstraints = false
         textStack.axis = .vertical
         textStack.alignment = .leading
         textStack.spacing = 3
-        textStack.addArrangedSubview(headlineLbl)
-        textStack.addArrangedSubview(subRow)
+        textStack.addArrangedSubview(titleRow)
+        textStack.addArrangedSubview(advertiserLbl)
         adCardView.addSubview(textStack)
         
         // 5. Icon quảng cáo lớn (120x120pt) căn giữa
