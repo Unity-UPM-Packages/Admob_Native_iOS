@@ -138,7 +138,7 @@ public final class NativeFullScreenNoMediaLayoutView: BaseNativeAdLayoutView {
             // Footer: nội dung nằm trên home indicator, nền kéo tới đáy màn hình
             footerGuide.bottomAnchor.constraint(equalTo: safe.bottomAnchor),
             footerGuide.leadingAnchor.constraint(equalTo: bottomCardView.leadingAnchor),
-            footerGuide.trailingAnchor.constraint(equalTo: safe.trailingAnchor),
+            footerGuide.trailingAnchor.constraint(equalTo: trailingAnchor),
             footerGuide.heightAnchor.constraint(equalToConstant: barHeight),
 
             bottomCardView.topAnchor.constraint(equalTo: footerGuide.topAnchor),
@@ -148,7 +148,7 @@ public final class NativeFullScreenNoMediaLayoutView: BaseNativeAdLayoutView {
             // Đường phân cách dọc ở giữa màn hình
             centerDividerView.topAnchor.constraint(equalTo: topAnchor),
             centerDividerView.bottomAnchor.constraint(equalTo: bottomAnchor),
-            centerDividerView.leadingAnchor.constraint(equalTo: safe.centerXAnchor),
+            centerDividerView.leadingAnchor.constraint(equalTo: centerXAnchor),
             centerDividerView.widthAnchor.constraint(equalToConstant: 1),
 
             // Icon lớn căn giữa vùng chứa
@@ -178,7 +178,7 @@ public final class NativeFullScreenNoMediaLayoutView: BaseNativeAdLayoutView {
             advertiserLbl.topAnchor.constraint(equalTo: headlineLbl.bottomAnchor),
             advertiserLbl.bottomAnchor.constraint(equalTo: textGuide.bottomAnchor),
             advertiserLbl.leadingAnchor.constraint(equalTo: topCardView.leadingAnchor, constant: sideMargin),
-            advertiserLbl.trailingAnchor.constraint(equalTo: safe.trailingAnchor, constant: -12),
+            advertiserLbl.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -12),
 
             // Nút Skip: sát mép phải thật của màn hình (kể cả màn ngang)
             closeButton.topAnchor.constraint(equalTo: safe.topAnchor, constant: LayoutDimensions.skipMarginTop),
@@ -192,8 +192,8 @@ public final class NativeFullScreenNoMediaLayoutView: BaseNativeAdLayoutView {
 
             iconAreaGuide.topAnchor.constraint(equalTo: dividerView.bottomAnchor),
             iconAreaGuide.bottomAnchor.constraint(equalTo: bottomCardView.topAnchor),
-            iconAreaGuide.leadingAnchor.constraint(equalTo: safe.leadingAnchor),
-            iconAreaGuide.trailingAnchor.constraint(equalTo: safe.trailingAnchor)
+            iconAreaGuide.leadingAnchor.constraint(equalTo: leadingAnchor),
+            iconAreaGuide.trailingAnchor.constraint(equalTo: trailingAnchor)
         ]
 
         // LANDSCAPE: nửa phải chứa header, divider và footer; nửa trái chứa Icon
@@ -203,7 +203,7 @@ public final class NativeFullScreenNoMediaLayoutView: BaseNativeAdLayoutView {
 
             iconAreaGuide.topAnchor.constraint(equalTo: safe.topAnchor),
             iconAreaGuide.bottomAnchor.constraint(equalTo: safe.bottomAnchor),
-            iconAreaGuide.leadingAnchor.constraint(equalTo: safe.leadingAnchor),
+            iconAreaGuide.leadingAnchor.constraint(equalTo: leadingAnchor),
             iconAreaGuide.trailingAnchor.constraint(equalTo: centerDividerView.leadingAnchor)
         ]
 

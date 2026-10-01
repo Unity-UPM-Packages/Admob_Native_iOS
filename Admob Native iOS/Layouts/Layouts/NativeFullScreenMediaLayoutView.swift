@@ -104,8 +104,8 @@ public final class NativeFullScreenMediaLayoutView: BaseNativeAdLayoutView {
 
             // Footer: nội dung nằm trên home indicator, nền kéo tới đáy màn hình
             footerGuide.bottomAnchor.constraint(equalTo: safe.bottomAnchor),
-            footerGuide.leadingAnchor.constraint(equalTo: safe.leadingAnchor),
-            footerGuide.trailingAnchor.constraint(equalTo: safe.trailingAnchor),
+            footerGuide.leadingAnchor.constraint(equalTo: leadingAnchor),
+            footerGuide.trailingAnchor.constraint(equalTo: trailingAnchor),
             footerGuide.heightAnchor.constraint(equalToConstant: LayoutDimensions.fsBarHeight),
 
             bottomCardView.topAnchor.constraint(equalTo: footerGuide.topAnchor),
@@ -122,8 +122,8 @@ public final class NativeFullScreenMediaLayoutView: BaseNativeAdLayoutView {
             // MediaView chiếm toàn bộ phía trên divider
             adMediaView.topAnchor.constraint(equalTo: safe.topAnchor),
             adMediaView.bottomAnchor.constraint(equalTo: dividerView.topAnchor),
-            adMediaView.leadingAnchor.constraint(equalTo: safe.leadingAnchor),
-            adMediaView.trailingAnchor.constraint(equalTo: safe.trailingAnchor),
+            adMediaView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            adMediaView.trailingAnchor.constraint(equalTo: trailingAnchor),
 
             // Icon bên trái footer
             iconImgView.leadingAnchor.constraint(equalTo: footerGuide.leadingAnchor, constant: 16),
