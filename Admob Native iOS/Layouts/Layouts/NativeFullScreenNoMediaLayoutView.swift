@@ -180,8 +180,9 @@ public final class NativeFullScreenNoMediaLayoutView: BaseNativeAdLayoutView {
             advertiserLbl.leadingAnchor.constraint(equalTo: topCardView.leadingAnchor, constant: sideMargin),
             advertiserLbl.trailingAnchor.constraint(equalTo: safe.trailingAnchor, constant: -12),
 
+            // Nút Skip: sát mép phải thật của màn hình (kể cả màn ngang)
             closeButton.topAnchor.constraint(equalTo: safe.topAnchor, constant: LayoutDimensions.skipMarginTop),
-            closeButton.trailingAnchor.constraint(equalTo: safe.trailingAnchor)
+            closeButton.trailingAnchor.constraint(equalTo: trailingAnchor)
         ])
 
         // PORTRAIT: header, divider, footer trải hết chiều ngang; Icon nằm giữa divider và footer

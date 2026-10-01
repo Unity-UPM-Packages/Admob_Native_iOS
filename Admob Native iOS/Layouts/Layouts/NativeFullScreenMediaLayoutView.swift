@@ -157,9 +157,9 @@ public final class NativeFullScreenMediaLayoutView: BaseNativeAdLayoutView {
             advertiserLbl.leadingAnchor.constraint(equalTo: iconImgView.trailingAnchor, constant: 12),
             advertiserLbl.trailingAnchor.constraint(equalTo: callToActionBtn.leadingAnchor, constant: -12),
 
-            // Nút Skip: sát mép phải, cách mép trên
+            // Nút Skip: sát mép phải thật của màn hình (kể cả màn ngang), cách mép trên
             closeButton.topAnchor.constraint(equalTo: safe.topAnchor, constant: LayoutDimensions.skipMarginTop),
-            closeButton.trailingAnchor.constraint(equalTo: safe.trailingAnchor)
+            closeButton.trailingAnchor.constraint(equalTo: trailingAnchor)
         ])
 
         bringSubviewToFront(closeButton)
