@@ -34,50 +34,18 @@ struct ContentView: View {
                     }
                 }
                 
-                // MARK: - 2. Native Interstitial
-                Section(header: Text("2. NATIVE INTERSTITIAL")) {
-                    Button("🎬 Interstitial Media (Màn Dọc/Ngang)") {
-                        showAd(layout: "native_inter_media", countdown: 5.0, initial: 0.5)
+                // MARK: - 2. Native Full Screen (Inter, InterOpen, AppOpen, Reward)
+                Section(header: Text("2. NATIVE FULL SCREEN")) {
+                    Button("🎬 Full Screen Media (Màn Dọc/Ngang)") {
+                        showAd(layout: "native_fullscreen_media", countdown: 5.0, initial: 0.5)
                     }
-                    Button("🖼️ Interstitial No-Media (Icon Lớn)") {
-                        showAd(layout: "native_inter_no_media", countdown: 5.0, initial: 0.0)
-                    }
-                    Button("⚡ Interstitial 2 Media (Split 50/50)") {
-                        showAd(layout: "native_inter_media_2", countdown: 5.0, initial: 0.5)
-                    }
-                    Button("✨ Interstitial 2 No-Media (Split 50/50)") {
-                        showAd(layout: "native_inter_no_media_2", countdown: 5.0, initial: 0.0)
+                    Button("🖼️ Full Screen No-Media (Icon Lớn)") {
+                        showAd(layout: "native_fullscreen_no_media", countdown: 5.0, initial: 0.0)
                     }
                 }
-                
-                // MARK: - 3. Native AppOpen
-                Section(header: Text("3. NATIVE APPOPEN")) {
-                    Button("📱 AppOpen Media (High CTR)") {
-                        showAd(layout: "native_appopen_media", countdown: 5.0, initial: 0.0)
-                    }
-                    Button("📄 AppOpen No-Media") {
-                        showAd(layout: "native_appopen_no_media", countdown: 5.0, initial: 0.0)
-                    }
-                }
-                
-                // MARK: - 4. Native Reward
-                Section(header: Text("4. NATIVE REWARD")) {
-                    Button("🎁 Reward Media V1 (Blue CTA)") {
-                        showAd(layout: "native_reward_media", countdown: 5.0, initial: 0.5)
-                    }
-                    Button("🎁 Reward No-Media V1 (Blue CTA)") {
-                        showAd(layout: "native_reward_no_media", countdown: 5.0, initial: 0.0)
-                    }
-                    Button("🏆 Reward Media V2 (Dark CTA #3A3539)") {
-                        showAd(layout: "native_reward_media_2", countdown: 5.0, initial: 0.5)
-                    }
-                    Button("🏆 Reward No-Media V2 (Dark CTA #3A3539)") {
-                        showAd(layout: "native_reward_no_media_2", countdown: 5.0, initial: 0.0)
-                    }
-                }
-                
-                // MARK: - 5. Native Half-Screen (50% Touch Pass-Through)
-                Section(header: Text("5. NATIVE HALF-SCREEN")) {
+
+                // MARK: - 3. Native Half-Screen (50% Touch Pass-Through)
+                Section(header: Text("3. NATIVE HALF-SCREEN")) {
                     Button("🌓 Half-Screen Media (4:3 Dọc / 16:9 Ngang)") {
                         showAd(layout: "native_halfscreen_media", countdown: 5.0, initial: 0.0)
                     }
@@ -86,8 +54,8 @@ struct ContentView: View {
                     }
                 }
                 
-                // MARK: - 6. Native Banner & MREC
-                Section(header: Text("6. NATIVE BANNER & MREC")) {
+                // MARK: - 4. Native Banner & MREC
+                Section(header: Text("4. NATIVE BANNER & MREC")) {
                     Button("🏷️ Native Banner (60pt Đính Đáy)") {
                         showAd(layout: "native_banner", countdown: 0, initial: 0)
                     }
@@ -99,8 +67,8 @@ struct ContentView: View {
                     }
                 }
                 
-                // MARK: - 7. Điều Khiển
-                Section(header: Text("7. ĐIỀU KHIỂN")) {
+                // MARK: - 5. Điều Khiển
+                Section(header: Text("5. ĐIỀU KHIỂN")) {
                     Button(role: .destructive, action: destroyAd) {
                         HStack {
                             Image(systemName: "xmark.circle.fill")

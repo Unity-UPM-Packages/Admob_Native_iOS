@@ -23,6 +23,28 @@ public struct LayoutDimensions {
     public static var largeIconSize: CGFloat { isPad ? 260.0 : 180.0 }
     public static var ctaWidth: CGFloat { isPad ? 200.0 : 140.0 }
     public static var ctaHeight: CGFloat { isPad ? 54.0 : 40.0 }
+
+    // MARK: - Fullscreen (đồng bộ dimens Android: iPhone = values, iPad = values-sw720dp)
+    public static var fsBarHeight: CGFloat { isPad ? 100.0 : 59.0 }
+    public static var fsIconSize: CGFloat { isPad ? 60.0 : 32.0 }
+    public static var fsNoMediaIconSize: CGFloat { isPad ? 280.0 : 180.0 }
+    public static var fsCtaWidth: CGFloat { isPad ? 250.0 : 150.0 }
+    public static var fsCtaHeight: CGFloat { isPad ? 64.0 : 40.0 }
+    public static var fsCtaTextSize: CGFloat { isPad ? 22.0 : 13.0 }
+    public static var fsHeadlineTextSize: CGFloat { isPad ? 23.0 : 14.0 }
+    public static var fsSecondaryTextSize: CGFloat { isPad ? 18.0 : 11.0 }
+    public static var fsAdBadgeTextSize: CGFloat { isPad ? 15.0 : 10.0 }
+    public static var fsAdBadgeWidth: CGFloat { isPad ? 34.0 : 24.0 }
+    public static var fsAdBadgeHeight: CGFloat { isPad ? 22.0 : 16.0 }
+    public static var fsSideMargin: CGFloat { isPad ? 24.0 : 16.0 }
+
+    // MARK: - Nút Skip dạng Pill
+    public static var skipTextSize: CGFloat { isPad ? 21.0 : 13.0 }
+    public static var skipIconSize: CGFloat { isPad ? 26.0 : 16.0 }
+    public static var skipPaddingHorizontal: CGFloat { isPad ? 26.0 : 16.0 }
+    public static var skipPaddingVertical: CGFloat { isPad ? 12.0 : 7.0 }
+    public static var skipIconSpacing: CGFloat { isPad ? 10.0 : 6.0 }
+    public static var skipMarginTop: CGFloat { isPad ? 25.0 : 15.0 }
 }
 
 public extension UIColor {

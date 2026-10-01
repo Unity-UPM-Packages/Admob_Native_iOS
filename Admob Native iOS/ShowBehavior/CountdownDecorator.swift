@@ -118,7 +118,7 @@ public final class CountdownDecorator: BaseShowBehavior {
             adView.countdownLbl.isHidden = false
             adView.circularProgressView.setProgress(1.0)
         } else {
-            // Dạng Pill (AppOpen, Reward, Inter 1 Landscape)
+            // Dạng Pill (text đếm ngược trong countdownContainerView)
             adView.progressBar.isHidden = true
             adView.countdownContainerView.isHidden = false
             adView.circularProgressView.isHidden = true
@@ -128,11 +128,7 @@ public final class CountdownDecorator: BaseShowBehavior {
         adView.closeButton.isHidden = true
         adView.closeButton.alpha = 0.5
         adView.closeButton.isUserInteractionEnabled = false
-        
-        adView.landscapeCloseButton?.isHidden = true
-        adView.landscapeCloseButton?.alpha = 0.5
-        adView.landscapeCloseButton?.isUserInteractionEnabled = false
-        
+
         let totalDurationMs = Double(countdownDurationSeconds * 1000.0)
         
         countdownTimer = AdmobNativeTimer(durationMillis: totalDurationMs, intervalMillis: 16.0)
@@ -144,20 +140,11 @@ public final class CountdownDecorator: BaseShowBehavior {
             
             // Ở 2 giây cuối: Nút close bắt đầu hiện mờ
             if secondsRemaining <= 2 {
-                if !adView.isLineFill && (adView is NativeInterMedia2LayoutView || adView is NativeInterNoMedia2LayoutView) {
-                    adView.closeButton.isHidden = true
-                    adView.landscapeCloseButton?.isHidden = false
-                    adView.landscapeCloseButton?.alpha = 0.5
-                    adView.landscapeCloseButton?.isUserInteractionEnabled = false
-                } else {
-                    adView.closeButton.isHidden = false
-                    adView.closeButton.alpha = 0.5
-                    adView.closeButton.isUserInteractionEnabled = false
-                    adView.landscapeCloseButton?.isHidden = true
-                }
+                adView.closeButton.isHidden = false
+                adView.closeButton.alpha = 0.5
+                adView.closeButton.isUserInteractionEnabled = false
             } else {
                 adView.closeButton.isHidden = true
-                adView.landscapeCloseButton?.isHidden = true
             }
             
             // Cập nhật hiển thị thành phần (Chỉ 1 trong 3 dạng được phép hiện)
@@ -220,30 +207,20 @@ public final class CountdownDecorator: BaseShowBehavior {
         }
         
         // Hiện rõ nút close nhưng chưa cho click
-        if !adView.isLineFill && (adView is NativeInterMedia2LayoutView || adView is NativeInterNoMedia2LayoutView) {
-            adView.closeButton.isHidden = true
-            adView.landscapeCloseButton?.isHidden = false
-            adView.landscapeCloseButton?.alpha = 1.0
-            adView.landscapeCloseButton?.isUserInteractionEnabled = false
-        } else {
-            adView.closeButton.isHidden = false
-            adView.closeButton.alpha = 1.0
-            adView.closeButton.isUserInteractionEnabled = false
-            adView.landscapeCloseButton?.isHidden = true
-        }
-        
+        adView.closeButton.isHidden = false
+        adView.closeButton.alpha = 1.0
+        adView.closeButton.isUserInteractionEnabled = false
+
         let closeDelayMs = Double(closeButtonDelaySeconds * 1000.0)
-        
+
         if closeDelayMs > 0 {
             closeButtonDelayTimer = AdmobNativeTimer(durationMillis: closeDelayMs, intervalMillis: 100)
             closeButtonDelayTimer?.onFinish = { [weak adView] in
                 adView?.closeButton.isUserInteractionEnabled = true
-                adView?.landscapeCloseButton?.isUserInteractionEnabled = true
             }
             closeButtonDelayTimer?.start()
         } else {
             adView.closeButton.isUserInteractionEnabled = true
-            adView.landscapeCloseButton?.isUserInteractionEnabled = true
         }
     }
 }

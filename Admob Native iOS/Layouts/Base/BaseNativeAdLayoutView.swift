@@ -31,8 +31,7 @@ open class BaseNativeAdLayoutView: GADNativeAdView {
     public let countdownContainerView = UIView()
     public let circularProgressView = CircularCountdownView()
     public let dividerView = UIView()
-    open var landscapeCloseButton: UIButton? { return nil }
-    
+
     // MARK: - Orientation Constraints
     public var portraitConstraints: [NSLayoutConstraint] = []
     public var landscapeConstraints: [NSLayoutConstraint] = []
@@ -43,6 +42,7 @@ open class BaseNativeAdLayoutView: GADNativeAdView {
     public var isCircularProgress: Bool = false
     public var isRemainingSuffix: Bool = false
     public var onCloseClicked: (() -> Void)?
+    private var isSkipPill: Bool = false
     
     // MARK: - Init
     public override init(frame: CGRect) {
@@ -190,7 +190,51 @@ open class BaseNativeAdLayoutView: GADNativeAdView {
             sublayer.cornerRadius = 0
             sublayer.masksToBounds = true
         }
+        if isSkipPill {
+            closeButton.layer.cornerRadius = closeButton.bounds.height / 2.0
+        }
         updateOrientationConstraints()
+    }
+
+    // MARK: - Skip Pill (đồng bộ với nút Skip bên Android: nền #2B3648, bo tròn cạnh trái, cạnh phải phẳng sát mép)
+    public func applySkipPillStyle() {
+        isSkipPill = true
+
+        let spacing = LayoutDimensions.skipIconSpacing
+        let paddingH = LayoutDimensions.skipPaddingHorizontal
+        let paddingV = LayoutDimensions.skipPaddingVertical
+
+        closeButton.backgroundColor = .gntPillBg
+        closeButton.setImage(BaseNativeAdLayoutView.createSkipIcon(size: LayoutDimensions.skipIconSize), for: .normal)
+        closeButton.setTitle("Skip", for: .normal)
+        closeButton.setTitleColor(.white, for: .normal)
+        closeButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: LayoutDimensions.skipTextSize)
+        closeButton.contentEdgeInsets = UIEdgeInsets(top: paddingV, left: paddingH, bottom: paddingV, right: paddingH + spacing)
+        closeButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: spacing, bottom: 0, right: -spacing)
+        closeButton.layer.maskedCorners = [.layerMinXMinYCorner, .layerMinXMaxYCorner]
+        closeButton.clipsToBounds = true
+        // Tương đương elevation="20dp" bên Android: luôn được vẽ đè lên Headline
+        closeButton.layer.zPosition = 20
+    }
+
+    public static func createSkipIcon(size: CGFloat) -> UIImage {
+        let renderer = UIGraphicsImageRenderer(size: CGSize(width: size, height: size))
+        let image = renderer.image { _ in
+            // Cùng path với ic_skip_next.xml bên Android (viewport 24x24)
+            let s = size / 24.0
+            let path = UIBezierPath()
+            path.move(to: CGPoint(x: 4 * s, y: 18 * s))
+            path.addLine(to: CGPoint(x: 12.5 * s, y: 12 * s))
+            path.addLine(to: CGPoint(x: 4 * s, y: 6 * s))
+            path.close()
+            path.move(to: CGPoint(x: 13 * s, y: 6 * s))
+            path.addLine(to: CGPoint(x: 13 * s, y: 18 * s))
+            path.addLine(to: CGPoint(x: 21.5 * s, y: 12 * s))
+            path.close()
+            UIColor.white.setFill()
+            path.fill()
+        }
+        return image.withRenderingMode(.alwaysOriginal)
     }
     
     public func updateOrientationConstraints() {
