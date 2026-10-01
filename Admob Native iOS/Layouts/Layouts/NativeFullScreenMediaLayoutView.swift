@@ -102,7 +102,6 @@ public final class NativeFullScreenMediaLayoutView: BaseNativeAdLayoutView {
             progressBar.heightAnchor.constraint(equalToConstant: 4),
 
             // Footer: nội dung nằm trên home indicator, nền kéo tới đáy màn hình
-            footerGuide.bottomAnchor.constraint(equalTo: safe.bottomAnchor),
             footerGuide.leadingAnchor.constraint(equalTo: leadingAnchor),
             footerGuide.trailingAnchor.constraint(equalTo: trailingAnchor),
             footerGuide.heightAnchor.constraint(equalToConstant: LayoutDimensions.fsBarHeight),
@@ -159,19 +158,21 @@ public final class NativeFullScreenMediaLayoutView: BaseNativeAdLayoutView {
             closeButton.trailingAnchor.constraint(equalTo: trailingAnchor)
         ])
 
-        // PORTRAIT: phần trên bám vùng an toàn để tránh tai thỏ / Dynamic Island
+        // PORTRAIT: phần trên/dưới bám vùng an toàn để tránh tai thỏ / Dynamic Island và home indicator
         portraitConstraints = [
             progressBar.topAnchor.constraint(equalTo: safe.topAnchor),
             adMediaView.topAnchor.constraint(equalTo: safe.topAnchor),
-            closeButton.topAnchor.constraint(equalTo: safe.topAnchor, constant: LayoutDimensions.skipMarginTop)
+            closeButton.topAnchor.constraint(equalTo: safe.topAnchor, constant: LayoutDimensions.skipMarginTop),
+            footerGuide.bottomAnchor.constraint(equalTo: safe.bottomAnchor)
         ]
 
-        // LANDSCAPE: phần trên bám mép thật của view (giống Android), không phụ thuộc vùng an toàn,
-        // để ad được tạo lúc app đang bị App Store che / chạy nền không bị đẩy xuống
+        // LANDSCAPE: phần trên/dưới bám mép thật của view (giống Android), không phụ thuộc vùng an toàn,
+        // để ad được tạo lúc app đang bị App Store che / chạy nền không bị xê dịch
         landscapeConstraints = [
             progressBar.topAnchor.constraint(equalTo: topAnchor),
             adMediaView.topAnchor.constraint(equalTo: topAnchor),
-            closeButton.topAnchor.constraint(equalTo: topAnchor, constant: LayoutDimensions.skipMarginTop)
+            closeButton.topAnchor.constraint(equalTo: topAnchor, constant: LayoutDimensions.skipMarginTop),
+            footerGuide.bottomAnchor.constraint(equalTo: bottomAnchor)
         ]
 
         bringSubviewToFront(closeButton)

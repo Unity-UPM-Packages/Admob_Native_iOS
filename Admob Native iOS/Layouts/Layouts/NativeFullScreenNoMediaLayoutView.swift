@@ -139,7 +139,6 @@ public final class NativeFullScreenNoMediaLayoutView: BaseNativeAdLayoutView {
             dividerView.heightAnchor.constraint(equalToConstant: 1),
 
             // Footer: nội dung nằm trên home indicator, nền kéo tới đáy màn hình
-            footerGuide.bottomAnchor.constraint(equalTo: safe.bottomAnchor),
             footerGuide.leadingAnchor.constraint(equalTo: bottomCardView.leadingAnchor),
             footerGuide.trailingAnchor.constraint(equalTo: trailingAnchor),
             footerGuide.heightAnchor.constraint(equalToConstant: barHeight),
@@ -193,6 +192,7 @@ public final class NativeFullScreenNoMediaLayoutView: BaseNativeAdLayoutView {
             progressBar.topAnchor.constraint(equalTo: safe.topAnchor),
             topCardView.topAnchor.constraint(equalTo: safe.topAnchor),
             closeButton.topAnchor.constraint(equalTo: safe.topAnchor, constant: LayoutDimensions.skipMarginTop),
+            footerGuide.bottomAnchor.constraint(equalTo: safe.bottomAnchor),
 
             topCardView.leadingAnchor.constraint(equalTo: leadingAnchor),
             bottomCardView.leadingAnchor.constraint(equalTo: leadingAnchor),
@@ -210,12 +210,13 @@ public final class NativeFullScreenNoMediaLayoutView: BaseNativeAdLayoutView {
             progressBar.topAnchor.constraint(equalTo: topAnchor),
             topCardView.topAnchor.constraint(equalTo: topAnchor),
             closeButton.topAnchor.constraint(equalTo: topAnchor, constant: LayoutDimensions.skipMarginTop),
+            footerGuide.bottomAnchor.constraint(equalTo: bottomAnchor),
 
             topCardView.leadingAnchor.constraint(equalTo: centerDividerView.trailingAnchor),
             bottomCardView.leadingAnchor.constraint(equalTo: centerDividerView.trailingAnchor),
 
             iconAreaGuide.topAnchor.constraint(equalTo: topAnchor),
-            iconAreaGuide.bottomAnchor.constraint(equalTo: safe.bottomAnchor),
+            iconAreaGuide.bottomAnchor.constraint(equalTo: bottomAnchor),
             iconAreaGuide.leadingAnchor.constraint(equalTo: leadingAnchor),
             iconAreaGuide.trailingAnchor.constraint(equalTo: centerDividerView.leadingAnchor)
         ]
