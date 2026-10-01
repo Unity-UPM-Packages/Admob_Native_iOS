@@ -125,13 +125,11 @@ public final class NativeFullScreenNoMediaLayoutView: BaseNativeAdLayoutView {
 
         // Constraints dùng chung cho cả 2 hướng màn hình
         NSLayoutConstraint.activate([
-            progressBar.topAnchor.constraint(equalTo: safe.topAnchor),
             progressBar.leadingAnchor.constraint(equalTo: leadingAnchor),
             progressBar.trailingAnchor.constraint(equalTo: trailingAnchor),
             progressBar.heightAnchor.constraint(equalToConstant: 4),
 
             // Header ở trên cùng
-            topCardView.topAnchor.constraint(equalTo: safe.topAnchor),
             topCardView.trailingAnchor.constraint(equalTo: trailingAnchor),
             topCardView.heightAnchor.constraint(equalToConstant: barHeight),
 
@@ -186,12 +184,16 @@ public final class NativeFullScreenNoMediaLayoutView: BaseNativeAdLayoutView {
             advertiserLbl.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -12),
 
             // Nút Skip: sát mép phải thật của màn hình (kể cả màn ngang)
-            closeButton.topAnchor.constraint(equalTo: safe.topAnchor, constant: LayoutDimensions.skipMarginTop),
             closeButton.trailingAnchor.constraint(equalTo: trailingAnchor)
         ])
 
-        // PORTRAIT: header, divider, footer trải hết chiều ngang; Icon nằm giữa divider và footer
+        // PORTRAIT: header, divider, footer trải hết chiều ngang; Icon nằm giữa divider và footer.
+        // Phần trên bám vùng an toàn để tránh tai thỏ / Dynamic Island
         portraitConstraints = [
+            progressBar.topAnchor.constraint(equalTo: safe.topAnchor),
+            topCardView.topAnchor.constraint(equalTo: safe.topAnchor),
+            closeButton.topAnchor.constraint(equalTo: safe.topAnchor, constant: LayoutDimensions.skipMarginTop),
+
             topCardView.leadingAnchor.constraint(equalTo: leadingAnchor),
             bottomCardView.leadingAnchor.constraint(equalTo: leadingAnchor),
 
@@ -201,12 +203,18 @@ public final class NativeFullScreenNoMediaLayoutView: BaseNativeAdLayoutView {
             iconAreaGuide.trailingAnchor.constraint(equalTo: trailingAnchor)
         ]
 
-        // LANDSCAPE: nửa phải chứa header, divider và footer; nửa trái chứa Icon
+        // LANDSCAPE: nửa phải chứa header, divider và footer; nửa trái chứa Icon.
+        // Phần trên bám mép thật của view (giống Android), không phụ thuộc vùng an toàn,
+        // để ad được tạo lúc app đang bị App Store che / chạy nền không bị đẩy xuống
         landscapeConstraints = [
+            progressBar.topAnchor.constraint(equalTo: topAnchor),
+            topCardView.topAnchor.constraint(equalTo: topAnchor),
+            closeButton.topAnchor.constraint(equalTo: topAnchor, constant: LayoutDimensions.skipMarginTop),
+
             topCardView.leadingAnchor.constraint(equalTo: centerDividerView.trailingAnchor),
             bottomCardView.leadingAnchor.constraint(equalTo: centerDividerView.trailingAnchor),
 
-            iconAreaGuide.topAnchor.constraint(equalTo: safe.topAnchor),
+            iconAreaGuide.topAnchor.constraint(equalTo: topAnchor),
             iconAreaGuide.bottomAnchor.constraint(equalTo: safe.bottomAnchor),
             iconAreaGuide.leadingAnchor.constraint(equalTo: leadingAnchor),
             iconAreaGuide.trailingAnchor.constraint(equalTo: centerDividerView.leadingAnchor)

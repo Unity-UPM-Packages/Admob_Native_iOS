@@ -97,7 +97,6 @@ public final class NativeFullScreenMediaLayoutView: BaseNativeAdLayoutView {
 
         NSLayoutConstraint.activate([
             // Progress bar
-            progressBar.topAnchor.constraint(equalTo: safe.topAnchor),
             progressBar.leadingAnchor.constraint(equalTo: leadingAnchor),
             progressBar.trailingAnchor.constraint(equalTo: trailingAnchor),
             progressBar.heightAnchor.constraint(equalToConstant: 4),
@@ -120,7 +119,6 @@ public final class NativeFullScreenMediaLayoutView: BaseNativeAdLayoutView {
             dividerView.heightAnchor.constraint(equalToConstant: 1),
 
             // MediaView chiếm toàn bộ phía trên divider
-            adMediaView.topAnchor.constraint(equalTo: safe.topAnchor),
             adMediaView.bottomAnchor.constraint(equalTo: dividerView.topAnchor),
             adMediaView.leadingAnchor.constraint(equalTo: leadingAnchor),
             adMediaView.trailingAnchor.constraint(equalTo: trailingAnchor),
@@ -157,12 +155,28 @@ public final class NativeFullScreenMediaLayoutView: BaseNativeAdLayoutView {
             advertiserLbl.leadingAnchor.constraint(equalTo: iconImgView.trailingAnchor, constant: 12),
             advertiserLbl.trailingAnchor.constraint(equalTo: callToActionBtn.leadingAnchor, constant: -12),
 
-            // Nút Skip: sát mép phải thật của màn hình (kể cả màn ngang), cách mép trên
-            closeButton.topAnchor.constraint(equalTo: safe.topAnchor, constant: LayoutDimensions.skipMarginTop),
+            // Nút Skip: sát mép phải thật của màn hình (kể cả màn ngang)
             closeButton.trailingAnchor.constraint(equalTo: trailingAnchor)
         ])
 
+        // PORTRAIT: phần trên bám vùng an toàn để tránh tai thỏ / Dynamic Island
+        portraitConstraints = [
+            progressBar.topAnchor.constraint(equalTo: safe.topAnchor),
+            adMediaView.topAnchor.constraint(equalTo: safe.topAnchor),
+            closeButton.topAnchor.constraint(equalTo: safe.topAnchor, constant: LayoutDimensions.skipMarginTop)
+        ]
+
+        // LANDSCAPE: phần trên bám mép thật của view (giống Android), không phụ thuộc vùng an toàn,
+        // để ad được tạo lúc app đang bị App Store che / chạy nền không bị đẩy xuống
+        landscapeConstraints = [
+            progressBar.topAnchor.constraint(equalTo: topAnchor),
+            adMediaView.topAnchor.constraint(equalTo: topAnchor),
+            closeButton.topAnchor.constraint(equalTo: topAnchor, constant: LayoutDimensions.skipMarginTop)
+        ]
+
         bringSubviewToFront(closeButton)
         bringSubviewToFront(progressBar)
+
+        updateOrientationConstraints()
     }
 }
