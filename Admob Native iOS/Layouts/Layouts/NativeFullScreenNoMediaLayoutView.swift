@@ -106,6 +106,11 @@ public final class NativeFullScreenNoMediaLayoutView: BaseNativeAdLayoutView {
         applySkipPillStyle()
         addSubview(closeButton)
 
+        // Headline/Advertiser vẫn kéo dài tới mép (vùng click), nhưng chữ cắt "..." trước nút Skip
+        let skipReserveWidth = closeButton.intrinsicContentSize.width + 8
+        headlineLbl.contentInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: skipReserveWidth)
+        advertiserLbl.contentInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: max(0, skipReserveWidth - 12))
+
         // 9. Thanh progress đếm ngược màu vàng sát mép trên
         progressBar.isHidden = true
         addSubview(progressBar)

@@ -14,11 +14,11 @@ open class BaseNativeAdLayoutView: GADNativeAdView {
     // MARK: - Standard AdMob Subviews
     public let cardContainerView = UIView()
     public let adMediaView = GADMediaView()
-    public let headlineLbl = UILabel()
+    public let headlineLbl = InsetLabel()
     public let bodyLbl = UILabel()
     public let callToActionBtn = UIButton(type: .custom)
     public let iconImgView = UIImageView()
-    public let advertiserLbl = UILabel()
+    public let advertiserLbl = InsetLabel()
     public let storeLbl = UILabel()
     public let priceLbl = UILabel()
     public let mainImgView = UIImageView()
